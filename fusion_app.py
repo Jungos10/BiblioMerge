@@ -1,4 +1,3 @@
-
 # fusion_app.py
 import streamlit as st
 import pandas as pd
@@ -13,12 +12,13 @@ st.markdown("Sube tus archivos .csv y .txt exportados desde Scopus y Web of Scie
 # Carga de archivos principales
 file_scopus = st.file_uploader("Sube archivo Scopus (.csv)", type="csv")
 file_wos = st.file_uploader("Sube archivo WoS (.txt)", type="txt")
-file_equiv = st.file_uploader("Sube archivo de equivalencias (.xlsx)", type="xlsx")
+# (Moveremos esto después del procesamiento)
+file_equiv = None
 
 if file_scopus and file_wos:
     try:
         df_scopus = pd.read_csv(file_scopus)
-        df_wos = pd.read_csv(file_wos, sep="\t", encoding="utf-8", engine="python")
+        df_wos = pd.read_csv(file_wos, sep="	", encoding="ISO-8859-1", engine="python")
 
         st.subheader("Resumen de datos cargados")
         st.write(f"🔹 Scopus: {df_scopus.shape[0]} registros, {df_scopus.shape[1]} columnas")
@@ -30,10 +30,11 @@ if file_scopus and file_wos:
 
         st.success(f"✔️ Fusionado completo. Total final: {df_combined_cleaned.shape[0]} registros.")
 
-        # Aplicar equivalencias si se sube Excel
+        # Subida y aplicación de equivalencias
+        file_equiv = st.file_uploader("Sube archivo de equivalencias (.xlsx)", type="xlsx")
         if file_equiv is not None:
             try:
-                equivalencias = pd.read_excel(file_equiv, sheet_name=None)  # lee todas las hojas
+                equivalencias = pd.read_excel(file_equiv, sheet_name=None)
                 st.success("✔️ Archivo de equivalencias cargado correctamente")
 
                 # Depurar autores
