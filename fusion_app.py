@@ -1,3 +1,4 @@
+
 # fusion_app.py
 import streamlit as st
 import pandas as pd
@@ -15,7 +16,7 @@ wos_files = st.file_uploader("Sube uno o más archivos TXT de WoS", type="txt", 
 if scopus_files:
     dfsco_list = []
     for file in scopus_files:
-        df = pd.read_csv(file)
+        df = pd.read_csv(file, encoding='utf-8', sep=',', engine='python')
         dfsco_list.append(df)
     dfsco = pd.concat(dfsco_list, ignore_index=True)
     if 'Author full names' in dfsco.columns:
@@ -30,7 +31,7 @@ if wos_files:
         registros = []
         registro_actual = {}
         ultimo_campo = None
-        lines = file.read().decode("ISO-8859-1").splitlines()
+        lines = file.getvalue().decode('ISO-8859-1').splitlines()
         for linea in lines:
             if not linea.strip() or linea.startswith('EF'):
                 if registro_actual:
