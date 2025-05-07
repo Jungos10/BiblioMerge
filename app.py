@@ -350,9 +350,7 @@ if st.session_state["procesado"] and scopus_files and wos_files:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].apply(pd.to_numeric, errors='coerce')
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
-    
-    df_final['Author full names'] = df_final['Authors']
-    
+        
     # Generación de archivos Excel para descarga
     import io
 
@@ -431,6 +429,7 @@ if st.session_state["procesado"] and scopus_files and wos_files:
 st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
 activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
 
+df_final['Author full names'] = df_final['Authors']
 if activar_depuracion:
     depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
 
@@ -478,7 +477,7 @@ if activar_depuracion:
                                             df_final.at[index, 'Authors'] = '; '.join(author_list)
             
                         df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-                        df_final['Author full names'] = df_final['Authors']
+                        #df_final['Author full names'] = df_final['Authors']
                         st.success("Depuración de Authors completada correctamente.")
             
             except Exception as e:
