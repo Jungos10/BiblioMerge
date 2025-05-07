@@ -350,7 +350,9 @@ if st.session_state["procesado"] and scopus_files and wos_files:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].apply(pd.to_numeric, errors='coerce')
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
-
+    
+    df_final['Author full names'] = df_final['Authors']
+    
     # Generación de archivos Excel para descarga
     import io
 
