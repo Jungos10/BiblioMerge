@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from collections import defaultdict
 import io
+import tempfile
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
 st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
