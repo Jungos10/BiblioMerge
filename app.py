@@ -450,51 +450,51 @@ if activar_depuracion:
 
 
             # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
-sheet_name = 'Authors'
-
-try:
-    df_authors_table = pd.read_excel(filename, sheet_name=sheet_name)
-
-    if df_authors_table.empty:
-        st.warning(f"\n\nDepuración de Authors no posible porque el archivo Excel no contiene una hoja llamada '{sheet_name}'")
-
-    else:
-        primer_nuevo_author = df_authors_table.loc[0, 'New Author']
-
-        if primer_nuevo_author == '0-change-0':
-            st.warning(f"\n\nDepuración de Authors no ha sido posible porque la tabla de conversión en la hoja '{sheet_name}' del fichero Excel no ha sido completada")
-
-        else:
-            for _, fila in df_authors_table.iterrows():
-                author = fila['Authors']
-                nueva_author = fila['New Author']
-
-                # Buscar la fila correspondiente en 'autores'
-                fila_encontrada = autores[autores['Authors'] == author]
-
-                if not fila_encontrada.empty:
-                    indices_str = fila_encontrada['Indices'].iloc[0]
-                    posiciones_str = fila_encontrada['Posiciones'].iloc[0]
-
-                    indices_encontrados = [int(index) for index in indices_str.split(';')]
-                    posiciones_encontradas = [int(position) for position in posiciones_str.split(';')]
-
-                    for index, position in zip(indices_encontrados, posiciones_encontradas):
-                        if index in df_final.index:
-                            row = df_final.loc[index]
-                            author_split = row['Authors'].split(';')
-                            if 0 <= position < len(author_split):
-                                author_split[position] = nueva_author
-                                df_final.at[index, 'Authors'] = '; '.join(author_split)
-
-            # Limpiar el campo Authors
-            df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([keyword.strip() for keyword in x.split(';')]))
-            df_final['Author full names'] = df_final['Authors']
-
-            st.success("\n\nDepuración de Authors completada correctamente")
-
-except (ValueError, KeyError) as e:
-    st.warning(f"\n\nDepuración de Authors no posible debido a un error: {str(e)}")
+            sheet_name = 'Authors'
+            
+            try:
+                df_authors_table = pd.read_excel(filename, sheet_name=sheet_name)
+            
+                if df_authors_table.empty:
+                    st.warning(f"\n\nDepuración de Authors no posible porque el archivo Excel no contiene una hoja llamada '{sheet_name}'")
+            
+                else:
+                    primer_nuevo_author = df_authors_table.loc[0, 'New Author']
+            
+                    if primer_nuevo_author == '0-change-0':
+                        st.warning(f"\n\nDepuración de Authors no ha sido posible porque la tabla de conversión en la hoja '{sheet_name}' del fichero Excel no ha sido completada")
+            
+                    else:
+                        for _, fila in df_authors_table.iterrows():
+                            author = fila['Authors']
+                            nueva_author = fila['New Author']
+            
+                            # Buscar la fila correspondiente en 'autores'
+                            fila_encontrada = autores[autores['Authors'] == author]
+            
+                            if not fila_encontrada.empty:
+                                indices_str = fila_encontrada['Indices'].iloc[0]
+                                posiciones_str = fila_encontrada['Posiciones'].iloc[0]
+            
+                                indices_encontrados = [int(index) for index in indices_str.split(';')]
+                                posiciones_encontradas = [int(position) for position in posiciones_str.split(';')]
+            
+                                for index, position in zip(indices_encontrados, posiciones_encontradas):
+                                    if index in df_final.index:
+                                        row = df_final.loc[index]
+                                        author_split = row['Authors'].split(';')
+                                        if 0 <= position < len(author_split):
+                                            author_split[position] = nueva_author
+                                            df_final.at[index, 'Authors'] = '; '.join(author_split)
+            
+                        # Limpiar el campo Authors
+                        df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([keyword.strip() for keyword in x.split(';')]))
+                        df_final['Author full names'] = df_final['Authors']
+            
+                        st.success("\n\nDepuración de Authors completada correctamente")
+            
+            except (ValueError, KeyError) as e:
+                st.warning(f"\n\nDepuración de Authors no posible debido a un error: {str(e)}")
             # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
             #sheet_name = 'Authors'
             #try:
