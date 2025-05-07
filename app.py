@@ -438,9 +438,7 @@ if activar_depuracion:
 
             filename = tmp_path
 
-        except Exception as e:
-            st.error(f"Error durante la depuración: {str(e)}")
-        
+               
         # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
         sheet_name = 'Authors'
         try:
