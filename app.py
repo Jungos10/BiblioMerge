@@ -480,6 +480,8 @@ if activar_depuracion:
                                 posiciones_encontradas = [int(position) for position in posiciones_str.split(';')]
             
                                 for index, position in zip(indices_encontrados, posiciones_encontradas):
+                                    index = int(index)
+                                    position = int(position)
                                     if index in df_final.index:
                                         row = df_final.loc[index]
                                         author_split = row['Authors'].split(';')
