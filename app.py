@@ -1,3 +1,4 @@
+# -------------------- PARTE 1: CARGAR FICHEROS --------------------
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -62,7 +63,8 @@ if st.session_state["procesado"] and scopus_files and wos_files:
         todos_registros.extend(registros)
     dfwos = pd.DataFrame(todos_registros)
 
-
+# -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
+    
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
 
     # Mapeamos el archivo WOS(dfwos) con el archivo Scopus (dfsco)
@@ -420,17 +422,23 @@ if st.session_state["procesado"] and scopus_files and wos_files:
 
 
 # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
+# Parte 3: Depuración opcional del usuario
+st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
+activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
 
-# Este es un ejemplo de cómo se debe integrar el bloque de la Parte 3 correctamente
-if aplicar_depuracion and depuracion_file is not None and st.button("Ejecutar depuración"):
-    try:
-        # Leemos el archivo Excel cargado por el usuario
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
-            tmp.write(depuracion_file.read())
-            tmp_path = tmp.name
+if activar_depuracion:
+    depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
 
-        filename = tmp_path
+    if depuracion_file is not None and st.button("✅ Aplicar depuración"):
+        try:
+            # Guardar el archivo subido temporalmente
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+                tmp.write(depuracion_file.read())
+                tmp_path = tmp.name
 
+            filename = tmp_path
+
+        
         # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
         sheet_name = 'Authors'
         try:
@@ -542,39 +550,6 @@ if aplicar_depuracion and depuracion_file is not None and st.button("Ejecutar de
 
 # -------------------- PARTE 4: GENERAR FICHEROS FINALES --------------------
 
-# Parte 3: Depuración opcional del usuario
-st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
-activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
-
-if activar_depuracion:
-    tabla_conversion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
-
-    if tabla_conversion_file is not None:
-        if st.button("✅ Aplicar depuración"):
-            try:
-                df_authors_table = pd.read_excel(tabla_conversion_file, sheet_name='Authors')
-                for _, fila in df_authors_table.iterrows():
-                    author = fila['Authors']
-                    nuevo = fila['New Author']
-                    if nuevo != '0-change-0':
-                        fila_encontrada = autores[autores['Authors'] == author]
-                        if not fila_encontrada.empty:
-                            indices_str = fila_encontrada['Indices'].iloc[0]
-                            posiciones_str = fila_encontrada['Posiciones'].iloc[0]
-                            indices = [int(i) for i in indices_str.split(';')]
-                            posiciones = [int(p) for p in posiciones_str.split(';')]
-                            for idx, pos in zip(indices, posiciones):
-                                if idx in df_final.index:
-                                    authors_str = df_final.at[idx, 'Authors'].split(';')
-                                    if 0 <= pos < len(authors_str):
-                                        authors_str[pos] = nuevo
-                                        df_final.at[idx, 'Authors'] = '; '.join(authors_str)
-                df_final['Author full names'] = df_final['Authors']
-
-                st.success("Depuración aplicada correctamente.")
-
-            except Exception as e:
-                st.error(f"Ocurrió un error al aplicar la depuración: {e}")
 st.markdown("## 📁 Generación de ficheros finales e informes")
 if st.button("📁 Generar ficheros finales"):
     import io
