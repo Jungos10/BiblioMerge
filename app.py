@@ -158,7 +158,6 @@ if not st.session_state['procesado']:
     scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
     wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
 
-    # Mostrar resumen
     if scopus_files:
         st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
         for f in scopus_files:
@@ -168,10 +167,11 @@ if not st.session_state['procesado']:
         for f in wos_files:
             st.markdown(f"- {f.name}")
 
-    # Botón de fusión
+    # El botón solo se muestra si no se ha procesado
     col1, col2 = st.columns([1, 1])
     with col1:
-        if st.button("🔄 Iniciar fusión", use_container_width=True):
+        iniciar_fusion = st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True)
+        if iniciar_fusion:
             if scopus_files and wos_files:
                 with st.spinner("Procesando archivos..."):
                     st.session_state['procesado'] = True
