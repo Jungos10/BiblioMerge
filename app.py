@@ -446,7 +446,7 @@ if st.session_state["procesado"]:
 
         # ✅ Fusión finalizada
         st.session_state["fusion_en_proceso"] = False
-        #st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+       
 
 
 
@@ -736,8 +736,7 @@ if st.session_state["procesado"]:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].apply(pd.to_numeric, errors='coerce')
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
-
-    st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")   
+    
         
     # Generación de archivos Excel para descarga
     import io
@@ -809,7 +808,7 @@ if st.session_state["procesado"]:
     plt.xticks(rotation=90)
     st.pyplot(fig3)
 
-
+    st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
 
 
 # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
