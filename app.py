@@ -443,7 +443,7 @@ if activar_depuracion:
             # Haz el reemplazo aquí como parte de la lógica de depuración
             df_final['Author full names'] = df_final['Authors']
             st.success("df_final actualizado")
-            st.write(df_final.head())
+            #st.write(df_final.head())
             # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
             sheet_name = 'Authors'
             try:
@@ -483,7 +483,7 @@ if activar_depuracion:
                         df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
                         #df_final['Author full names'] = df_final['Authors']
                         st.success("Depuración de Authors completada correctamente.")
-            
+                        st.write(df_final.head())
             except Exception as e:
                 st.warning(f"Depuración de Authors no posible debido a un error: {str(e)}")
             
