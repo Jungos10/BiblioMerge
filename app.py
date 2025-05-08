@@ -472,12 +472,13 @@ if st.session_state["procesado"]:
 
     # ✅ Tabs: Informes + Gráficos
 
-dfsco = st.session_state["dfsco"]
-dfwos = st.session_state["dfwos"]
-df_final = st.session_state["df_final"]
-duplicados_final = st.session_state["duplicados_final"]
-duplicados_sin_doi_final = st.session_state["duplicados_sin_doi_final"]
-
+if all(k in st.session_state for k in ["dfsco", "dfwos", "df_final", "duplicados_final", "duplicados_sin_doi_final"]):
+    dfsco = st.session_state["dfsco"]
+    dfwos = st.session_state["dfwos"]
+    df_final = st.session_state["df_final"]
+    duplicados_final = st.session_state["duplicados_final"]
+    duplicados_sin_doi_final = st.session_state["duplicados_sin_doi_final"]
+    
 tab1, tab2 = st.tabs(["📄 Informes y descargas", "📈 Gráficos"])
 
 # --- INFORMES Y DESCARGAS ---
