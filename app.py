@@ -429,10 +429,9 @@ if st.session_state["procesado"] and scopus_files and wos_files:
 st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
 activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
 
-df_final['Author full names'] = df_final['Authors']
-
 if activar_depuracion:
     depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
+    df_final['Author full names'] = df_final['Authors']
 
     if depuracion_file is not None and st.button("✅ Aplicar depuración"):
         try:
