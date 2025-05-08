@@ -152,6 +152,8 @@ with col_reset:
 # Estado inicial
 if 'procesado' not in st.session_state:
     st.session_state['procesado'] = False
+if 'fusion_iniciada' not in st.session_state:
+    st.session_state['fusion_iniciada'] = False
 
 # Mostrar carga y botón solo si NO se ha procesado
 if not st.session_state['procesado']:
@@ -171,14 +173,22 @@ if not st.session_state['procesado']:
     with col1:
         if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
             if scopus_files and wos_files:
-                st.session_state['procesado'] = True
-                st.experimental_rerun()  # 💡 Intenta forzar recarga si tu entorno lo permite
+                st.session_state['fusion_iniciada'] = True
+                st.session_state['scopus_files'] = scopus_files
+                st.session_state['wos_files'] = wos_files
             else:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 else:
     scopus_files = st.session_state.get('scopus_files', [])
     wos_files = st.session_state.get('wos_files', [])
+
+# Mostrar spinner y mensaje solo en la fase de transición
+if st.session_state['fusion_iniciada'] and not st.session_state['procesado']:
+    with st.spinner("Procesando archivos..."):
+        st.session_state['procesado'] = True
+        st.session_state['fusion_iniciada'] = False
     st.success("✅ Fusión iniciada correctamente. Procesando datos...")
+
 
 
 # Procesamiento de ficheros solo si se inició la fusión
