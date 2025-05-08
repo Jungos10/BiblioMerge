@@ -405,6 +405,11 @@ if st.session_state["procesado"]:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].apply(pd.to_numeric, errors='coerce')
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
+
+    # Guardar en session_state para uso en informes/pestañas
+    st.session_state["df_final"] = df_final
+    st.session_state["duplicados_final"] = duplicados_final
+    st.session_state["duplicados_sin_doi_final"] = duplicados_sin_doi_final
     
         
     # Generación de archivos Excel para descarga
