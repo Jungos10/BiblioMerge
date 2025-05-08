@@ -809,17 +809,33 @@ if st.session_state["procesado"]:
     # st.pyplot(fig3)
 
     # ✅ Tabs: Informes + Gráficos
+
+dfsco = st.session_state["dfsco"]
+dfwos = st.session_state["dfwos"]
+df_final = st.session_state["df_final"]
+duplicados_final = st.session_state["duplicados_final"]
+duplicados_sin_doi_final = st.session_state["duplicados_sin_doi_final"]
+
 tab1, tab2 = st.tabs(["📄 Informes y descargas", "📈 Gráficos"])
 
 # --- INFORMES Y DESCARGAS ---
 with tab1:
     st.subheader("📊 Información de la fusión")
+
+     # Recuperar los DataFrames desde session_state
+    dfsco = st.session_state["dfsco"]
+    dfwos = st.session_state["dfwos"]
+    df_final = st.session_state["df_final"]
+    duplicados_final = st.session_state["duplicados_final"]
+    duplicados_sin_doi_final = st.session_state["duplicados_sin_doi_final"]
+
+    # Mostrar los datos
     st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
     st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
     st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
     st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
     st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
-
+       
     st.subheader("📥 Descargar archivos Excel")
     st.download_button("📥 Scopus+WoS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
     st.download_button("📥 Duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
