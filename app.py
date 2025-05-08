@@ -17,8 +17,9 @@ col_reset = st.columns([5, 1])[1]
 with col_reset:
     if st.button("🔁 Reiniciar todo", type="primary", use_container_width=True):
         st.session_state.clear()
-        st.experimental_rerun()
-        
+        st.warning("⚠️ Aplicación reiniciada. Recarga la página (pulsa F5) para empezar de nuevo.")
+        st.stop()
+       
 scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
 wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
 
