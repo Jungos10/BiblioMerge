@@ -27,8 +27,18 @@ wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multi
 if 'procesado' not in st.session_state:
     st.session_state['procesado'] = False
 
-if st.button("🔄 Iniciar fusión") and scopus_files and wos_files:
-    st.session_state['procesado'] = True
+#if st.button("🔄 Iniciar fusión") and scopus_files and wos_files:
+    #st.session_state['procesado'] = True
+
+if not st.session_state.get("procesado", False):
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("🔄 Iniciar fusión", use_container_width=True):
+            if scopus_files and wos_files:
+                st.session_state['procesado'] = True
+            else:
+                st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
+
 
 if st.session_state["procesado"] and scopus_files and wos_files:
 
