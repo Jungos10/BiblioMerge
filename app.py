@@ -144,7 +144,7 @@ st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y gen
 st.markdown("#### ")
 col_reset = st.columns([5, 1])[1]
 with col_reset:
-    if st.button("🔁 Reiniciar todo", type="primary", use_container_width=True):
+    if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
         st.session_state.clear()
         st.warning("⚠️ Aplicación reiniciada. Recarga la página (pulsa F5) para empezar de nuevo.")
         st.stop()
@@ -153,7 +153,7 @@ with col_reset:
 if 'procesado' not in st.session_state:
     st.session_state['procesado'] = False
 
-# Mostrar carga de archivos solo si aún no se ha procesado
+# Mostrar carga y botón solo si NO se ha procesado
 if not st.session_state['procesado']:
     scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
     wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
@@ -167,21 +167,18 @@ if not st.session_state['procesado']:
         for f in wos_files:
             st.markdown(f"- {f.name}")
 
-    # El botón solo se muestra si no se ha procesado
     col1, col2 = st.columns([1, 1])
     with col1:
-        iniciar_fusion = st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True)
-        if iniciar_fusion:
+        if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
             if scopus_files and wos_files:
-                with st.spinner("Procesando archivos..."):
-                    st.session_state['procesado'] = True
-                st.success("✅ Fusión iniciada correctamente. Procesando datos...")
-                #st.stop()
+                st.session_state['procesado'] = True
+                st.experimental_rerun()  # 💡 Intenta forzar recarga si tu entorno lo permite
             else:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 else:
-    scopus_files = []
-    wos_files = []
+    scopus_files = st.session_state.get('scopus_files', [])
+    wos_files = st.session_state.get('wos_files', [])
+    st.success("✅ Fusión iniciada correctamente. Procesando datos...")
 
 
 # Procesamiento de ficheros solo si se inició la fusión
