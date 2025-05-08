@@ -176,7 +176,7 @@ if not st.session_state['procesado']:
                 with st.spinner("Procesando archivos..."):
                     st.session_state['procesado'] = True
                 st.success("✅ Fusión iniciada correctamente. Procesando datos...")
-                st.stop()
+                #st.stop()
             else:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 else:
