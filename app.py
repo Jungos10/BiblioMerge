@@ -184,19 +184,6 @@ else:
     wos_files = []
 
 
-
-# Botón de inicio de fusión solo si no se ha procesado aún
-if not st.session_state.get("procesado", False):
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        if st.button("🔄 Iniciar fusión", use_container_width=True):
-            if scopus_files and wos_files:
-                with st.spinner("Procesando archivos..."):
-                    st.session_state['procesado'] = True
-                st.success("✅ Fusión iniciada correctamente. Procesando datos...")
-            else:
-                st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
-
 # Procesamiento de ficheros solo si se inició la fusión
 if st.session_state["procesado"] and scopus_files and wos_files:
 
