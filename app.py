@@ -843,7 +843,7 @@ with tab2:
     ax2.bar(df_sorted_authkw['Author Keyword'], df_sorted_authkw['Conteo'])
     ax2.set_xlabel('Author Keywords')
     ax2.set_ylabel('Frecuencia')
-    ax2.set_title('Top 25 Author Keywords")
+    ax2.set_title('Top 25 Author Keywords')
     plt.xticks(rotation=90)
     st.pyplot(fig2)
 
