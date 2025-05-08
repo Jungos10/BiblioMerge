@@ -1,4 +1,89 @@
 # -------------------- PARTE 1: CARGAR FICHEROS --------------------
+# import streamlit as st
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from collections import defaultdict
+# import io
+# import tempfile
+
+# st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
+# st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
+
+# st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+
+# # 🔁 Botón de reinicio global (visible siempre)
+# st.markdown("#### ")
+# col_reset = st.columns([5, 1])[1]
+# with col_reset:
+#     if st.button("🔁 Reiniciar todo", type="primary", use_container_width=True):
+#         st.session_state.clear()
+#         st.warning("⚠️ Aplicación reiniciada. Recarga la página (pulsa F5) para empezar de nuevo.")
+#         st.stop()
+       
+# scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
+# wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
+
+
+# if 'procesado' not in st.session_state:
+#     st.session_state['procesado'] = False
+
+# #if st.button("🔄 Iniciar fusión") and scopus_files and wos_files:
+#     #st.session_state['procesado'] = True
+
+# if not st.session_state.get("procesado", False):
+#     col1, col2 = st.columns([1, 1])
+#     with col1:
+#         if st.button("🔄 Iniciar fusión", use_container_width=True):
+#             if scopus_files and wos_files:
+#                 st.session_state['procesado'] = True
+#             else:
+#                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
+
+
+# if st.session_state["procesado"] and scopus_files and wos_files:
+
+#     dfsco_list = []
+#     for file in scopus_files:
+#         df = pd.read_csv(file)
+#         dfsco_list.append(df)
+#     dfsco = pd.concat(dfsco_list, ignore_index=True)
+#     dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
+#     dfsco['Source'] = 'scopus'
+
+#     campos_multiples = ['AU', 'AF', 'CR']
+#     todos_registros = []
+#     for file in wos_files:
+#         registros = []
+#         registro_actual = {}
+#         ultimo_campo = None
+#         lines = file.getvalue().decode('ISO-8859-1').splitlines()
+#         for linea in lines:
+#             if not linea.strip() or linea.startswith('EF'):
+#                 if registro_actual:
+#                     registros.append(registro_actual)
+#                     registro_actual = {}
+#                     ultimo_campo = None
+#                 continue
+#             campo = linea[:2].strip()
+#             valor = linea[3:].strip()
+#             if not campo:
+#                 if ultimo_campo in campos_multiples:
+#                     registro_actual[ultimo_campo] += "; " + valor
+#                 else:
+#                     registro_actual[ultimo_campo] += " " + valor
+#             else:
+#                 if campo in campos_multiples:
+#                     if campo in registro_actual:
+#                         registro_actual[campo] += "; " + valor
+#                     else:
+#                         registro_actual[campo] = valor
+#                 else:
+#                     registro_actual[campo] = valor
+#                 ultimo_campo = campo
+#         todos_registros.extend(registros)
+#     dfwos = pd.DataFrame(todos_registros)
+
+# -------------------- PARTE 1: CARGAR FICHEROS --------------------
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,9 +91,9 @@ from collections import defaultdict
 import io
 import tempfile
 
+# Configuración inicial
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
 st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
-
 st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
 
 # 🔁 Botón de reinicio global (visible siempre)
@@ -19,27 +104,42 @@ with col_reset:
         st.session_state.clear()
         st.warning("⚠️ Aplicación reiniciada. Recarga la página (pulsa F5) para empezar de nuevo.")
         st.stop()
-       
-scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
-wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
 
-
+# Inicializar estado si no existe
 if 'procesado' not in st.session_state:
     st.session_state['procesado'] = False
 
-#if st.button("🔄 Iniciar fusión") and scopus_files and wos_files:
-    #st.session_state['procesado'] = True
+# Carga de archivos y resumen visible solo antes de procesar
+if not st.session_state.get("procesado", False):
+    scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
+    wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
 
+    # Mostrar resumen de archivos cargados
+    if scopus_files:
+        st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
+        for f in scopus_files:
+            st.markdown(f"- {f.name}")
+    if wos_files:
+        st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
+        for f in wos_files:
+            st.markdown(f"- {f.name}")
+else:
+    scopus_files = []
+    wos_files = []
+
+# Botón de inicio de fusión solo si no se ha procesado aún
 if not st.session_state.get("procesado", False):
     col1, col2 = st.columns([1, 1])
     with col1:
         if st.button("🔄 Iniciar fusión", use_container_width=True):
             if scopus_files and wos_files:
-                st.session_state['procesado'] = True
+                with st.spinner("Procesando archivos..."):
+                    st.session_state['procesado'] = True
+                st.success("✅ Fusión iniciada correctamente. Procesando datos...")
             else:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
-
+# Procesamiento de ficheros solo si se inició la fusión
 if st.session_state["procesado"] and scopus_files and wos_files:
 
     dfsco_list = []
@@ -82,6 +182,8 @@ if st.session_state["procesado"] and scopus_files and wos_files:
                 ultimo_campo = campo
         todos_registros.extend(registros)
     dfwos = pd.DataFrame(todos_registros)
+
+
 
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
     
