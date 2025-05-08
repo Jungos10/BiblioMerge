@@ -646,8 +646,8 @@ if activar_depuracion:
             except Exception as e:
                 st.warning(f"Depuración de Cited References no posible: {str(e)}")
 
-        # Aseguramos se guardan los cambios realizados después de todas las depuraciones para ser utilizados en la Parte 4
-        st.session_state['df_final'] = df_final
+            # Aseguramos se guardan los cambios realizados después de todas las depuraciones para ser utilizados en la Parte 4
+            st.session_state['df_final'] = df_final
         except Exception as e:
             st.error(f"Error general durante la depuración: {str(e)}")
 
