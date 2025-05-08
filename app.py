@@ -231,11 +231,119 @@
 
 #     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
 
+# import streamlit as st
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from collections import defaultdict
+# import io
+
+# # Configuración inicial
+# st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
+# st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
+# st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+
+# # 🔁 Botón de reinicio global
+# st.markdown("#### ")
+# col_reset = st.columns([5, 1])[1]
+# with col_reset:
+#     if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
+#         st.session_state.clear()
+#         st.rerun()
+
+# # Inicializar estados
+# if "procesado" not in st.session_state:
+#     st.session_state["procesado"] = False
+# if "fusion_en_proceso" not in st.session_state:
+#     st.session_state["fusion_en_proceso"] = False
+
+# # BLOQUE 1 – Subida de archivos y botón de inicio (solo si no se ha procesado)
+# if not st.session_state["procesado"]:
+#     scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
+#     wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
+
+#     if scopus_files:
+#         st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
+#         for f in scopus_files:
+#             st.markdown(f"- {f.name}")
+#     if wos_files:
+#         st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
+#         for f in wos_files:
+#             st.markdown(f"- {f.name}")
+
+#     col1, _ = st.columns([1, 1])
+#     with col1:
+#         if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
+#             if scopus_files and wos_files:
+#                 st.session_state["scopus_files"] = scopus_files
+#                 st.session_state["wos_files"] = wos_files
+#                 st.session_state["fusion_en_proceso"] = True
+#                 st.session_state["procesado"] = True
+#                 st.rerun()
+#             else:
+#                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
+
+# # BLOQUE 2 – Proceso de fusión con spinner y mensajes
+# if st.session_state["procesado"]:
+#     if st.session_state["fusion_en_proceso"]:
+#         st.info("✅ Fusión iniciada correctamente. Procesando datos...")
+
+#     scopus_files = st.session_state["scopus_files"]
+#     wos_files = st.session_state["wos_files"]
+
+#     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+#         # --- SCOPUS ---
+#         dfsco_list = []
+#         for file in scopus_files:
+#             df = pd.read_csv(file)
+#             dfsco_list.append(df)
+#         dfsco = pd.concat(dfsco_list, ignore_index=True)
+#         dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
+#         dfsco['Source'] = 'scopus'
+
+#         # --- WoS ---
+#         campos_multiples = ['AU', 'AF', 'CR']
+#         todos_registros = []
+#         for file in wos_files:
+#             registros = []
+#             registro_actual = {}
+#             ultimo_campo = None
+#             lines = file.getvalue().decode('ISO-8859-1').splitlines()
+#             for linea in lines:
+#                 if not linea.strip() or linea.startswith('EF'):
+#                     if registro_actual:
+#                         registros.append(registro_actual)
+#                         registro_actual = {}
+#                         ultimo_campo = None
+#                     continue
+#                 campo = linea[:2].strip()
+#                 valor = linea[3:].strip()
+#                 if not campo:
+#                     if ultimo_campo in campos_multiples:
+#                         registro_actual[ultimo_campo] += "; " + valor
+#                     else:
+#                         registro_actual[ultimo_campo] += " " + valor
+#                 else:
+#                     if campo in campos_multiples:
+#                         if campo in registro_actual:
+#                             registro_actual[campo] += "; " + valor
+#                         else:
+#                             registro_actual[campo] = valor
+#                     else:
+#                         registro_actual[campo] = valor
+#                     ultimo_campo = campo
+#             todos_registros.extend(registros)
+#         dfwos = pd.DataFrame(todos_registros)
+
+#     # 🔚 Termina procesamiento
+#     st.session_state["fusion_en_proceso"] = False
+#     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from collections import defaultdict
 import io
+import time  # <- necesario para el spinner
 
 # Configuración inicial
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
@@ -282,61 +390,63 @@ if not st.session_state["procesado"]:
             else:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
-# BLOQUE 2 – Proceso de fusión con spinner y mensajes
+# BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state["procesado"]:
     if st.session_state["fusion_en_proceso"]:
         st.info("✅ Fusión iniciada correctamente. Procesando datos...")
 
-    scopus_files = st.session_state["scopus_files"]
-    wos_files = st.session_state["wos_files"]
+        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+            time.sleep(0.1)  # Forzar visualización del spinner
 
-    with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-        # --- SCOPUS ---
-        dfsco_list = []
-        for file in scopus_files:
-            df = pd.read_csv(file)
-            dfsco_list.append(df)
-        dfsco = pd.concat(dfsco_list, ignore_index=True)
-        dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
-        dfsco['Source'] = 'scopus'
+            scopus_files = st.session_state["scopus_files"]
+            wos_files = st.session_state["wos_files"]
 
-        # --- WoS ---
-        campos_multiples = ['AU', 'AF', 'CR']
-        todos_registros = []
-        for file in wos_files:
-            registros = []
-            registro_actual = {}
-            ultimo_campo = None
-            lines = file.getvalue().decode('ISO-8859-1').splitlines()
-            for linea in lines:
-                if not linea.strip() or linea.startswith('EF'):
-                    if registro_actual:
-                        registros.append(registro_actual)
-                        registro_actual = {}
-                        ultimo_campo = None
-                    continue
-                campo = linea[:2].strip()
-                valor = linea[3:].strip()
-                if not campo:
-                    if ultimo_campo in campos_multiples:
-                        registro_actual[ultimo_campo] += "; " + valor
+            # --- SCOPUS ---
+            dfsco_list = []
+            for file in scopus_files:
+                df = pd.read_csv(file)
+                dfsco_list.append(df)
+            dfsco = pd.concat(dfsco_list, ignore_index=True)
+            dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
+            dfsco['Source'] = 'scopus'
+
+            # --- WoS ---
+            campos_multiples = ['AU', 'AF', 'CR']
+            todos_registros = []
+            for file in wos_files:
+                registros = []
+                registro_actual = {}
+                ultimo_campo = None
+                lines = file.getvalue().decode('ISO-8859-1').splitlines()
+                for linea in lines:
+                    if not linea.strip() or linea.startswith('EF'):
+                        if registro_actual:
+                            registros.append(registro_actual)
+                            registro_actual = {}
+                            ultimo_campo = None
+                        continue
+                    campo = linea[:2].strip()
+                    valor = linea[3:].strip()
+                    if not campo:
+                        if ultimo_campo in campos_multiples:
+                            registro_actual[ultimo_campo] += "; " + valor
+                        else:
+                            registro_actual[ultimo_campo] += " " + valor
                     else:
-                        registro_actual[ultimo_campo] += " " + valor
-                else:
-                    if campo in campos_multiples:
-                        if campo in registro_actual:
-                            registro_actual[campo] += "; " + valor
+                        if campo in campos_multiples:
+                            if campo in registro_actual:
+                                registro_actual[campo] += "; " + valor
+                            else:
+                                registro_actual[campo] = valor
                         else:
                             registro_actual[campo] = valor
-                    else:
-                        registro_actual[campo] = valor
-                    ultimo_campo = campo
-            todos_registros.extend(registros)
-        dfwos = pd.DataFrame(todos_registros)
+                        ultimo_campo = campo
+                todos_registros.extend(registros)
+            dfwos = pd.DataFrame(todos_registros)
 
-    # 🔚 Termina procesamiento
-    st.session_state["fusion_en_proceso"] = False
-    st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+        # ✅ Fusión finalizada
+        st.session_state["fusion_en_proceso"] = False
+        st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
 
 
 
