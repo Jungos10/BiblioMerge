@@ -132,9 +132,7 @@ if st.session_state["procesado"]:
                'PU': 'Publisher', 'SN': 'ISSN', 'LA': 'Language of Original Document',
                'J9': 'Abbreviated Source Title', 'DT': 'Document Type', 'UT': 'EID', 'C1': 'Authors with affiliations'}
 
-    missing_columns = [col for col in mapping if col not in dfwos.columns]
-    if missing_columns:
-        st.warning(f"Advertencia: Faltan columnas en WoS para el mapeo: {missing_columns}")
+    
     dfwos_selected = dfwos.rename(columns=mapping)
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
 
