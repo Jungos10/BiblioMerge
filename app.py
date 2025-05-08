@@ -431,9 +431,9 @@ activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/ke
 
 if activar_depuracion:
     depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
-    df_final['Author full names'] = df_final['Authors']
-
+    
     if depuracion_file is not None and st.button("✅ Aplicar depuración"):
+        df_final['Author full names'] = df_final['Authors']
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
                 tmp.write(depuracion_file.read())
