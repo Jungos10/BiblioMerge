@@ -410,7 +410,10 @@ if st.session_state["procesado"]:
     st.session_state["df_final"] = df_final
     st.session_state["duplicados_final"] = duplicados_final
     st.session_state["duplicados_sin_doi_final"] = duplicados_sin_doi_final
-    
+
+    # Señalamos que la fusión ya terminó
+    st.session_state["fusion_en_proceso"] = False
+    st.rerun()
         
     # Generación de archivos Excel para descarga
     import io
