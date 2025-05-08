@@ -853,7 +853,7 @@ with tab2:
     ax3.bar(df_sorted_indkw['Index Keywords'], df_sorted_indkw['Conteo'])
     ax3.set_xlabel('Index Keywords')
     ax3.set_ylabel('Frecuencia')
-    ax3.set_title('Top 25 Index Keywords")
+    ax3.set_title('Top 25 Index Keywords')
     plt.xticks(rotation=90)
     st.pyplot(fig3)   
 
