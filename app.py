@@ -433,13 +433,17 @@ if activar_depuracion:
     depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
     
     if depuracion_file is not None and st.button("✅ Aplicar depuración"):
-        df_final['Author full names'] = df_final['Authors']
+        
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
                 tmp.write(depuracion_file.read())
                 tmp_path = tmp.name
             filename = tmp_path
 
+            # Haz el reemplazo aquí como parte de la lógica de depuración
+            df_final['Author full names'] = df_final['Authors']
+            st.success("df_final actualizado")
+            st.write(df_final.head())
             # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
             sheet_name = 'Authors'
             try:
