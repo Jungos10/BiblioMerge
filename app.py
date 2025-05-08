@@ -132,6 +132,13 @@ if st.session_state["procesado"]:
                'PU': 'Publisher', 'SN': 'ISSN', 'LA': 'Language of Original Document',
                'J9': 'Abbreviated Source Title', 'DT': 'Document Type', 'UT': 'EID', 'C1': 'Authors with affiliations'}
 
+    # ✅ Recuperar dfwos desde session_state si no existe localmente
+    if "dfwos" not in locals():
+        if "dfwos" in st.session_state:
+            dfwos = st.session_state["dfwos"]
+        else:
+            st.error("❌ dfwos no está disponible. Ejecuta la fusión primero.")
+            st.stop()
     
     dfwos_selected = dfwos.rename(columns=mapping)
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
