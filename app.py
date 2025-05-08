@@ -84,6 +84,50 @@
 #     dfwos = pd.DataFrame(todos_registros)
 
 # -------------------- PARTE 1: CARGAR FICHEROS --------------------
+# import streamlit as st
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from collections import defaultdict
+# import io
+# import tempfile
+
+# # Configuración inicial
+# st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
+# st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
+# st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+
+# # 🔁 Botón de reinicio global (visible siempre)
+# st.markdown("#### ")
+# col_reset = st.columns([5, 1])[1]
+# with col_reset:
+#     if st.button("🔁 Reiniciar todo", type="primary", use_container_width=True):
+#         st.session_state.clear()
+#         st.warning("⚠️ Aplicación reiniciada. Recarga la página (pulsa F5) para empezar de nuevo.")
+#         st.stop()
+
+# # Inicializar estado si no existe
+# if 'procesado' not in st.session_state:
+#     st.session_state['procesado'] = False
+
+# # Carga de archivos y resumen visible solo antes de procesar
+# if not st.session_state.get("procesado", False):
+#     scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
+#     wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
+
+#     # Mostrar resumen de archivos cargados
+#     if scopus_files:
+#         st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
+#         for f in scopus_files:
+#             st.markdown(f"- {f.name}")
+#     if wos_files:
+#         st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
+#         for f in wos_files:
+#             st.markdown(f"- {f.name}")
+# else:
+#     scopus_files = []
+#     wos_files = []
+
+# -------------------- PARTE 1: CARGAR FICHEROS --------------------
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -91,12 +135,12 @@ from collections import defaultdict
 import io
 import tempfile
 
-# Configuración inicial
+# Configuración
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
 st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
 st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
 
-# 🔁 Botón de reinicio global (visible siempre)
+# 🔁 Botón de reinicio global
 st.markdown("#### ")
 col_reset = st.columns([5, 1])[1]
 with col_reset:
@@ -105,16 +149,16 @@ with col_reset:
         st.warning("⚠️ Aplicación reiniciada. Recarga la página (pulsa F5) para empezar de nuevo.")
         st.stop()
 
-# Inicializar estado si no existe
+# Estado inicial
 if 'procesado' not in st.session_state:
     st.session_state['procesado'] = False
 
-# Carga de archivos y resumen visible solo antes de procesar
-if not st.session_state.get("procesado", False):
+# Mostrar carga de archivos solo si aún no se ha procesado
+if not st.session_state['procesado']:
     scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
     wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
 
-    # Mostrar resumen de archivos cargados
+    # Mostrar resumen
     if scopus_files:
         st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
         for f in scopus_files:
@@ -123,9 +167,23 @@ if not st.session_state.get("procesado", False):
         st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
         for f in wos_files:
             st.markdown(f"- {f.name}")
+
+    # Botón de fusión
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("🔄 Iniciar fusión", use_container_width=True):
+            if scopus_files and wos_files:
+                with st.spinner("Procesando archivos..."):
+                    st.session_state['procesado'] = True
+                st.success("✅ Fusión iniciada correctamente. Procesando datos...")
+                st.stop()
+            else:
+                st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 else:
     scopus_files = []
     wos_files = []
+
+
 
 # Botón de inicio de fusión solo si no se ha procesado aún
 if not st.session_state.get("procesado", False):
