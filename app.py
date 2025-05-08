@@ -646,6 +646,8 @@ if activar_depuracion:
             except Exception as e:
                 st.warning(f"Depuración de Cited References no posible: {str(e)}")
 
+        # Aseguramos se guardan los cambios realizados después de todas las depuraciones para ser utilizados en la Parte 4
+        st.session_state['df_final'] = df_final
         except Exception as e:
             st.error(f"Error general durante la depuración: {str(e)}")
 
@@ -655,10 +657,22 @@ if activar_depuracion:
 
 st.markdown("## 📁 Generación de ficheros finales e informes")
 if st.button("📁 Generar ficheros finales"):
+    # Asegurar que df_final esté disponible (viene de la Parte 3 o la Parte 2)
+    if 'df_final' in st.session_state:
+        df_final = st.session_state['df_final']
+    else:
+        try:
+            df_final  # verificar si está definido
+        except NameError:
+            st.error("❌ No se ha encontrado df_final. Asegúrate de haber cargado y fusionado las bases de datos.")
+            st.stop()
+
+    
     import io
     import base64
     from datetime import datetime
 
+    
     # Guardar Excel
     output_excel = io.BytesIO()
     df_final.to_excel(output_excel, index=False)
