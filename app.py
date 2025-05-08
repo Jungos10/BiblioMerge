@@ -75,9 +75,9 @@ if st.session_state["procesado"]:
             # ✅ Guardar en session_state para uso en informes y visualización posterior
             
             if 'dfsco' in locals():
-            st.session_state["dfsco"] = dfsco
+               st.session_state["dfsco"] = dfsco
             if 'dfwos' in locals():
-            st.session_state["dfwos"] = dfwos
+               st.session_state["dfwos"] = dfwos
             
             # --- WoS ---
             campos_multiples = ['AU', 'AF', 'CR']
