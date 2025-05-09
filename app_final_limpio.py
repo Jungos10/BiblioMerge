@@ -114,6 +114,7 @@ if st.session_state["procesado"]:
 
         # ✅ Fusión finalizada
         st.session_state["fusion_en_proceso"] = False
+        st.experimental_rerun()
 
 
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
