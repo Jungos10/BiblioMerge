@@ -131,10 +131,17 @@ if st.session_state["procesado"]:
                'PU': 'Publisher', 'SN': 'ISSN', 'LA': 'Language of Original Document',
                'J9': 'Abbreviated Source Title', 'DT': 'Document Type', 'UT': 'EID', 'C1': 'Authors with affiliations'}
 
+
+    # ✅ Asegurarse de que dfwos está disponible
+    if "dfwos" not in locals():
+        if "dfwos" in st.session_state:
+            dfwos = st.session_state["dfwos"]
+        else:
+            st.error("❌ El DataFrame dfwos no está disponible. Ejecuta la fusión primero.")
+            st.stop()
       
     dfwos_selected = dfwos.rename(columns=mapping)
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
-
     dfwos_selected['Source'] = 'WOS'
            
     df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
