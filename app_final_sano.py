@@ -42,7 +42,7 @@ if not st.session_state["procesado"]:
             st.markdown(f"- {f.name}")
 
     col1, _ = st.columns([1, 1])
-    with col1:
+    #with col1:
 col1, col2 = st.columns([1, 1])
 with col1:
 col1, col2 = st.columns([1, 1])
