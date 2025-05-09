@@ -557,7 +557,7 @@ if st.session_state["procesado"]:
 #         plt.xticks(rotation=90)
 #         st.pyplot(fig3)
 
-        st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+    st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
 
 # else:
 #     st.info("ℹ️ Aún no hay datos procesados para mostrar informes o gráficos.")
