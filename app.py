@@ -108,7 +108,7 @@ if st.session_state["procesado"]:
             dfwos = pd.DataFrame(todos_registros)
 
             # # Guardamos los originales para informes
-            #st.session_state["dfsco"] = dfsco
+            st.session_state["dfsco"] = dfsco
             st.session_state["dfwos"] = dfwos
         
 
@@ -144,13 +144,13 @@ if st.session_state["procesado"]:
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
     dfwos_selected['Source'] = 'WOS'
 
-    # # Asegurar que dfsco está disponible
-    # if "dfsco" not in locals():
-    #     if "dfsco" in st.session_state:
-    #         dfsco = st.session_state["dfsco"]
-    #     else:
-    #         st.error("❌ dfsco no está disponible. Ejecuta la fusión primero.")
-    #         st.stop()
+    # Asegurar que dfsco está disponible
+    if "dfsco" not in locals():
+        if "dfsco" in st.session_state:
+            dfsco = st.session_state["dfsco"]
+        else:
+            st.error("❌ dfsco no está disponible. Ejecuta la fusión primero.")
+            st.stop()
     
     df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
     df_concatenated.fillna('', inplace=True)
