@@ -58,7 +58,7 @@ if st.session_state["procesado"]:
     if st.session_state["fusion_en_proceso"]:
         st.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
-    with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
             time.sleep(0.1)  # Forzar visualización del spinner
 
             scopus_files = st.session_state["scopus_files"]
