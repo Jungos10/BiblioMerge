@@ -113,7 +113,7 @@ if st.session_state["procesado"]:
         
 
         # ✅ Fusión finalizada
-        st.session_state["fusion_en_proceso"] = False
+        #st.session_state["fusion_en_proceso"] = False
        
 
 
