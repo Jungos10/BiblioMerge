@@ -107,9 +107,9 @@ if st.session_state["procesado"]:
                 todos_registros.extend(registros)
             dfwos = pd.DataFrame(todos_registros)
 
-            # Guardamos los originales para informes
-            st.session_state["dfsco"] = dfsco
-            st.session_state["dfwos"] = dfwos
+            # # Guardamos los originales para informes
+            # st.session_state["dfsco"] = dfsco
+            # st.session_state["dfwos"] = dfwos
         
 
         # ✅ Fusión finalizada
@@ -132,25 +132,25 @@ if st.session_state["procesado"]:
                'J9': 'Abbreviated Source Title', 'DT': 'Document Type', 'UT': 'EID', 'C1': 'Authors with affiliations'}
 
 
-    # ✅ Asegurarse de que dfwos está disponible
-    if "dfwos" not in locals():
-        if "dfwos" in st.session_state:
-            dfwos = st.session_state["dfwos"]
-        else:
-            st.error("❌ El DataFrame dfwos no está disponible. Ejecuta la fusión primero.")
-            st.stop()
+    # # ✅ Asegurarse de que dfwos está disponible
+    # if "dfwos" not in locals():
+    #     if "dfwos" in st.session_state:
+    #         dfwos = st.session_state["dfwos"]
+    #     else:
+    #         st.error("❌ El DataFrame dfwos no está disponible. Ejecuta la fusión primero.")
+    #         st.stop()
       
     dfwos_selected = dfwos.rename(columns=mapping)
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
     dfwos_selected['Source'] = 'WOS'
 
-    # Asegurar que dfsco está disponible
-    if "dfsco" not in locals():
-        if "dfsco" in st.session_state:
-            dfsco = st.session_state["dfsco"]
-        else:
-            st.error("❌ dfsco no está disponible. Ejecuta la fusión primero.")
-            st.stop()
+    # # Asegurar que dfsco está disponible
+    # if "dfsco" not in locals():
+    #     if "dfsco" in st.session_state:
+    #         dfsco = st.session_state["dfsco"]
+    #     else:
+    #         st.error("❌ dfsco no está disponible. Ejecuta la fusión primero.")
+    #         st.stop()
     
     df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
     df_concatenated.fillna('', inplace=True)
@@ -419,10 +419,10 @@ if st.session_state["procesado"]:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
 
-    # Guardar en session_state para uso en informes/pestañas
-    st.session_state["df_final"] = df_final
-    st.session_state["duplicados_final"] = duplicados_final
-    st.session_state["duplicados_sin_doi_final"] = duplicados_sin_doi_final
+    # # Guardar en session_state para uso en informes/pestañas
+    # st.session_state["df_final"] = df_final
+    # st.session_state["duplicados_final"] = duplicados_final
+    # st.session_state["duplicados_sin_doi_final"] = duplicados_sin_doi_final
 
     # Señalamos que la fusión ya terminó
     st.session_state["fusion_en_proceso"] = False
@@ -450,117 +450,117 @@ if st.session_state["procesado"]:
         df_index_keywords.to_excel(writer, sheet_name='Index Keywords', index=False)
         df_references_info.to_excel(writer, sheet_name='Cited References', index=False)
 
-    # # Streamlit download buttons
-    # st.download_button("📥 Descargar Scopus+WOS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
-    # st.download_button("📥 Descargar duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
-    # st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", output_tablas.getvalue(), "Tablas_para_depuraciones.xlsx")
+    # Streamlit download buttons
+    st.download_button("📥 Descargar Scopus+WOS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
+    st.download_button("📥 Descargar duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
+    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", output_tablas.getvalue(), "Tablas_para_depuraciones.xlsx")
 
 
-    # # -------- INFORMES Y VISUALIZACIONES --------
-    # st.subheader("📊 Información de la fusión")
+    # -------- INFORMES Y VISUALIZACIONES --------
+    st.subheader("📊 Información de la fusión")
 
-    # st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
-    # st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
-    # st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
-    # st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
-    # st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
+    st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
+    st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
+    st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
+    st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
+    st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
 
-    # # HISTOGRAMA: AUTORES
-    # st.subheader("👥 Top 20 autores con más artículos")
-    # autores_sorted = autores.sort_values(by='Articles', ascending=False).head(20)
-    # fig1, ax1 = plt.subplots(figsize=(8, 4))
-    # ax1.bar(autores_sorted['Authors'], autores_sorted['Articles'])
-    # ax1.set_xlabel('Autores')
-    # ax1.set_ylabel('Número de Artículos')
-    # ax1.set_title('Top 20 Autores')
-    # plt.xticks(rotation=90)
-    # st.pyplot(fig1)
+    # HISTOGRAMA: AUTORES
+    st.subheader("👥 Top 20 autores con más artículos")
+    autores_sorted = autores.sort_values(by='Articles', ascending=False).head(20)
+    fig1, ax1 = plt.subplots(figsize=(8, 4))
+    ax1.bar(autores_sorted['Authors'], autores_sorted['Articles'])
+    ax1.set_xlabel('Autores')
+    ax1.set_ylabel('Número de Artículos')
+    ax1.set_title('Top 20 Autores')
+    plt.xticks(rotation=90)
+    st.pyplot(fig1)
 
-    # # HISTOGRAMA: AUTHOR KEYWORDS
-    # st.subheader("🔑 Top 25 Author Keywords")
-    # df_sorted_authkw = df_author_keywords.sort_values(by='Conteo', ascending=False).head(25)
-    # fig2, ax2 = plt.subplots(figsize=(8, 4))
-    # ax2.bar(df_sorted_authkw['Author Keyword'], df_sorted_authkw['Conteo'])
-    # ax2.set_xlabel('Author Keywords')
-    # ax2.set_ylabel('Frecuencia')
-    # ax2.set_title('Top 25 Author Keywords')
-    # plt.xticks(rotation=90)
-    # st.pyplot(fig2)
+    # HISTOGRAMA: AUTHOR KEYWORDS
+    st.subheader("🔑 Top 25 Author Keywords")
+    df_sorted_authkw = df_author_keywords.sort_values(by='Conteo', ascending=False).head(25)
+    fig2, ax2 = plt.subplots(figsize=(8, 4))
+    ax2.bar(df_sorted_authkw['Author Keyword'], df_sorted_authkw['Conteo'])
+    ax2.set_xlabel('Author Keywords')
+    ax2.set_ylabel('Frecuencia')
+    ax2.set_title('Top 25 Author Keywords')
+    plt.xticks(rotation=90)
+    st.pyplot(fig2)
 
-    # # HISTOGRAMA: INDEX KEYWORDS
-    # st.subheader("🔍 Top 25 Index Keywords")
-    # df_sorted_indkw = df_index_keywords.sort_values(by='Conteo', ascending=False).head(25)
-    # fig3, ax3 = plt.subplots(figsize=(8, 4))
-    # ax3.bar(df_sorted_indkw['Index Keywords'], df_sorted_indkw['Conteo'])
-    # ax3.set_xlabel('Index Keywords')
-    # ax3.set_ylabel('Frecuencia')
-    # ax3.set_title('Top 25 Index Keywords')
-    # plt.xticks(rotation=90)
-    # st.pyplot(fig3)
+    # HISTOGRAMA: INDEX KEYWORDS
+    st.subheader("🔍 Top 25 Index Keywords")
+    df_sorted_indkw = df_index_keywords.sort_values(by='Conteo', ascending=False).head(25)
+    fig3, ax3 = plt.subplots(figsize=(8, 4))
+    ax3.bar(df_sorted_indkw['Index Keywords'], df_sorted_indkw['Conteo'])
+    ax3.set_xlabel('Index Keywords')
+    ax3.set_ylabel('Frecuencia')
+    ax3.set_title('Top 25 Index Keywords')
+    plt.xticks(rotation=90)
+    st.pyplot(fig3)
 
-    # ✅ Tabs: Informes + Gráficos
+#     # ✅ Tabs: Informes + Gráficos
 
-# ✅ Solo mostrar pestañas si todos los datos están disponibles
-if all(k in st.session_state for k in ["dfsco", "dfwos", "df_final", "duplicados_final", "duplicados_sin_doi_final"]):
-    dfsco = st.session_state["dfsco"]
-    dfwos = st.session_state["dfwos"]
-    df_final = st.session_state["df_final"]
-    duplicados_final = st.session_state["duplicados_final"]
-    duplicados_sin_doi_final = st.session_state["duplicados_sin_doi_final"]
+# # ✅ Solo mostrar pestañas si todos los datos están disponibles
+# if all(k in st.session_state for k in ["dfsco", "dfwos", "df_final", "duplicados_final", "duplicados_sin_doi_final"]):
+#     dfsco = st.session_state["dfsco"]
+#     dfwos = st.session_state["dfwos"]
+#     df_final = st.session_state["df_final"]
+#     duplicados_final = st.session_state["duplicados_final"]
+#     duplicados_sin_doi_final = st.session_state["duplicados_sin_doi_final"]
 
-    tab1, tab2 = st.tabs(["📄 Informes y descargas", "📈 Gráficos"])
+#     tab1, tab2 = st.tabs(["📄 Informes y descargas", "📈 Gráficos"])
 
-    # --- INFORMES Y DESCARGAS ---
-    with tab1:
-        st.subheader("📊 Información de la fusión")
+#     # --- INFORMES Y DESCARGAS ---
+#     with tab1:
+#         st.subheader("📊 Información de la fusión")
 
-        st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
-        st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
-        st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
-        st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
-        st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
+#         st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
+#         st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
+#         st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
+#         st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
+#         st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
 
-        st.subheader("📥 Descargar archivos Excel")
-        st.download_button("📥 Scopus+WoS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
-        st.download_button("📥 Duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
-        st.download_button("📥 Tablas para depuración", output_tablas.getvalue(), "Tablas_para_depuraciones.xlsx")
+#         st.subheader("📥 Descargar archivos Excel")
+#         st.download_button("📥 Scopus+WoS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
+#         st.download_button("📥 Duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
+#         st.download_button("📥 Tablas para depuración", output_tablas.getvalue(), "Tablas_para_depuraciones.xlsx")
 
-    # --- GRÁFICOS ---
-    with tab2:
-        st.subheader("👥 Top 20 autores con más artículos")
-        autores_sorted = autores.sort_values(by='Articles', ascending=False).head(20)
-        fig1, ax1 = plt.subplots(figsize=(8, 4))
-        ax1.bar(autores_sorted['Authors'], autores_sorted['Articles'])
-        ax1.set_xlabel('Autores')
-        ax1.set_ylabel('Número de Artículos')
-        ax1.set_title('Top 20 Autores')
-        plt.xticks(rotation=90)
-        st.pyplot(fig1)
+#     # --- GRÁFICOS ---
+#     with tab2:
+#         st.subheader("👥 Top 20 autores con más artículos")
+#         autores_sorted = autores.sort_values(by='Articles', ascending=False).head(20)
+#         fig1, ax1 = plt.subplots(figsize=(8, 4))
+#         ax1.bar(autores_sorted['Authors'], autores_sorted['Articles'])
+#         ax1.set_xlabel('Autores')
+#         ax1.set_ylabel('Número de Artículos')
+#         ax1.set_title('Top 20 Autores')
+#         plt.xticks(rotation=90)
+#         st.pyplot(fig1)
 
-        st.subheader("🔑 Top 25 Author Keywords")
-        df_sorted_authkw = df_author_keywords.sort_values(by='Conteo', ascending=False).head(25)
-        fig2, ax2 = plt.subplots(figsize=(8, 4))
-        ax2.bar(df_sorted_authkw['Author Keyword'], df_sorted_authkw['Conteo'])
-        ax2.set_xlabel('Author Keywords')
-        ax2.set_ylabel('Frecuencia')
-        ax2.set_title('Top 25 Author Keywords')
-        plt.xticks(rotation=90)
-        st.pyplot(fig2)
+#         st.subheader("🔑 Top 25 Author Keywords")
+#         df_sorted_authkw = df_author_keywords.sort_values(by='Conteo', ascending=False).head(25)
+#         fig2, ax2 = plt.subplots(figsize=(8, 4))
+#         ax2.bar(df_sorted_authkw['Author Keyword'], df_sorted_authkw['Conteo'])
+#         ax2.set_xlabel('Author Keywords')
+#         ax2.set_ylabel('Frecuencia')
+#         ax2.set_title('Top 25 Author Keywords')
+#         plt.xticks(rotation=90)
+#         st.pyplot(fig2)
 
-        st.subheader("🔍 Top 25 Index Keywords")
-        df_sorted_indkw = df_index_keywords.sort_values(by='Conteo', ascending=False).head(25)
-        fig3, ax3 = plt.subplots(figsize=(8, 4))
-        ax3.bar(df_sorted_indkw['Index Keywords'], df_sorted_indkw['Conteo'])
-        ax3.set_xlabel('Index Keywords')
-        ax3.set_ylabel('Frecuencia')
-        ax3.set_title('Top 25 Index Keywords')
-        plt.xticks(rotation=90)
-        st.pyplot(fig3)
+#         st.subheader("🔍 Top 25 Index Keywords")
+#         df_sorted_indkw = df_index_keywords.sort_values(by='Conteo', ascending=False).head(25)
+#         fig3, ax3 = plt.subplots(figsize=(8, 4))
+#         ax3.bar(df_sorted_indkw['Index Keywords'], df_sorted_indkw['Conteo'])
+#         ax3.set_xlabel('Index Keywords')
+#         ax3.set_ylabel('Frecuencia')
+#         ax3.set_title('Top 25 Index Keywords')
+#         plt.xticks(rotation=90)
+#         st.pyplot(fig3)
 
         st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
 
-else:
-    st.info("ℹ️ Aún no hay datos procesados para mostrar informes o gráficos.")
+# else:
+#     st.info("ℹ️ Aún no hay datos procesados para mostrar informes o gráficos.")
 
 # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
 # Parte 3: Depuración opcional del usuario
