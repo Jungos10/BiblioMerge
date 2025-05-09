@@ -108,8 +108,8 @@ if st.session_state["procesado"]:
             dfwos = pd.DataFrame(todos_registros)
 
             # # Guardamos los originales para informes
-            # st.session_state["dfsco"] = dfsco
-            # st.session_state["dfwos"] = dfwos
+            st.session_state["dfsco"] = dfsco
+            st.session_state["dfwos"] = dfwos
         
 
         # ✅ Fusión finalizada
