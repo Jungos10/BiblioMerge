@@ -72,13 +72,7 @@ if st.session_state["procesado"]:
             dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
             dfsco['Source'] = 'scopus'
 
-            # ✅ Guardar en session_state para uso en informes y visualización posterior
-            
-            if 'dfsco' in locals():
-               st.session_state["dfsco"] = dfsco
-            if 'dfwos' in locals():
-               st.session_state["dfwos"] = dfwos
-            
+                       
             # --- WoS ---
             campos_multiples = ['AU', 'AF', 'CR']
             todos_registros = []
@@ -144,6 +138,12 @@ if st.session_state["procesado"]:
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
 
     dfwos_selected['Source'] = 'WOS'
+    
+    # ✅ Guardar finalmente, ya con todo listo
+    st.session_state["dfsco"] = dfsco
+    st.session_state["dfwos"] = dfwos
+
+    
     df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
     df_concatenated.fillna('', inplace=True)
 
