@@ -43,8 +43,8 @@ if not st.session_state["procesado"]:
 
     col1, _ = st.columns([1, 1])
     #with col1:
-col1, col2 = st.columns([1, 1])
-with col1:
+#col1, col2 = st.columns([1, 1])
+#with col1:
 col1, col2 = st.columns([1, 1])
 if col1.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
     if scopus_files and wos_files:
