@@ -96,6 +96,52 @@ if st.session_state["procesado"]:
             dfsco['Source'] = 'scopus'
 
                        
+#             # --- WoS ---
+#             campos_multiples = ['AU', 'AF', 'CR']
+#             todos_registros = []
+#             for file in wos_files:
+#                 registros = []
+#                 registro_actual = {}
+#                 ultimo_campo = None
+#                 lines = file.getvalue().decode('ISO-8859-1').splitlines()
+#                 for linea in lines:
+#                     if not linea.strip() or linea.startswith('EF'):
+#                         if registro_actual:
+#                             registros.append(registro_actual)
+#                             registro_actual = {}
+#                             ultimo_campo = None
+#                         continue
+#                     campo = linea[:2].strip()
+#                     valor = linea[3:].strip()
+#                     if not campo:
+#                         if ultimo_campo in campos_multiples:
+#                             registro_actual[ultimo_campo] += "; " + valor
+# else:
+#     st.warning("❗ El archivo WoS no se ha procesado todavía.")
+#     st.stop()
+#                             registro_actual[ultimo_campo] += " " + valor
+# else:
+#     st.warning("❗ El archivo WoS no se ha procesado todavía.")
+#     st.stop()
+#                         if campo in campos_multiples:
+#                             if campo in registro_actual:
+#                                 registro_actual[campo] += "; " + valor
+# else:
+#     st.warning("❗ El archivo WoS no se ha procesado todavía.")
+#     st.stop()
+#                                 registro_actual[campo] = valor
+# else:
+#     st.warning("❗ El archivo WoS no se ha procesado todavía.")
+#     st.stop()
+#                             registro_actual[campo] = valor
+#                         ultimo_campo = campo
+#                 todos_registros.extend(registros)
+#             dfwos = pd.DataFrame(todos_registros)
+
+#             # # Guardamos los originales para informes
+#             st.session_state["dfsco"] = dfsco
+#             st.session_state["dfwos"] = dfwos
+
             # --- WoS ---
             campos_multiples = ['AU', 'AF', 'CR']
             todos_registros = []
@@ -116,32 +162,24 @@ if st.session_state["procesado"]:
                     if not campo:
                         if ultimo_campo in campos_multiples:
                             registro_actual[ultimo_campo] += "; " + valor
-else:
-    st.warning("❗ El archivo WoS no se ha procesado todavía.")
-    st.stop()
+                        else:
                             registro_actual[ultimo_campo] += " " + valor
-else:
-    st.warning("❗ El archivo WoS no se ha procesado todavía.")
-    st.stop()
+                    else:
                         if campo in campos_multiples:
                             if campo in registro_actual:
                                 registro_actual[campo] += "; " + valor
-else:
-    st.warning("❗ El archivo WoS no se ha procesado todavía.")
-    st.stop()
+                            else:
                                 registro_actual[campo] = valor
-else:
-    st.warning("❗ El archivo WoS no se ha procesado todavía.")
-    st.stop()
+                        else:
                             registro_actual[campo] = valor
                         ultimo_campo = campo
                 todos_registros.extend(registros)
+            
             dfwos = pd.DataFrame(todos_registros)
-
-            # # Guardamos los originales para informes
+            
+            # Guardamos los originales para informes
             st.session_state["dfsco"] = dfsco
             st.session_state["dfwos"] = dfwos
-        
 
         # ✅ Fusión finalizada
         st.session_state["fusion_en_proceso"] = False
