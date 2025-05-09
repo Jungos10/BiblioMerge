@@ -252,10 +252,11 @@ else:
     for doi, group in duplicados_doi.groupby('DOI'):
         if 'scopus' in group['Source'].values:
             indices_a_eliminar_doi.update(group[group['Source'] != 'scopus'].index)
-else:
-    st.warning("❗ El archivo WoS no se ha procesado todavía.")
-    st.stop()
-            indices_a_eliminar_doi.update(group.index[1:])
+        else:
+            st.warning("❗ El archivo WoS no se ha procesado todavía.")
+            st.stop()
+                    indices_a_eliminar_doi.update(group.index[1:])
+            
     duplicados_doi_final = df_concatenated.loc[df_concatenated.index.isin(indices_a_eliminar_doi)].copy()
     df_concatenated = df_concatenated.drop(list(indices_a_eliminar_doi), errors='ignore')
 
