@@ -206,11 +206,7 @@ if st.session_state.get("procesado") and "dfwos" in st.session_state:
 else:
     st.warning("❗ El archivo WoS no se ha procesado todavía.")
     st.stop()
-    st.warning("❗ El archivo WoS no se ha procesado todavía.")
-    st.stop()
-else:
-    st.warning("❗ El archivo WoS no se ha procesado todavía.")
-    st.stop()
+   
     dfwos_selected = dfwos.rename(columns=mapping)
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
 
