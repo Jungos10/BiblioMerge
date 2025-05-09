@@ -109,11 +109,11 @@ if st.session_state["procesado"]:
 
             # # Guardamos los originales para informes
             #st.session_state["dfsco"] = dfsco
-            #st.session_state["dfwos"] = dfwos
+            st.session_state["dfwos"] = dfwos
         
 
         # ✅ Fusión finalizada
-        #st.session_state["fusion_en_proceso"] = False
+        st.session_state["fusion_en_proceso"] = False
        
 
 
