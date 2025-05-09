@@ -65,7 +65,7 @@ if col1.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=Tr
         st.session_state["wos_files"] = wos_files
     else:
         st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
-            if scopus_files and wos_files:
+    if scopus_files and wos_files:
                 st.session_state["scopus_files"] = scopus_files
                 st.session_state["wos_files"] = wos_files
                 st.session_state["fusion_en_proceso"] = True
