@@ -134,6 +134,10 @@ if st.session_state["procesado"]:
     # missing_columns = [col for col in mapping if col not in dfwos.columns]
     # if missing_columns:
     #     st.warning(f"Advertencia: Faltan columnas en WoS para el mapeo: {missing_columns}")
+
+    dfwos = st.session_state.get("dfwos")
+    dfsco = st.session_state.get("dfsco")
+    
     dfwos_selected = dfwos.rename(columns=mapping)
     dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
 
