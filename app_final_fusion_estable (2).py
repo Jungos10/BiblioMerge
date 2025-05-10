@@ -112,7 +112,7 @@ if st.session_state["procesado"]:
         
                     # # Guardamos los originales para informes
                     #st.session_state["dfsco"] = dfsco
-                    #st.session_state["dfwos"] = dfwos
+                    st.session_state["dfwos"] = dfwos
                     st.session_state["num_dfsco"] = dfsco.shape[0]
                     st.session_state["num_dfwos"] = dfwos.shape[0]
 
