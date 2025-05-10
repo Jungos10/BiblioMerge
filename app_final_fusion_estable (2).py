@@ -117,10 +117,7 @@ if st.session_state["procesado"]:
                     # Guardar conteos clave para informes
                     st.session_state["num_dfsco"] = dfsco.shape[0]
                     st.session_state["num_dfwos"] = dfwos.shape[0]
-                    st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
-                    st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
-                    st.session_state["num_df_final"] = df_final.shape[0]
-                    
+                                       
 
 
 
@@ -416,8 +413,13 @@ if st.session_state["procesado"]:
                     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
                     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
 
-                    
+                     # Guardar para usar luego
                     st.session_state["df_final"] = df_final
+                    
+                    # Guardar conteos clave para informes
+                    st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
+                    st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
+                    st.session_state["num_df_final"] = df_final.shape[0]
 
                     mensaje_proceso.empty()  # Oculta el mensaje anterior
                     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
