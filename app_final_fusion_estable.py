@@ -409,7 +409,7 @@ if st.session_state["procesado"]:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
 
-     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+    st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
         
     # Generación de archivos Excel para descarga
     import io
