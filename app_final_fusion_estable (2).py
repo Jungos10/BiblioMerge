@@ -423,6 +423,8 @@ if st.session_state["procesado"]:
     output_duplicados = io.BytesIO()
     output_tablas = io.BytesIO()
 
+    df_final = st.session_state.get("df_final")
+    
     # Fichero Scopus+WOS
     with pd.ExcelWriter(output_fusion, engine='xlsxwriter') as writer:
         df_final.to_excel(writer, index=False)
