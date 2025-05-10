@@ -441,7 +441,13 @@ if st.session_state["procesado"]:
     output_duplicados = io.BytesIO()
     output_tablas = io.BytesIO()
 
+    # Recuperar los DataFrames necesarios
     df_final = st.session_state.get("df_final")
+    duplicados_final = st.session_state.get("duplicados_final")
+    autores = st.session_state.get("autores")
+    df_author_keywords = st.session_state.get("df_author_keywords")
+    df_index_keywords = st.session_state.get("df_index_keywords")
+    df_references_info = st.session_state.get("df_references_info")
     
     # Fichero Scopus+WOS
     with pd.ExcelWriter(output_fusion, engine='xlsxwriter') as writer:
