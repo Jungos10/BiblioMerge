@@ -406,9 +406,10 @@ if st.session_state["procesado"]:
 
     # Convertir campos numéricos y rellenar vacíos
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].apply(pd.to_numeric, errors='coerce')
-    st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
+
+     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
         
     # Generación de archivos Excel para descarga
     import io
