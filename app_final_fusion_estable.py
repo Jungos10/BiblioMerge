@@ -61,7 +61,7 @@ if st.session_state["procesado"]:
             with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
                 mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
-            time.sleep(0.1)  # Forzar visualización del spinner
+                time.sleep(0.1)  # Forzar visualización del spinner
 
             scopus_files = st.session_state["scopus_files"]
             wos_files = st.session_state["wos_files"]
@@ -409,10 +409,9 @@ if st.session_state["procesado"]:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
 
-    mensaje_proceso.empty()  # Oculta el mensaje anterior
-    st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
-    # ✅ Fusión finalizada
-    st.session_state["fusion_en_proceso"] = False
+             mensaje_proceso.empty()  # Oculta el mensaje anterior
+             st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+             st.session_state["fusion_en_proceso"] = False
         
     # Generación de archivos Excel para descarga
     import io
