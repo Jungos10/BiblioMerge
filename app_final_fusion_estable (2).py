@@ -111,9 +111,10 @@ if st.session_state["procesado"]:
                     dfwos = pd.DataFrame(todos_registros)
         
                     # # Guardamos los originales para informes
-                    st.session_state["dfsco"] = dfsco
-                    st.session_state["dfwos"] = dfwos
-            
+                    #st.session_state["dfsco"] = dfsco
+                    #st.session_state["dfwos"] = dfwos
+                    st.session_state["num_dfsco"] = dfsco.shape[0]
+                    st.session_state["num_dfwos"] = dfwos.shape[0]
 
 
 
@@ -449,8 +450,10 @@ if st.session_state["procesado"]:
     # -------- INFORMES Y VISUALIZACIONES --------
     st.subheader("📊 Información de la fusión")
 
-    st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
-    st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
+    #st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
+    #st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
+    st.markdown(f"- Registros Scopus: **{st.session_state['num_dfsco']}**")
+    st.markdown(f"- Registros WoS: **{st.session_state['num_dfwos']}**")
     st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
     st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
     st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
