@@ -59,7 +59,7 @@ if st.session_state["procesado"]:
     if st.session_state["fusion_en_proceso"]:
             mensaje_proceso = st.empty()  # Contenedor temporal para el mensaje de inicio
             with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-            mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+                mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
             time.sleep(0.1)  # Forzar visualización del spinner
 
