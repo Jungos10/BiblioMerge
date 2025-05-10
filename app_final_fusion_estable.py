@@ -57,8 +57,9 @@ if not st.session_state["procesado"]:
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state["procesado"]:
     if st.session_state["fusion_en_proceso"]:
+            mensaje_proceso = st.empty()  # Contenedor temporal para el mensaje de inicio
             with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-            st.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+            mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
             time.sleep(0.1)  # Forzar visualización del spinner
 
@@ -114,8 +115,7 @@ if st.session_state["procesado"]:
             st.session_state["dfwos"] = dfwos
         
 
-        # ✅ Fusión finalizada
-        st.session_state["fusion_en_proceso"] = False
+
 
 
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
@@ -409,7 +409,10 @@ if st.session_state["procesado"]:
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
     df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
 
+    mensaje_proceso.empty()  # Oculta el mensaje anterior
     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+    # ✅ Fusión finalizada
+    st.session_state["fusion_en_proceso"] = False
         
     # Generación de archivos Excel para descarga
     import io
