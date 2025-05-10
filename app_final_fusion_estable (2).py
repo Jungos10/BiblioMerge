@@ -7,6 +7,7 @@ from collections import defaultdict
 import io
 import time  # <- necesario para el spinner
 import tempfile
+import gc
 
 # Configuración inicial
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
