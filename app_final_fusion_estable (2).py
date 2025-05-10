@@ -439,6 +439,30 @@ if st.session_state["procesado"]:
                     mensaje_proceso.empty()  # Oculta el mensaje anterior
                     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
                     st.session_state["fusion_en_proceso"] = False
+
+                    # ---- Liberar memoria innecesaria tras guardar en session_state ----
+                    del dfsco_list
+                    del dfwos_selected
+                    del df_concatenated
+                    del df_concatenated_sin_duplicados
+                    del df_sin_vacios
+                    
+                    del duplicados_doi
+                    del duplicados_sin_doi
+                    del duplicados_doi_final
+                    del duplicados_sin_doi_final
+                    del indices_a_eliminar_doi
+                    del indices_a_eliminar_sin_doi
+                    
+                    del df_autores_sin_cod
+                    del df_conversion
+                    
+                    del author_keywords_dict
+                    del index_keywords_dict
+                    del references_dict
+
+                    # Librería que fuerza la limpieaza de lo borrado
+                    gc.collect()
         
     # Generación de archivos Excel para descarga
     import io
