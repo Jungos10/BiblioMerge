@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 import io
 import time  # <- necesario para el spinner
+import tempfile
 
 # Configuración inicial
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
