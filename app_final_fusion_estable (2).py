@@ -421,6 +421,15 @@ if st.session_state["procesado"]:
                     st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
                     st.session_state["num_df_final"] = df_final.shape[0]
 
+                    # Guardar los dataframes necesarios para informes y exportación
+                    st.session_state["duplicados_final"] = duplicados_final
+                    st.session_state["duplicados_sin_doi_final"] = duplicados_sin_doi_final
+                    st.session_state["autores"] = autores
+                    st.session_state["df_author_keywords"] = df_author_keywords
+                    st.session_state["df_index_keywords"] = df_index_keywords
+                    st.session_state["df_references_info"] = df_references_info
+
+
                     mensaje_proceso.empty()  # Oculta el mensaje anterior
                     st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
                     st.session_state["fusion_en_proceso"] = False
