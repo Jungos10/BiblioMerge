@@ -119,10 +119,8 @@ if st.session_state["procesado"]:
                     st.session_state["num_dfwos"] = dfwos.shape[0]
                     st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
                     st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
-                    st.session_state["num_df_final"] = df_final.shape[0]# Guardar conteos clave para informes
-                    st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
-                    st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
                     st.session_state["num_df_final"] = df_final.shape[0]
+                    
 
 
 
