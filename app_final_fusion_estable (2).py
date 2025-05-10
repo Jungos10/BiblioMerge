@@ -110,11 +110,19 @@ if st.session_state["procesado"]:
                     todos_registros.extend(registros)
                     dfwos = pd.DataFrame(todos_registros)
         
-                    # # Guardamos los originales para informes
+                    # # Guardamos los originales para uso fuera del "with"
                     st.session_state["dfsco"] = dfsco
                     st.session_state["dfwos"] = dfwos
+
+                    # Guardar conteos clave para informes
                     st.session_state["num_dfsco"] = dfsco.shape[0]
                     st.session_state["num_dfwos"] = dfwos.shape[0]
+                    st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
+                    st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
+                    st.session_state["num_df_final"] = df_final.shape[0]# Guardar conteos clave para informes
+                    st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
+                    st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
+                    st.session_state["num_df_final"] = df_final.shape[0]
 
 
 
@@ -454,9 +462,12 @@ if st.session_state["procesado"]:
     #st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
     st.markdown(f"- Registros Scopus: **{st.session_state['num_dfsco']}**")
     st.markdown(f"- Registros WoS: **{st.session_state['num_dfwos']}**")
-    st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
-    st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
-    st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
+    st.markdown(f"- Registros duplicados eliminados: **{st.session_state['num_duplicados_final']}**")
+    st.markdown(f"- De ellos, sin DOI: **{st.session_state['num_duplicados_sin_doi']}**")
+    st.markdown(f"- Registros finales Scopus + WoS: **{st.session_state['num_df_final']}**")
+    #st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
+    #st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
+    #st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
 
     # HISTOGRAMA: AUTORES
     st.subheader("👥 Top 20 autores con más artículos")
