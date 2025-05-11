@@ -1040,14 +1040,6 @@ if habilitar_parte4:
     if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
         df_final = st.session_state.get("df_final")
 
-        # Aquí iría toda la lógica de generación de archivos (Excel, CSV, RIS, TXT, etc.)
-        # y los informes y visualizaciones finales como los histogramas
-
-        st.success("✅ Archivos finales generados correctamente.")
-else:
-    st.markdown("<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>", unsafe_allow_html=True)
-    st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
-
         import io
         import base64
         from datetime import datetime
@@ -1174,5 +1166,7 @@ else:
         mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
         mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
 
+        st.success("✅ Archivos finales generados correctamente.")
 else:
-    st.warning("🔒 La fusión debe estar finalizada (y la depuración si se activó) para poder generar los archivos finales.")
+    st.markdown("<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>", unsafe_allow_html=True)
+    st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
