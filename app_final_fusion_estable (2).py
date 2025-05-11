@@ -592,601 +592,602 @@ if st.session_state["procesado"]:
                 st.session_state["fusion_completada"] = True
                 
 
+if not st.session_state.get("parte4_generada", False):
 
-# -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
-# Parte 3: Depuración opcional del usuario
-# st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
-# activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
-
-# if activar_depuracion:
-#     depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
+    # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
+    # Parte 3: Depuración opcional del usuario
+    # st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
+    # activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
     
-#     if depuracion_file is not None and st.button("✅ Aplicar depuración"):
+    # if activar_depuracion:
+    #     depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
         
-#         try:
-#             with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
-#                 tmp.write(depuracion_file.read())
-#                 tmp_path = tmp.name
-#             filename = tmp_path
-
-     
-#             # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
-#             sheet_name = 'Authors'
-#             try:
-#                 df_authors_table = pd.read_excel(filename, sheet_name=sheet_name)
-#                 if df_authors_table.empty or df_authors_table.loc[0, 'New Author'] == '0-change-0':
-#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-#                 else:
-#                     for _, fila in df_authors_table.iterrows():
-#                         author = fila['Authors']
-#                         nueva_author = fila['New Author']
-#                         fila_encontrada = autores[autores['Authors'] == author]
-#                         if not fila_encontrada.empty:
-#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-#                             for idx, pos in zip(indices, posiciones):
-#                                 if idx in df_final.index:
-#                                     current = df_final.at[idx, 'Authors'].split(';')
-#                                     if pos < len(current):
-#                                         current[pos] = nueva_author
-#                                         df_final.at[idx, 'Authors'] = '; '.join(current)
-#                     df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-#                     df_final['Author full names'] = df_final['Authors']
-#                     st.success("Depuración de Authors completada correctamente.")
-#             except Exception as e:
-#                 st.warning(f"Depuración de Authors no posible: {str(e)}")
-
-#             # -------------------- DEPURACIÓN DE AUTHOR KEYWORDS ------------------------------
-#             sheet_name = 'Author Keywords'
-#             try:
-#                 df_authors_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
-#                 if df_authors_keywords_table.empty or df_authors_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
-#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-#                 else:
-#                     for _, fila in df_authors_keywords_table.iterrows():
-#                         keyword = fila['Author Keyword']
-#                         new_keyword = fila['New Keyword']
-#                         fila_encontrada = df_author_keywords[df_author_keywords['Author Keyword'] == keyword]
-#                         if not fila_encontrada.empty:
-#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-#                             for idx, pos in zip(indices, posiciones):
-#                                 if idx in df_final.index:
-#                                     current = df_final.at[idx, 'Author Keywords'].split(';')
-#                                     if pos < len(current):
-#                                         current[pos] = new_keyword
-#                                         df_final.at[idx, 'Author Keywords'] = '; '.join(current)
-#                     df_final['Author Keywords'] = df_final['Author Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-#                     st.success("Depuración de Author Keywords completada correctamente.")
-#             except Exception as e:
-#                 st.warning(f"Depuración de Author Keywords no posible: {str(e)}")
-
-#             # -------------------- DEPURACIÓN DE INDEX KEYWORDS ------------------------------
-#             sheet_name = 'Index Keywords'
-#             try:
-#                 df_index_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
-#                 if df_index_keywords_table.empty or df_index_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
-#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-#                 else:
-#                     for _, fila in df_index_keywords_table.iterrows():
-#                         keyword = fila['Index Keywords']
-#                         new_keyword = fila['New Keyword']
-#                         fila_encontrada = df_index_keywords[df_index_keywords['Index Keywords'] == keyword]
-#                         if not fila_encontrada.empty:
-#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-#                             for idx, pos in zip(indices, posiciones):
-#                                 if idx in df_final.index:
-#                                     current = df_final.at[idx, 'Index Keywords'].split(';')
-#                                     if pos < len(current):
-#                                         current[pos] = new_keyword
-#                                         df_final.at[idx, 'Index Keywords'] = '; '.join(current)
-#                     df_final['Index Keywords'] = df_final['Index Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-#                     st.success("Depuración de Index Keywords completada correctamente.")
-#             except Exception as e:
-#                 st.warning(f"Depuración de Index Keywords no posible: {str(e)}")
-
-#             # -------------------- DEPURACIÓN DE CITED REFERENCES ------------------------------
-#             sheet_name = 'Cited References'
-#             try:
-#                 df_references_table = pd.read_excel(filename, sheet_name=sheet_name)
-#                 if df_references_table.empty or df_references_table.loc[0, 'New Reference'] == '0-change-0':
-#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-#                 else:
-#                     df_references_table.fillna('', inplace=True)
-#                     for _, fila in df_references_table.iterrows():
-#                         ref = fila['References']
-#                         new_ref = fila['New Reference']
-#                         fila_encontrada = df_references_info[df_references_info['References'] == ref]
-#                         if not fila_encontrada.empty:
-#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-#                             for idx, pos in zip(indices, posiciones):
-#                                 if idx in df_final.index:
-#                                     current = df_final.at[idx, 'References'].split(';')
-#                                     if pos < len(current):
-#                                         current[pos] = new_ref
-#                                         df_final.at[idx, 'References'] = '; '.join(current)
-#                     df_final['References'] = df_final['References'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-#                     df_final['References'] = df_final['References'].str.replace(" ;", "")
-#                     st.success("Depuración de Cited References completada correctamente.")
-#             except Exception as e:
-#                 st.warning(f"Depuración de Cited References no posible: {str(e)}")
-
-#             # Aseguramos se guardan los cambios realizados después de todas las depuraciones para ser utilizados en la Parte 4
-#             st.session_state['df_final'] = df_final
-#         except Exception as e:
-#             st.error(f"Error general durante la depuración: {str(e)}")
-st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
-
-# Mostrar solo si la fusión está finalizada o no se ha activado la Parte 4
-#if st.session_state.get("fusion_en_proceso") is False:
-#if st.session_state.get("procesado") and not st.session_state.get("fusion_en_proceso", True):
-if (
-    st.session_state.get("procesado") and 
-    not st.session_state.get("fusion_en_proceso", True) and 
-    not st.session_state.get("parte4_generada", False)
-):    
-    if "depuracion_activada" not in st.session_state:
-        st.session_state["depuracion_activada"] = False
-    if "depuracion_realizada" not in st.session_state:
-        st.session_state["depuracion_realizada"] = False
-
-    # Mostrar checkbox solo si aún no se ha activado
-    if not st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
-        if st.checkbox("🔍 Activar depuración manual", key="activar_depuracion"):
-            st.session_state["depuracion_activada"] = True
-            st.rerun()
-
-    # Si activado, mostrar uploader y botón
-    if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
-        st.markdown("Carga el archivo Excel con las tablas de conversión:")
-        depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"])
-
-        if depuracion_file and st.button("✅ Aplicar depuración"):
-            try:
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
-                    tmp.write(depuracion_file.read())
-                    tmp_path = tmp.name
-
-                # Recuperar DataFrames de session_state
-                df_final = st.session_state.get("df_final")
-                autores = st.session_state.get("autores")
-                df_author_keywords = st.session_state.get("df_author_keywords")
-                df_index_keywords = st.session_state.get("df_index_keywords")
-                df_references_info = st.session_state.get("df_references_info")
-
-                # ---- DEPURACIÓN: Authors ----
-                try:
-                    df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
-                    for _, fila in df_authors_table.iterrows():
-                        if fila["New Author"] != "0-change-0":
-                            author = fila["Authors"]
-                            new_author = fila["New Author"]
-                            fila_encontrada = autores[autores["Authors"] == author]
-                            if not fila_encontrada.empty:
-                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                for idx, pos in zip(indices, posiciones):
-                                    autores_actuales = df_final.at[idx, "Authors"].split(";")
-                                    if pos < len(autores_actuales):
-                                        autores_actuales[pos] = new_author
-                                        df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
-                    st.success("✅ Depuración de autores completada.")
-                except Exception as e:
-                    st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
-
-                # ---- DEPURACIÓN: Author Keywords ----
-                try:
-                    df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
-                    for _, fila in df_ak.iterrows():
-                        if fila["New Keyword"] != "0-change-0":
-                            old_kw = fila["Author Keyword"]
-                            new_kw = fila["New Keyword"]
-                            fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
-                            if not fila_encontrada.empty:
-                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                for idx, pos in zip(indices, posiciones):
-                                    kws = df_final.at[idx, "Author Keywords"].split(";")
-                                    if pos < len(kws):
-                                        kws[pos] = new_kw
-                                        df_final.at[idx, "Author Keywords"] = "; ".join(kws)
-                    st.success("✅ Depuración de Author Keywords completada.")
-                except Exception as e:
-                    st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
-
-                # ---- DEPURACIÓN: Index Keywords ----
-                try:
-                    df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
-                    for _, fila in df_ik.iterrows():
-                        if fila["New Keyword"] != "0-change-0":
-                            old_kw = fila["Index Keywords"]
-                            new_kw = fila["New Keyword"]
-                            fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
-                            if not fila_encontrada.empty:
-                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                for idx, pos in zip(indices, posiciones):
-                                    kws = df_final.at[idx, "Index Keywords"].split(";")
-                                    if pos < len(kws):
-                                        kws[pos] = new_kw
-                                        df_final.at[idx, "Index Keywords"] = "; ".join(kws)
-                    st.success("✅ Depuración de Index Keywords completada.")
-                except Exception as e:
-                    st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
-
-                # ---- DEPURACIÓN: References ----
-                try:
-                    df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
-                    for _, fila in df_refs.iterrows():
-                        if fila["New Reference"] != "0-change-0":
-                            old_ref = fila["References"]
-                            new_ref = fila["New Reference"]
-                            fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
-                            if not fila_encontrada.empty:
-                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                for idx, pos in zip(indices, posiciones):
-                                    refs = df_final.at[idx, "References"].split(";")
-                                    if pos < len(refs):
-                                        refs[pos] = new_ref
-                                        df_final.at[idx, "References"] = "; ".join(refs)
-                    st.success("✅ Depuración de Referencias completada.")
-                except Exception as e:
-                    st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
-
-                # Guardar el nuevo df_final actualizado
-                st.session_state["df_final"] = df_final
-                st.session_state["depuracion_realizada"] = True
-                st.success("🎉 Todas las depuraciones aplicadas correctamente.")
-
-            except Exception as e:
-                st.error(f"❌ Error general al procesar la depuración: {str(e)}")
-
-
-# -------------------- PARTE 4: GENERAR FICHEROS FINALES --------------------
-
-# st.markdown("## 📁 Generación de ficheros finales e informes")
-# if st.button("📁 Generar ficheros finales"):
-#     # Asegurar que df_final esté disponible (viene de la Parte 3 o la Parte 2)
-#     if 'df_final' in st.session_state:
-#         df_final = st.session_state['df_final']
-#     else:
-#         try:
-#             df_final  # verificar si está definido
-#         except NameError:
-#             st.error("❌ No se ha encontrado df_final. Asegúrate de haber cargado y fusionado las bases de datos.")
-#             st.stop()
-
+    #     if depuracion_file is not None and st.button("✅ Aplicar depuración"):
+            
+    #         try:
+    #             with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+    #                 tmp.write(depuracion_file.read())
+    #                 tmp_path = tmp.name
+    #             filename = tmp_path
     
-#     import io
-#     import base64
-#     from datetime import datetime
-
+         
+    #             # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
+    #             sheet_name = 'Authors'
+    #             try:
+    #                 df_authors_table = pd.read_excel(filename, sheet_name=sheet_name)
+    #                 if df_authors_table.empty or df_authors_table.loc[0, 'New Author'] == '0-change-0':
+    #                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+    #                 else:
+    #                     for _, fila in df_authors_table.iterrows():
+    #                         author = fila['Authors']
+    #                         nueva_author = fila['New Author']
+    #                         fila_encontrada = autores[autores['Authors'] == author]
+    #                         if not fila_encontrada.empty:
+    #                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+    #                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+    #                             for idx, pos in zip(indices, posiciones):
+    #                                 if idx in df_final.index:
+    #                                     current = df_final.at[idx, 'Authors'].split(';')
+    #                                     if pos < len(current):
+    #                                         current[pos] = nueva_author
+    #                                         df_final.at[idx, 'Authors'] = '; '.join(current)
+    #                     df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+    #                     df_final['Author full names'] = df_final['Authors']
+    #                     st.success("Depuración de Authors completada correctamente.")
+    #             except Exception as e:
+    #                 st.warning(f"Depuración de Authors no posible: {str(e)}")
     
-#     # Guardar Excel
-#     output_excel = io.BytesIO()
-#     df_final.to_excel(output_excel, index=False)
-#     st.download_button("⬇️ Descargar Excel depurado", data=output_excel.getvalue(),
-#                        file_name="Scopus+WOS(Depurado).xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-#     # Guardar CSV
-#     output_csv = io.StringIO()
-#     df_final.to_csv(output_csv, index=False)
-#     st.download_button("⬇️ Descargar CSV depurado", data=output_csv.getvalue(),
-#                        file_name="Scopus+WOS(Depurado).csv", mime="text/csv")
-
-#     # Generar RIS
-#     def df_to_ris(df):
-#         ris_entries = []
-#         for _, row in df.iterrows():
-#             authors = str(row['Authors']).split(';')
-#             affiliations = str(row['Affiliations']).split(';')
-#             keywords = str(row['Author Keywords']).split(';')
-#             cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
-#             export_date = datetime.today().strftime('%d %B %Y')
-#             entry = "TY  - JOUR\n"
-#             entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
-#             entry += f"TI  - {row['Title']}\n"
-#             entry += f"PY  - {row['Year']}\n"
-#             entry += f"T2  - {row['Source title']}\n"
-#             entry += f"VL  - {row['Volume']}\n"
-#             entry += f"IS  - {row['Issue']}\n"
-#             entry += f"C7  - {row.get('Art. No.', '')}\n"
-#             entry += f"SP  - {row['Page start']}\n"
-#             entry += f"EP  - {row['Page end']}\n"
-#             entry += f"DO  - {row['DOI']}\n"
-#             entry += f"UR  - {row.get('Link', '')}\n"
-#             entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
-#             entry += f"AB  - {row['Abstract']}\n"
-#             entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
-#             entry += f"PB  - {row['Publisher']}\n"
-#             entry += f"SN  - {row['ISSN']}\n"
-#             entry += f"LA  - {row['Language of Original Document']}\n"
-#             entry += f"J2  - {row['Abbreviated Source Title']}\n"
-#             entry += f"M3  - {row['Document Type']}\n"
-#             entry += f"DB  - {row['Source']}\n"
-#             entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
-#             entry += "ER  -\n"
-#             ris_entries.append(entry)
-#         return "\n".join(ris_entries)
-
-#     ris_content = df_to_ris(df_final)
-#     output_ris = io.StringIO(ris_content)
-#     st.download_button("⬇️ Descargar RIS", data=output_ris.getvalue(),
-#                        file_name="Scopus+WOS(Depurado).ris", mime="application/x-research-info-systems")
-
+    #             # -------------------- DEPURACIÓN DE AUTHOR KEYWORDS ------------------------------
+    #             sheet_name = 'Author Keywords'
+    #             try:
+    #                 df_authors_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
+    #                 if df_authors_keywords_table.empty or df_authors_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
+    #                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+    #                 else:
+    #                     for _, fila in df_authors_keywords_table.iterrows():
+    #                         keyword = fila['Author Keyword']
+    #                         new_keyword = fila['New Keyword']
+    #                         fila_encontrada = df_author_keywords[df_author_keywords['Author Keyword'] == keyword]
+    #                         if not fila_encontrada.empty:
+    #                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+    #                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+    #                             for idx, pos in zip(indices, posiciones):
+    #                                 if idx in df_final.index:
+    #                                     current = df_final.at[idx, 'Author Keywords'].split(';')
+    #                                     if pos < len(current):
+    #                                         current[pos] = new_keyword
+    #                                         df_final.at[idx, 'Author Keywords'] = '; '.join(current)
+    #                     df_final['Author Keywords'] = df_final['Author Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+    #                     st.success("Depuración de Author Keywords completada correctamente.")
+    #             except Exception as e:
+    #                 st.warning(f"Depuración de Author Keywords no posible: {str(e)}")
     
-
-#     # --------- Generar TXT global y por lotes (formato WoS) ---------
-#     import zipfile
-
-#     def generar_texto(df, campos_seleccionados, mapeo_campos_a_codigos):
-#         texto = "VR 1.0\n"
-#         for _, row in df.iterrows():
-#             texto_registro = "PT J\n"
-#             campos_agregados = False
-#             for campo_df, campo_txt in mapeo_campos_a_codigos.items():
-#                 if campo_df in campos_seleccionados:
-#                     valor_campo = row[campo_df]
-#                     if valor_campo and str(valor_campo).strip():
-#                         if campo_df in ['Authors', 'Author full names', 'References']:
-#                             elementos = str(valor_campo).split('; ')
-#                             texto_registro += f"{campo_txt} {elementos[0]}\n"
-#                             texto_registro += ''.join([f"   {elem}\n" for elem in elementos[1:] if elem.strip()])
-#                         else:
-#                             valor_formateado = str(valor_campo).replace('\n', '\n   ')
-#                             texto_registro += f"{campo_txt} {valor_formateado}\n"
-#                         campos_agregados = True
-#             if campos_agregados:
-#                 texto_registro += "ER\n\n"
-#                 texto += texto_registro
-#         texto += "EF\n"
-#         return texto
-
-#     mapeo_codigos = {
-#         'Authors': 'AU',
-#         'Author full names': 'AF',
-#         'Title': 'TI',
-#         'Source title': 'SO',
-#         'Language of Original Document': 'LA',
-#         'Document Type': 'DT',
-#         'Author Keywords': 'DE',
-#         'Index Keywords': 'ID',
-#         'Abstract': 'AB',
-#         'Correspondence Address': 'C1',
-#         'Affiliations': 'C3',
-#         'References': 'CR',
-#         'Cited by': 'TC',
-#         'Publisher': 'PU',
-#         'ISSN': 'SN',
-#         'Abbreviated Source Title': 'J9',
-#         'Year': 'PY',
-#         'Volume': 'VL',
-#         'Issue': 'IS',
-#         'Page start': 'BP',
-#         'Page end': 'EP',
-#         'DOI': 'DI',
-#         'Page count': 'PG',
-#         'Source': 'UT',
-#         'Funding Texts': 'FX'
-#     }
-#     campos_txt = list(mapeo_codigos.keys())
-
-#     # TXT global
-#     texto_global = generar_texto(df_final, campos_txt, mapeo_codigos)
-#     buffer_txt = io.StringIO(texto_global)
-#     st.download_button("⬇️ Descargar TXT completo (formato WoS)", data=buffer_txt.getvalue(),
-#                        file_name="Scopus+WOS(Depurado).txt", mime="text/plain")
-
-#     # TXT por lotes (ZIP)
-#     zip_buffer = io.BytesIO()
-#     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-#         inicio = 0
-#         numero_archivo = 1
-#         while inicio < len(df_final):
-#             fin = min(inicio + 500, len(df_final))
-#             texto_lote = generar_texto(df_final.iloc[inicio:fin], campos_txt, mapeo_codigos)
-#             nombre_archivo = f"Scopus+WOS(Dep {inicio+1} a {fin}).txt"
-#             zipf.writestr(nombre_archivo, texto_lote)
-#             inicio = fin
-
-#     st.download_button("⬇️ Descargar TXT por lotes (ZIP)", data=zip_buffer.getvalue(),
-#                        file_name="Scopus+WOS_lotes.zip", mime="application/zip")
-
-
-#     # Informe final
-#     st.markdown("### 📊 Información final de la fusión")
-#     st.write(f"**Registros Scopus:** {dfsco.shape[0]}")
-#     st.write(f"**Registros WoS:** {dfwos.shape[0]}")
-#     st.write(f"**Duplicados eliminados:** {duplicados_final.shape[0]}")
-#     st.write(f"**Duplicados sin DOI:** {duplicados_sin_doi.shape[0]}")
-#     st.write(f"**Registros finales:** {df_final.shape[0]}")
-
-#     # Histogramas
-#     import matplotlib.pyplot as plt
-#     st.markdown("### 👤 Top 25 autores")
-#     top_authors = df_final['Authors'].str.split(';').explode().str.strip().value_counts().head(25)
-#     fig, ax = plt.subplots(figsize=(8,5))
-#     top_authors.plot(kind='bar', ax=ax, color='green')
-#     plt.xticks(rotation=90)
-#     st.pyplot(fig)
-
-#     st.markdown("### 🔑 Top 25 Author Keywords")
-#     top_keywords = df_final['Author Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
-#     fig2, ax2 = plt.subplots(figsize=(8,5))
-#     top_keywords.plot(kind='bar', ax=ax2, color='skyblue')
-#     plt.xticks(rotation=90)
-#     st.pyplot(fig2)
-
-#     st.markdown("### 🏷️ Top 25 Index Keywords")
-#     top_index_kw = df_final['Index Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
-#     fig3, ax3 = plt.subplots(figsize=(8,5))
-#     top_index_kw.plot(kind='bar', ax=ax3, color='salmon')
-#     plt.xticks(rotation=90)
-#     st.pyplot(fig3)
-
-#     st.markdown("### 📚 Top 20 Cited References")
-#     top_refs = df_final['References'].str.split(';').explode().str.strip().value_counts().head(20)
-#     fig4, ax4 = plt.subplots(figsize=(8,5))
-#     top_refs.plot(kind='bar', ax=ax4, color='orange')
-#     plt.xticks(rotation=90)
-#     st.pyplot(fig4)
-# --- Función para mostrar el botón desactivado con estilo gris ---
-def mostrar_boton_finales_bloqueado():
-    st.markdown(
-        "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
-        unsafe_allow_html=True
-    )
-    st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
-
-st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-
-fusion_completada = st.session_state.get("fusion_completada", False)
-depuracion_realizada = st.session_state.get("depuracion_realizada", False)
-depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
-
-#habilitar_parte4 = fusion_completada and (not depuracion_en_proceso or fusion_completada and depuracion_realizada)
-habilitar_parte4 = (fusion_completada or depuracion_realizada) #and not depuracion_en_proceso
-
-if habilitar_parte4:
-    st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-
-    if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
-        st.session_state["parte4_generada"] = True
+    #             # -------------------- DEPURACIÓN DE INDEX KEYWORDS ------------------------------
+    #             sheet_name = 'Index Keywords'
+    #             try:
+    #                 df_index_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
+    #                 if df_index_keywords_table.empty or df_index_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
+    #                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+    #                 else:
+    #                     for _, fila in df_index_keywords_table.iterrows():
+    #                         keyword = fila['Index Keywords']
+    #                         new_keyword = fila['New Keyword']
+    #                         fila_encontrada = df_index_keywords[df_index_keywords['Index Keywords'] == keyword]
+    #                         if not fila_encontrada.empty:
+    #                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+    #                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+    #                             for idx, pos in zip(indices, posiciones):
+    #                                 if idx in df_final.index:
+    #                                     current = df_final.at[idx, 'Index Keywords'].split(';')
+    #                                     if pos < len(current):
+    #                                         current[pos] = new_keyword
+    #                                         df_final.at[idx, 'Index Keywords'] = '; '.join(current)
+    #                     df_final['Index Keywords'] = df_final['Index Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+    #                     st.success("Depuración de Index Keywords completada correctamente.")
+    #             except Exception as e:
+    #                 st.warning(f"Depuración de Index Keywords no posible: {str(e)}")
+    
+    #             # -------------------- DEPURACIÓN DE CITED REFERENCES ------------------------------
+    #             sheet_name = 'Cited References'
+    #             try:
+    #                 df_references_table = pd.read_excel(filename, sheet_name=sheet_name)
+    #                 if df_references_table.empty or df_references_table.loc[0, 'New Reference'] == '0-change-0':
+    #                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+    #                 else:
+    #                     df_references_table.fillna('', inplace=True)
+    #                     for _, fila in df_references_table.iterrows():
+    #                         ref = fila['References']
+    #                         new_ref = fila['New Reference']
+    #                         fila_encontrada = df_references_info[df_references_info['References'] == ref]
+    #                         if not fila_encontrada.empty:
+    #                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+    #                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+    #                             for idx, pos in zip(indices, posiciones):
+    #                                 if idx in df_final.index:
+    #                                     current = df_final.at[idx, 'References'].split(';')
+    #                                     if pos < len(current):
+    #                                         current[pos] = new_ref
+    #                                         df_final.at[idx, 'References'] = '; '.join(current)
+    #                     df_final['References'] = df_final['References'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+    #                     df_final['References'] = df_final['References'].str.replace(" ;", "")
+    #                     st.success("Depuración de Cited References completada correctamente.")
+    #             except Exception as e:
+    #                 st.warning(f"Depuración de Cited References no posible: {str(e)}")
+    
+    #             # Aseguramos se guardan los cambios realizados después de todas las depuraciones para ser utilizados en la Parte 4
+    #             st.session_state['df_final'] = df_final
+    #         except Exception as e:
+    #             st.error(f"Error general durante la depuración: {str(e)}")
+    st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
+    
+    # Mostrar solo si la fusión está finalizada o no se ha activado la Parte 4
+    #if st.session_state.get("fusion_en_proceso") is False:
+    #if st.session_state.get("procesado") and not st.session_state.get("fusion_en_proceso", True):
+    if (
+        st.session_state.get("procesado") and 
+        not st.session_state.get("fusion_en_proceso", True) and 
+        not st.session_state.get("parte4_generada", False)
+    ):    
+        if "depuracion_activada" not in st.session_state:
+            st.session_state["depuracion_activada"] = False
+        if "depuracion_realizada" not in st.session_state:
+            st.session_state["depuracion_realizada"] = False
+    
+        # Mostrar checkbox solo si aún no se ha activado
+        if not st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
+            if st.checkbox("🔍 Activar depuración manual", key="activar_depuracion"):
+                st.session_state["depuracion_activada"] = True
+                st.rerun()
+    
+        # Si activado, mostrar uploader y botón
+        if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
+            st.markdown("Carga el archivo Excel con las tablas de conversión:")
+            depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"])
+    
+            if depuracion_file and st.button("✅ Aplicar depuración"):
+                try:
+                    with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+                        tmp.write(depuracion_file.read())
+                        tmp_path = tmp.name
+    
+                    # Recuperar DataFrames de session_state
+                    df_final = st.session_state.get("df_final")
+                    autores = st.session_state.get("autores")
+                    df_author_keywords = st.session_state.get("df_author_keywords")
+                    df_index_keywords = st.session_state.get("df_index_keywords")
+                    df_references_info = st.session_state.get("df_references_info")
+    
+                    # ---- DEPURACIÓN: Authors ----
+                    try:
+                        df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
+                        for _, fila in df_authors_table.iterrows():
+                            if fila["New Author"] != "0-change-0":
+                                author = fila["Authors"]
+                                new_author = fila["New Author"]
+                                fila_encontrada = autores[autores["Authors"] == author]
+                                if not fila_encontrada.empty:
+                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                    for idx, pos in zip(indices, posiciones):
+                                        autores_actuales = df_final.at[idx, "Authors"].split(";")
+                                        if pos < len(autores_actuales):
+                                            autores_actuales[pos] = new_author
+                                            df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+                        st.success("✅ Depuración de autores completada.")
+                    except Exception as e:
+                        st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
+    
+                    # ---- DEPURACIÓN: Author Keywords ----
+                    try:
+                        df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
+                        for _, fila in df_ak.iterrows():
+                            if fila["New Keyword"] != "0-change-0":
+                                old_kw = fila["Author Keyword"]
+                                new_kw = fila["New Keyword"]
+                                fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
+                                if not fila_encontrada.empty:
+                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                    for idx, pos in zip(indices, posiciones):
+                                        kws = df_final.at[idx, "Author Keywords"].split(";")
+                                        if pos < len(kws):
+                                            kws[pos] = new_kw
+                                            df_final.at[idx, "Author Keywords"] = "; ".join(kws)
+                        st.success("✅ Depuración de Author Keywords completada.")
+                    except Exception as e:
+                        st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
+    
+                    # ---- DEPURACIÓN: Index Keywords ----
+                    try:
+                        df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
+                        for _, fila in df_ik.iterrows():
+                            if fila["New Keyword"] != "0-change-0":
+                                old_kw = fila["Index Keywords"]
+                                new_kw = fila["New Keyword"]
+                                fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
+                                if not fila_encontrada.empty:
+                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                    for idx, pos in zip(indices, posiciones):
+                                        kws = df_final.at[idx, "Index Keywords"].split(";")
+                                        if pos < len(kws):
+                                            kws[pos] = new_kw
+                                            df_final.at[idx, "Index Keywords"] = "; ".join(kws)
+                        st.success("✅ Depuración de Index Keywords completada.")
+                    except Exception as e:
+                        st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
+    
+                    # ---- DEPURACIÓN: References ----
+                    try:
+                        df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
+                        for _, fila in df_refs.iterrows():
+                            if fila["New Reference"] != "0-change-0":
+                                old_ref = fila["References"]
+                                new_ref = fila["New Reference"]
+                                fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
+                                if not fila_encontrada.empty:
+                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                    for idx, pos in zip(indices, posiciones):
+                                        refs = df_final.at[idx, "References"].split(";")
+                                        if pos < len(refs):
+                                            refs[pos] = new_ref
+                                            df_final.at[idx, "References"] = "; ".join(refs)
+                        st.success("✅ Depuración de Referencias completada.")
+                    except Exception as e:
+                        st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
+    
+                    # Guardar el nuevo df_final actualizado
+                    st.session_state["df_final"] = df_final
+                    st.session_state["depuracion_realizada"] = True
+                    st.success("🎉 Todas las depuraciones aplicadas correctamente.")
+    
+                except Exception as e:
+                    st.error(f"❌ Error general al procesar la depuración: {str(e)}")
+    
+    
+    # -------------------- PARTE 4: GENERAR FICHEROS FINALES --------------------
+    
+    # st.markdown("## 📁 Generación de ficheros finales e informes")
+    # if st.button("📁 Generar ficheros finales"):
+    #     # Asegurar que df_final esté disponible (viene de la Parte 3 o la Parte 2)
+    #     if 'df_final' in st.session_state:
+    #         df_final = st.session_state['df_final']
+    #     else:
+    #         try:
+    #             df_final  # verificar si está definido
+    #         except NameError:
+    #             st.error("❌ No se ha encontrado df_final. Asegúrate de haber cargado y fusionado las bases de datos.")
+    #             st.stop()
+    
         
+    #     import io
+    #     import base64
+    #     from datetime import datetime
+    
         
-        df_final = st.session_state.get("df_final")
-
-        import io
-        import base64
-        from datetime import datetime
-        import zipfile
-
-        # Guardar Excel
-        output_excel = io.BytesIO()
-        df_final.to_excel(output_excel, index=False)
-        st.download_button("⬇️ Descargar Excel depurado", data=output_excel.getvalue(),
-                           file_name="Scopus+WOS(Depurado).xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-        # Guardar CSV
-        output_csv = io.StringIO()
-        df_final.to_csv(output_csv, index=False)
-        st.download_button("⬇️ Descargar CSV depurado", data=output_csv.getvalue(),
-                           file_name="Scopus+WOS(Depurado).csv", mime="text/csv")
-
-        # Generar RIS
-        def df_to_ris(df):
-            ris_entries = []
-            for _, row in df.iterrows():
-                authors = str(row['Authors']).split(';')
-                affiliations = str(row['Affiliations']).split(';')
-                keywords = str(row['Author Keywords']).split(';')
-                cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
-                export_date = datetime.today().strftime('%d %B %Y')
-                entry = "TY  - JOUR\n"
-                entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
-                entry += f"TI  - {row['Title']}\n"
-                entry += f"PY  - {row['Year']}\n"
-                entry += f"T2  - {row['Source title']}\n"
-                entry += f"VL  - {row['Volume']}\n"
-                entry += f"IS  - {row['Issue']}\n"
-                entry += f"C7  - {row.get('Art. No.', '')}\n"
-                entry += f"SP  - {row['Page start']}\n"
-                entry += f"EP  - {row['Page end']}\n"
-                entry += f"DO  - {row['DOI']}\n"
-                entry += f"UR  - {row.get('Link', '')}\n"
-                entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
-                entry += f"AB  - {row['Abstract']}\n"
-                entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
-                entry += f"PB  - {row['Publisher']}\n"
-                entry += f"SN  - {row['ISSN']}\n"
-                entry += f"LA  - {row['Language of Original Document']}\n"
-                entry += f"J2  - {row['Abbreviated Source Title']}\n"
-                entry += f"M3  - {row['Document Type']}\n"
-                entry += f"DB  - {row['Source']}\n"
-                entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
-                entry += "ER  -\n"
-                ris_entries.append(entry)
-            return "\n".join(ris_entries)
-
-        ris_content = df_to_ris(df_final)
-        output_ris = io.StringIO(ris_content)
-        st.download_button("⬇️ Descargar RIS", data=output_ris.getvalue(),
-                           file_name="Scopus+WOS(Depurado).ris", mime="application/x-research-info-systems")
-
-        # TXT formato WoS global
-        def generar_texto(df, campos_seleccionados, mapeo):
-            texto = "VR 1.0\n"
-            for _, row in df.iterrows():
-                texto_registro = "PT J\n"
-                campos_agregados = False
-                for campo_df, campo_txt in mapeo.items():
-                    if campo_df in campos_seleccionados:
-                        valor = row[campo_df]
-                        if valor and str(valor).strip():
-                            if campo_df in ['Authors', 'Author full names', 'References']:
-                                elementos = str(valor).split('; ')
-                                texto_registro += f"{campo_txt} {elementos[0]}\n"
-                                texto_registro += ''.join([f"   {e}\n" for e in elementos[1:] if e.strip()])
-                            else:
-                                texto_registro += f"{campo_txt} {str(valor).replace('\n', '\n   ')}\n"
-                            campos_agregados = True
-                if campos_agregados:
-                    texto_registro += "ER\n\n"
-                    texto += texto_registro
-            texto += "EF\n"
-            return texto
-
-        mapeo_codigos = {
-            'Authors': 'AU', 'Author full names': 'AF', 'Title': 'TI', 'Source title': 'SO',
-            'Language of Original Document': 'LA', 'Document Type': 'DT', 'Author Keywords': 'DE',
-            'Index Keywords': 'ID', 'Abstract': 'AB', 'Correspondence Address': 'C1', 'Affiliations': 'C3',
-            'References': 'CR', 'Cited by': 'TC', 'Publisher': 'PU', 'ISSN': 'SN',
-            'Abbreviated Source Title': 'J9', 'Year': 'PY', 'Volume': 'VL', 'Issue': 'IS',
-            'Page start': 'BP', 'Page end': 'EP', 'DOI': 'DI', 'Page count': 'PG',
-            'Source': 'UT', 'Funding Texts': 'FX'
-        }
-
-        texto_global = generar_texto(df_final, list(mapeo_codigos.keys()), mapeo_codigos)
-        st.download_button("⬇️ Descargar TXT completo (formato WoS)", data=texto_global,
-                           file_name="Scopus+WOS(Depurado).txt", mime="text/plain")
-
-        # TXT por lotes ZIP
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-            inicio = 0
-            numero = 1
-            while inicio < len(df_final):
-                fin = min(inicio + 500, len(df_final))
-                texto_lote = generar_texto(df_final.iloc[inicio:fin], list(mapeo_codigos.keys()), mapeo_codigos)
-                zipf.writestr(f"Scopus+WOS(Dep {inicio+1}-{fin}).txt", texto_lote)
-                inicio = fin
-
-        st.download_button("⬇️ Descargar TXT por lotes (ZIP)", data=zip_buffer.getvalue(),
-                           file_name="Scopus+WOS_lotes.zip", mime="application/zip")
-
-        # Informes finales
-        st.markdown("### 📊 Informes de resumen final")
-        st.write(f"**Registros finales:** {df_final.shape[0]}")
-
-        # Histogramas
-        def mostrar_top(df, columna, titulo, color):
-            top_vals = df[columna].str.split(';').explode().str.strip().value_counts().head(25)
-            fig, ax = plt.subplots(figsize=(8, 4))
-            top_vals.plot(kind='bar', ax=ax, color=color)
-            ax.set_title(titulo)
-            plt.xticks(rotation=90)
-            st.pyplot(fig)
-
-        mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
-        mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
-        mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
-        mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
-
-        st.success("✅ Archivos finales generados correctamente.")
-else:
-    # Mostrar solo si hubo alguna actividad previa (para no mostrarlo desde el inicio en blanco)
-    if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
-        mostrar_boton_finales_bloqueado()
+    #     # Guardar Excel
+    #     output_excel = io.BytesIO()
+    #     df_final.to_excel(output_excel, index=False)
+    #     st.download_button("⬇️ Descargar Excel depurado", data=output_excel.getvalue(),
+    #                        file_name="Scopus+WOS(Depurado).xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    
+    #     # Guardar CSV
+    #     output_csv = io.StringIO()
+    #     df_final.to_csv(output_csv, index=False)
+    #     st.download_button("⬇️ Descargar CSV depurado", data=output_csv.getvalue(),
+    #                        file_name="Scopus+WOS(Depurado).csv", mime="text/csv")
+    
+    #     # Generar RIS
+    #     def df_to_ris(df):
+    #         ris_entries = []
+    #         for _, row in df.iterrows():
+    #             authors = str(row['Authors']).split(';')
+    #             affiliations = str(row['Affiliations']).split(';')
+    #             keywords = str(row['Author Keywords']).split(';')
+    #             cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
+    #             export_date = datetime.today().strftime('%d %B %Y')
+    #             entry = "TY  - JOUR\n"
+    #             entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
+    #             entry += f"TI  - {row['Title']}\n"
+    #             entry += f"PY  - {row['Year']}\n"
+    #             entry += f"T2  - {row['Source title']}\n"
+    #             entry += f"VL  - {row['Volume']}\n"
+    #             entry += f"IS  - {row['Issue']}\n"
+    #             entry += f"C7  - {row.get('Art. No.', '')}\n"
+    #             entry += f"SP  - {row['Page start']}\n"
+    #             entry += f"EP  - {row['Page end']}\n"
+    #             entry += f"DO  - {row['DOI']}\n"
+    #             entry += f"UR  - {row.get('Link', '')}\n"
+    #             entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
+    #             entry += f"AB  - {row['Abstract']}\n"
+    #             entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
+    #             entry += f"PB  - {row['Publisher']}\n"
+    #             entry += f"SN  - {row['ISSN']}\n"
+    #             entry += f"LA  - {row['Language of Original Document']}\n"
+    #             entry += f"J2  - {row['Abbreviated Source Title']}\n"
+    #             entry += f"M3  - {row['Document Type']}\n"
+    #             entry += f"DB  - {row['Source']}\n"
+    #             entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
+    #             entry += "ER  -\n"
+    #             ris_entries.append(entry)
+    #         return "\n".join(ris_entries)
+    
+    #     ris_content = df_to_ris(df_final)
+    #     output_ris = io.StringIO(ris_content)
+    #     st.download_button("⬇️ Descargar RIS", data=output_ris.getvalue(),
+    #                        file_name="Scopus+WOS(Depurado).ris", mime="application/x-research-info-systems")
+    
+        
+    
+    #     # --------- Generar TXT global y por lotes (formato WoS) ---------
+    #     import zipfile
+    
+    #     def generar_texto(df, campos_seleccionados, mapeo_campos_a_codigos):
+    #         texto = "VR 1.0\n"
+    #         for _, row in df.iterrows():
+    #             texto_registro = "PT J\n"
+    #             campos_agregados = False
+    #             for campo_df, campo_txt in mapeo_campos_a_codigos.items():
+    #                 if campo_df in campos_seleccionados:
+    #                     valor_campo = row[campo_df]
+    #                     if valor_campo and str(valor_campo).strip():
+    #                         if campo_df in ['Authors', 'Author full names', 'References']:
+    #                             elementos = str(valor_campo).split('; ')
+    #                             texto_registro += f"{campo_txt} {elementos[0]}\n"
+    #                             texto_registro += ''.join([f"   {elem}\n" for elem in elementos[1:] if elem.strip()])
+    #                         else:
+    #                             valor_formateado = str(valor_campo).replace('\n', '\n   ')
+    #                             texto_registro += f"{campo_txt} {valor_formateado}\n"
+    #                         campos_agregados = True
+    #             if campos_agregados:
+    #                 texto_registro += "ER\n\n"
+    #                 texto += texto_registro
+    #         texto += "EF\n"
+    #         return texto
+    
+    #     mapeo_codigos = {
+    #         'Authors': 'AU',
+    #         'Author full names': 'AF',
+    #         'Title': 'TI',
+    #         'Source title': 'SO',
+    #         'Language of Original Document': 'LA',
+    #         'Document Type': 'DT',
+    #         'Author Keywords': 'DE',
+    #         'Index Keywords': 'ID',
+    #         'Abstract': 'AB',
+    #         'Correspondence Address': 'C1',
+    #         'Affiliations': 'C3',
+    #         'References': 'CR',
+    #         'Cited by': 'TC',
+    #         'Publisher': 'PU',
+    #         'ISSN': 'SN',
+    #         'Abbreviated Source Title': 'J9',
+    #         'Year': 'PY',
+    #         'Volume': 'VL',
+    #         'Issue': 'IS',
+    #         'Page start': 'BP',
+    #         'Page end': 'EP',
+    #         'DOI': 'DI',
+    #         'Page count': 'PG',
+    #         'Source': 'UT',
+    #         'Funding Texts': 'FX'
+    #     }
+    #     campos_txt = list(mapeo_codigos.keys())
+    
+    #     # TXT global
+    #     texto_global = generar_texto(df_final, campos_txt, mapeo_codigos)
+    #     buffer_txt = io.StringIO(texto_global)
+    #     st.download_button("⬇️ Descargar TXT completo (formato WoS)", data=buffer_txt.getvalue(),
+    #                        file_name="Scopus+WOS(Depurado).txt", mime="text/plain")
+    
+    #     # TXT por lotes (ZIP)
+    #     zip_buffer = io.BytesIO()
+    #     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+    #         inicio = 0
+    #         numero_archivo = 1
+    #         while inicio < len(df_final):
+    #             fin = min(inicio + 500, len(df_final))
+    #             texto_lote = generar_texto(df_final.iloc[inicio:fin], campos_txt, mapeo_codigos)
+    #             nombre_archivo = f"Scopus+WOS(Dep {inicio+1} a {fin}).txt"
+    #             zipf.writestr(nombre_archivo, texto_lote)
+    #             inicio = fin
+    
+    #     st.download_button("⬇️ Descargar TXT por lotes (ZIP)", data=zip_buffer.getvalue(),
+    #                        file_name="Scopus+WOS_lotes.zip", mime="application/zip")
+    
+    
+    #     # Informe final
+    #     st.markdown("### 📊 Información final de la fusión")
+    #     st.write(f"**Registros Scopus:** {dfsco.shape[0]}")
+    #     st.write(f"**Registros WoS:** {dfwos.shape[0]}")
+    #     st.write(f"**Duplicados eliminados:** {duplicados_final.shape[0]}")
+    #     st.write(f"**Duplicados sin DOI:** {duplicados_sin_doi.shape[0]}")
+    #     st.write(f"**Registros finales:** {df_final.shape[0]}")
+    
+    #     # Histogramas
+    #     import matplotlib.pyplot as plt
+    #     st.markdown("### 👤 Top 25 autores")
+    #     top_authors = df_final['Authors'].str.split(';').explode().str.strip().value_counts().head(25)
+    #     fig, ax = plt.subplots(figsize=(8,5))
+    #     top_authors.plot(kind='bar', ax=ax, color='green')
+    #     plt.xticks(rotation=90)
+    #     st.pyplot(fig)
+    
+    #     st.markdown("### 🔑 Top 25 Author Keywords")
+    #     top_keywords = df_final['Author Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
+    #     fig2, ax2 = plt.subplots(figsize=(8,5))
+    #     top_keywords.plot(kind='bar', ax=ax2, color='skyblue')
+    #     plt.xticks(rotation=90)
+    #     st.pyplot(fig2)
+    
+    #     st.markdown("### 🏷️ Top 25 Index Keywords")
+    #     top_index_kw = df_final['Index Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
+    #     fig3, ax3 = plt.subplots(figsize=(8,5))
+    #     top_index_kw.plot(kind='bar', ax=ax3, color='salmon')
+    #     plt.xticks(rotation=90)
+    #     st.pyplot(fig3)
+    
+    #     st.markdown("### 📚 Top 20 Cited References")
+    #     top_refs = df_final['References'].str.split(';').explode().str.strip().value_counts().head(20)
+    #     fig4, ax4 = plt.subplots(figsize=(8,5))
+    #     top_refs.plot(kind='bar', ax=ax4, color='orange')
+    #     plt.xticks(rotation=90)
+    #     st.pyplot(fig4)
+    # --- Función para mostrar el botón desactivado con estilo gris ---
+    def mostrar_boton_finales_bloqueado():
+        st.markdown(
+            "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
+            unsafe_allow_html=True
+        )
+        st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
+    
+    st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+    
+    fusion_completada = st.session_state.get("fusion_completada", False)
+    depuracion_realizada = st.session_state.get("depuracion_realizada", False)
+    depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
+    
+    #habilitar_parte4 = fusion_completada and (not depuracion_en_proceso or fusion_completada and depuracion_realizada)
+    habilitar_parte4 = (fusion_completada or depuracion_realizada) #and not depuracion_en_proceso
+    
+    if habilitar_parte4:
+        st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+    
+        if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+            st.session_state["parte4_generada"] = True
+            
+            
+            df_final = st.session_state.get("df_final")
+    
+            import io
+            import base64
+            from datetime import datetime
+            import zipfile
+    
+            # Guardar Excel
+            output_excel = io.BytesIO()
+            df_final.to_excel(output_excel, index=False)
+            st.download_button("⬇️ Descargar Excel depurado", data=output_excel.getvalue(),
+                               file_name="Scopus+WOS(Depurado).xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    
+            # Guardar CSV
+            output_csv = io.StringIO()
+            df_final.to_csv(output_csv, index=False)
+            st.download_button("⬇️ Descargar CSV depurado", data=output_csv.getvalue(),
+                               file_name="Scopus+WOS(Depurado).csv", mime="text/csv")
+    
+            # Generar RIS
+            def df_to_ris(df):
+                ris_entries = []
+                for _, row in df.iterrows():
+                    authors = str(row['Authors']).split(';')
+                    affiliations = str(row['Affiliations']).split(';')
+                    keywords = str(row['Author Keywords']).split(';')
+                    cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
+                    export_date = datetime.today().strftime('%d %B %Y')
+                    entry = "TY  - JOUR\n"
+                    entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
+                    entry += f"TI  - {row['Title']}\n"
+                    entry += f"PY  - {row['Year']}\n"
+                    entry += f"T2  - {row['Source title']}\n"
+                    entry += f"VL  - {row['Volume']}\n"
+                    entry += f"IS  - {row['Issue']}\n"
+                    entry += f"C7  - {row.get('Art. No.', '')}\n"
+                    entry += f"SP  - {row['Page start']}\n"
+                    entry += f"EP  - {row['Page end']}\n"
+                    entry += f"DO  - {row['DOI']}\n"
+                    entry += f"UR  - {row.get('Link', '')}\n"
+                    entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
+                    entry += f"AB  - {row['Abstract']}\n"
+                    entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
+                    entry += f"PB  - {row['Publisher']}\n"
+                    entry += f"SN  - {row['ISSN']}\n"
+                    entry += f"LA  - {row['Language of Original Document']}\n"
+                    entry += f"J2  - {row['Abbreviated Source Title']}\n"
+                    entry += f"M3  - {row['Document Type']}\n"
+                    entry += f"DB  - {row['Source']}\n"
+                    entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
+                    entry += "ER  -\n"
+                    ris_entries.append(entry)
+                return "\n".join(ris_entries)
+    
+            ris_content = df_to_ris(df_final)
+            output_ris = io.StringIO(ris_content)
+            st.download_button("⬇️ Descargar RIS", data=output_ris.getvalue(),
+                               file_name="Scopus+WOS(Depurado).ris", mime="application/x-research-info-systems")
+    
+            # TXT formato WoS global
+            def generar_texto(df, campos_seleccionados, mapeo):
+                texto = "VR 1.0\n"
+                for _, row in df.iterrows():
+                    texto_registro = "PT J\n"
+                    campos_agregados = False
+                    for campo_df, campo_txt in mapeo.items():
+                        if campo_df in campos_seleccionados:
+                            valor = row[campo_df]
+                            if valor and str(valor).strip():
+                                if campo_df in ['Authors', 'Author full names', 'References']:
+                                    elementos = str(valor).split('; ')
+                                    texto_registro += f"{campo_txt} {elementos[0]}\n"
+                                    texto_registro += ''.join([f"   {e}\n" for e in elementos[1:] if e.strip()])
+                                else:
+                                    texto_registro += f"{campo_txt} {str(valor).replace('\n', '\n   ')}\n"
+                                campos_agregados = True
+                    if campos_agregados:
+                        texto_registro += "ER\n\n"
+                        texto += texto_registro
+                texto += "EF\n"
+                return texto
+    
+            mapeo_codigos = {
+                'Authors': 'AU', 'Author full names': 'AF', 'Title': 'TI', 'Source title': 'SO',
+                'Language of Original Document': 'LA', 'Document Type': 'DT', 'Author Keywords': 'DE',
+                'Index Keywords': 'ID', 'Abstract': 'AB', 'Correspondence Address': 'C1', 'Affiliations': 'C3',
+                'References': 'CR', 'Cited by': 'TC', 'Publisher': 'PU', 'ISSN': 'SN',
+                'Abbreviated Source Title': 'J9', 'Year': 'PY', 'Volume': 'VL', 'Issue': 'IS',
+                'Page start': 'BP', 'Page end': 'EP', 'DOI': 'DI', 'Page count': 'PG',
+                'Source': 'UT', 'Funding Texts': 'FX'
+            }
+    
+            texto_global = generar_texto(df_final, list(mapeo_codigos.keys()), mapeo_codigos)
+            st.download_button("⬇️ Descargar TXT completo (formato WoS)", data=texto_global,
+                               file_name="Scopus+WOS(Depurado).txt", mime="text/plain")
+    
+            # TXT por lotes ZIP
+            zip_buffer = io.BytesIO()
+            with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+                inicio = 0
+                numero = 1
+                while inicio < len(df_final):
+                    fin = min(inicio + 500, len(df_final))
+                    texto_lote = generar_texto(df_final.iloc[inicio:fin], list(mapeo_codigos.keys()), mapeo_codigos)
+                    zipf.writestr(f"Scopus+WOS(Dep {inicio+1}-{fin}).txt", texto_lote)
+                    inicio = fin
+    
+            st.download_button("⬇️ Descargar TXT por lotes (ZIP)", data=zip_buffer.getvalue(),
+                               file_name="Scopus+WOS_lotes.zip", mime="application/zip")
+    
+            # Informes finales
+            st.markdown("### 📊 Informes de resumen final")
+            st.write(f"**Registros finales:** {df_final.shape[0]}")
+    
+            # Histogramas
+            def mostrar_top(df, columna, titulo, color):
+                top_vals = df[columna].str.split(';').explode().str.strip().value_counts().head(25)
+                fig, ax = plt.subplots(figsize=(8, 4))
+                top_vals.plot(kind='bar', ax=ax, color=color)
+                ax.set_title(titulo)
+                plt.xticks(rotation=90)
+                st.pyplot(fig)
+    
+            mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
+            mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
+            mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
+            mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
+    
+            st.success("✅ Archivos finales generados correctamente.")
+    else:
+        # Mostrar solo si hubo alguna actividad previa (para no mostrarlo desde el inicio en blanco)
+        if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
+            mostrar_boton_finales_bloqueado()
