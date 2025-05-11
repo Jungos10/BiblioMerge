@@ -840,189 +840,261 @@ if st.session_state.get("procesado") and not st.session_state.get("fusion_en_pro
 
 # -------------------- PARTE 4: GENERAR FICHEROS FINALES --------------------
 
-st.markdown("## 📁 Generación de ficheros finales e informes")
-if st.button("📁 Generar ficheros finales"):
-    # Asegurar que df_final esté disponible (viene de la Parte 3 o la Parte 2)
-    if 'df_final' in st.session_state:
-        df_final = st.session_state['df_final']
-    else:
-        try:
-            df_final  # verificar si está definido
-        except NameError:
-            st.error("❌ No se ha encontrado df_final. Asegúrate de haber cargado y fusionado las bases de datos.")
-            st.stop()
+# st.markdown("## 📁 Generación de ficheros finales e informes")
+# if st.button("📁 Generar ficheros finales"):
+#     # Asegurar que df_final esté disponible (viene de la Parte 3 o la Parte 2)
+#     if 'df_final' in st.session_state:
+#         df_final = st.session_state['df_final']
+#     else:
+#         try:
+#             df_final  # verificar si está definido
+#         except NameError:
+#             st.error("❌ No se ha encontrado df_final. Asegúrate de haber cargado y fusionado las bases de datos.")
+#             st.stop()
 
     
-    import io
-    import base64
-    from datetime import datetime
+#     import io
+#     import base64
+#     from datetime import datetime
 
     
-    # Guardar Excel
-    output_excel = io.BytesIO()
-    df_final.to_excel(output_excel, index=False)
-    st.download_button("⬇️ Descargar Excel depurado", data=output_excel.getvalue(),
-                       file_name="Scopus+WOS(Depurado).xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+#     # Guardar Excel
+#     output_excel = io.BytesIO()
+#     df_final.to_excel(output_excel, index=False)
+#     st.download_button("⬇️ Descargar Excel depurado", data=output_excel.getvalue(),
+#                        file_name="Scopus+WOS(Depurado).xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-    # Guardar CSV
-    output_csv = io.StringIO()
-    df_final.to_csv(output_csv, index=False)
-    st.download_button("⬇️ Descargar CSV depurado", data=output_csv.getvalue(),
-                       file_name="Scopus+WOS(Depurado).csv", mime="text/csv")
+#     # Guardar CSV
+#     output_csv = io.StringIO()
+#     df_final.to_csv(output_csv, index=False)
+#     st.download_button("⬇️ Descargar CSV depurado", data=output_csv.getvalue(),
+#                        file_name="Scopus+WOS(Depurado).csv", mime="text/csv")
 
-    # Generar RIS
-    def df_to_ris(df):
-        ris_entries = []
-        for _, row in df.iterrows():
-            authors = str(row['Authors']).split(';')
-            affiliations = str(row['Affiliations']).split(';')
-            keywords = str(row['Author Keywords']).split(';')
-            cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
-            export_date = datetime.today().strftime('%d %B %Y')
-            entry = "TY  - JOUR\n"
-            entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
-            entry += f"TI  - {row['Title']}\n"
-            entry += f"PY  - {row['Year']}\n"
-            entry += f"T2  - {row['Source title']}\n"
-            entry += f"VL  - {row['Volume']}\n"
-            entry += f"IS  - {row['Issue']}\n"
-            entry += f"C7  - {row.get('Art. No.', '')}\n"
-            entry += f"SP  - {row['Page start']}\n"
-            entry += f"EP  - {row['Page end']}\n"
-            entry += f"DO  - {row['DOI']}\n"
-            entry += f"UR  - {row.get('Link', '')}\n"
-            entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
-            entry += f"AB  - {row['Abstract']}\n"
-            entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
-            entry += f"PB  - {row['Publisher']}\n"
-            entry += f"SN  - {row['ISSN']}\n"
-            entry += f"LA  - {row['Language of Original Document']}\n"
-            entry += f"J2  - {row['Abbreviated Source Title']}\n"
-            entry += f"M3  - {row['Document Type']}\n"
-            entry += f"DB  - {row['Source']}\n"
-            entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
-            entry += "ER  -\n"
-            ris_entries.append(entry)
-        return "\n".join(ris_entries)
+#     # Generar RIS
+#     def df_to_ris(df):
+#         ris_entries = []
+#         for _, row in df.iterrows():
+#             authors = str(row['Authors']).split(';')
+#             affiliations = str(row['Affiliations']).split(';')
+#             keywords = str(row['Author Keywords']).split(';')
+#             cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
+#             export_date = datetime.today().strftime('%d %B %Y')
+#             entry = "TY  - JOUR\n"
+#             entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
+#             entry += f"TI  - {row['Title']}\n"
+#             entry += f"PY  - {row['Year']}\n"
+#             entry += f"T2  - {row['Source title']}\n"
+#             entry += f"VL  - {row['Volume']}\n"
+#             entry += f"IS  - {row['Issue']}\n"
+#             entry += f"C7  - {row.get('Art. No.', '')}\n"
+#             entry += f"SP  - {row['Page start']}\n"
+#             entry += f"EP  - {row['Page end']}\n"
+#             entry += f"DO  - {row['DOI']}\n"
+#             entry += f"UR  - {row.get('Link', '')}\n"
+#             entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
+#             entry += f"AB  - {row['Abstract']}\n"
+#             entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
+#             entry += f"PB  - {row['Publisher']}\n"
+#             entry += f"SN  - {row['ISSN']}\n"
+#             entry += f"LA  - {row['Language of Original Document']}\n"
+#             entry += f"J2  - {row['Abbreviated Source Title']}\n"
+#             entry += f"M3  - {row['Document Type']}\n"
+#             entry += f"DB  - {row['Source']}\n"
+#             entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
+#             entry += "ER  -\n"
+#             ris_entries.append(entry)
+#         return "\n".join(ris_entries)
 
-    ris_content = df_to_ris(df_final)
-    output_ris = io.StringIO(ris_content)
-    st.download_button("⬇️ Descargar RIS", data=output_ris.getvalue(),
-                       file_name="Scopus+WOS(Depurado).ris", mime="application/x-research-info-systems")
+#     ris_content = df_to_ris(df_final)
+#     output_ris = io.StringIO(ris_content)
+#     st.download_button("⬇️ Descargar RIS", data=output_ris.getvalue(),
+#                        file_name="Scopus+WOS(Depurado).ris", mime="application/x-research-info-systems")
 
     
 
-    # --------- Generar TXT global y por lotes (formato WoS) ---------
-    import zipfile
+#     # --------- Generar TXT global y por lotes (formato WoS) ---------
+#     import zipfile
 
-    def generar_texto(df, campos_seleccionados, mapeo_campos_a_codigos):
-        texto = "VR 1.0\n"
-        for _, row in df.iterrows():
-            texto_registro = "PT J\n"
-            campos_agregados = False
-            for campo_df, campo_txt in mapeo_campos_a_codigos.items():
-                if campo_df in campos_seleccionados:
-                    valor_campo = row[campo_df]
-                    if valor_campo and str(valor_campo).strip():
-                        if campo_df in ['Authors', 'Author full names', 'References']:
-                            elementos = str(valor_campo).split('; ')
-                            texto_registro += f"{campo_txt} {elementos[0]}\n"
-                            texto_registro += ''.join([f"   {elem}\n" for elem in elementos[1:] if elem.strip()])
-                        else:
-                            valor_formateado = str(valor_campo).replace('\n', '\n   ')
-                            texto_registro += f"{campo_txt} {valor_formateado}\n"
-                        campos_agregados = True
-            if campos_agregados:
-                texto_registro += "ER\n\n"
-                texto += texto_registro
-        texto += "EF\n"
-        return texto
+#     def generar_texto(df, campos_seleccionados, mapeo_campos_a_codigos):
+#         texto = "VR 1.0\n"
+#         for _, row in df.iterrows():
+#             texto_registro = "PT J\n"
+#             campos_agregados = False
+#             for campo_df, campo_txt in mapeo_campos_a_codigos.items():
+#                 if campo_df in campos_seleccionados:
+#                     valor_campo = row[campo_df]
+#                     if valor_campo and str(valor_campo).strip():
+#                         if campo_df in ['Authors', 'Author full names', 'References']:
+#                             elementos = str(valor_campo).split('; ')
+#                             texto_registro += f"{campo_txt} {elementos[0]}\n"
+#                             texto_registro += ''.join([f"   {elem}\n" for elem in elementos[1:] if elem.strip()])
+#                         else:
+#                             valor_formateado = str(valor_campo).replace('\n', '\n   ')
+#                             texto_registro += f"{campo_txt} {valor_formateado}\n"
+#                         campos_agregados = True
+#             if campos_agregados:
+#                 texto_registro += "ER\n\n"
+#                 texto += texto_registro
+#         texto += "EF\n"
+#         return texto
 
-    mapeo_codigos = {
-        'Authors': 'AU',
-        'Author full names': 'AF',
-        'Title': 'TI',
-        'Source title': 'SO',
-        'Language of Original Document': 'LA',
-        'Document Type': 'DT',
-        'Author Keywords': 'DE',
-        'Index Keywords': 'ID',
-        'Abstract': 'AB',
-        'Correspondence Address': 'C1',
-        'Affiliations': 'C3',
-        'References': 'CR',
-        'Cited by': 'TC',
-        'Publisher': 'PU',
-        'ISSN': 'SN',
-        'Abbreviated Source Title': 'J9',
-        'Year': 'PY',
-        'Volume': 'VL',
-        'Issue': 'IS',
-        'Page start': 'BP',
-        'Page end': 'EP',
-        'DOI': 'DI',
-        'Page count': 'PG',
-        'Source': 'UT',
-        'Funding Texts': 'FX'
-    }
-    campos_txt = list(mapeo_codigos.keys())
+#     mapeo_codigos = {
+#         'Authors': 'AU',
+#         'Author full names': 'AF',
+#         'Title': 'TI',
+#         'Source title': 'SO',
+#         'Language of Original Document': 'LA',
+#         'Document Type': 'DT',
+#         'Author Keywords': 'DE',
+#         'Index Keywords': 'ID',
+#         'Abstract': 'AB',
+#         'Correspondence Address': 'C1',
+#         'Affiliations': 'C3',
+#         'References': 'CR',
+#         'Cited by': 'TC',
+#         'Publisher': 'PU',
+#         'ISSN': 'SN',
+#         'Abbreviated Source Title': 'J9',
+#         'Year': 'PY',
+#         'Volume': 'VL',
+#         'Issue': 'IS',
+#         'Page start': 'BP',
+#         'Page end': 'EP',
+#         'DOI': 'DI',
+#         'Page count': 'PG',
+#         'Source': 'UT',
+#         'Funding Texts': 'FX'
+#     }
+#     campos_txt = list(mapeo_codigos.keys())
 
-    # TXT global
-    texto_global = generar_texto(df_final, campos_txt, mapeo_codigos)
-    buffer_txt = io.StringIO(texto_global)
-    st.download_button("⬇️ Descargar TXT completo (formato WoS)", data=buffer_txt.getvalue(),
-                       file_name="Scopus+WOS(Depurado).txt", mime="text/plain")
+#     # TXT global
+#     texto_global = generar_texto(df_final, campos_txt, mapeo_codigos)
+#     buffer_txt = io.StringIO(texto_global)
+#     st.download_button("⬇️ Descargar TXT completo (formato WoS)", data=buffer_txt.getvalue(),
+#                        file_name="Scopus+WOS(Depurado).txt", mime="text/plain")
 
-    # TXT por lotes (ZIP)
-    zip_buffer = io.BytesIO()
-    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-        inicio = 0
-        numero_archivo = 1
-        while inicio < len(df_final):
-            fin = min(inicio + 500, len(df_final))
-            texto_lote = generar_texto(df_final.iloc[inicio:fin], campos_txt, mapeo_codigos)
-            nombre_archivo = f"Scopus+WOS(Dep {inicio+1} a {fin}).txt"
-            zipf.writestr(nombre_archivo, texto_lote)
-            inicio = fin
+#     # TXT por lotes (ZIP)
+#     zip_buffer = io.BytesIO()
+#     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+#         inicio = 0
+#         numero_archivo = 1
+#         while inicio < len(df_final):
+#             fin = min(inicio + 500, len(df_final))
+#             texto_lote = generar_texto(df_final.iloc[inicio:fin], campos_txt, mapeo_codigos)
+#             nombre_archivo = f"Scopus+WOS(Dep {inicio+1} a {fin}).txt"
+#             zipf.writestr(nombre_archivo, texto_lote)
+#             inicio = fin
 
-    st.download_button("⬇️ Descargar TXT por lotes (ZIP)", data=zip_buffer.getvalue(),
-                       file_name="Scopus+WOS_lotes.zip", mime="application/zip")
+#     st.download_button("⬇️ Descargar TXT por lotes (ZIP)", data=zip_buffer.getvalue(),
+#                        file_name="Scopus+WOS_lotes.zip", mime="application/zip")
 
 
-    # Informe final
-    st.markdown("### 📊 Información final de la fusión")
-    st.write(f"**Registros Scopus:** {dfsco.shape[0]}")
-    st.write(f"**Registros WoS:** {dfwos.shape[0]}")
-    st.write(f"**Duplicados eliminados:** {duplicados_final.shape[0]}")
-    st.write(f"**Duplicados sin DOI:** {duplicados_sin_doi.shape[0]}")
-    st.write(f"**Registros finales:** {df_final.shape[0]}")
+#     # Informe final
+#     st.markdown("### 📊 Información final de la fusión")
+#     st.write(f"**Registros Scopus:** {dfsco.shape[0]}")
+#     st.write(f"**Registros WoS:** {dfwos.shape[0]}")
+#     st.write(f"**Duplicados eliminados:** {duplicados_final.shape[0]}")
+#     st.write(f"**Duplicados sin DOI:** {duplicados_sin_doi.shape[0]}")
+#     st.write(f"**Registros finales:** {df_final.shape[0]}")
 
-    # Histogramas
-    import matplotlib.pyplot as plt
-    st.markdown("### 👤 Top 25 autores")
-    top_authors = df_final['Authors'].str.split(';').explode().str.strip().value_counts().head(25)
-    fig, ax = plt.subplots(figsize=(8,5))
-    top_authors.plot(kind='bar', ax=ax, color='green')
-    plt.xticks(rotation=90)
-    st.pyplot(fig)
+#     # Histogramas
+#     import matplotlib.pyplot as plt
+#     st.markdown("### 👤 Top 25 autores")
+#     top_authors = df_final['Authors'].str.split(';').explode().str.strip().value_counts().head(25)
+#     fig, ax = plt.subplots(figsize=(8,5))
+#     top_authors.plot(kind='bar', ax=ax, color='green')
+#     plt.xticks(rotation=90)
+#     st.pyplot(fig)
 
-    st.markdown("### 🔑 Top 25 Author Keywords")
-    top_keywords = df_final['Author Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
-    fig2, ax2 = plt.subplots(figsize=(8,5))
-    top_keywords.plot(kind='bar', ax=ax2, color='skyblue')
-    plt.xticks(rotation=90)
-    st.pyplot(fig2)
+#     st.markdown("### 🔑 Top 25 Author Keywords")
+#     top_keywords = df_final['Author Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
+#     fig2, ax2 = plt.subplots(figsize=(8,5))
+#     top_keywords.plot(kind='bar', ax=ax2, color='skyblue')
+#     plt.xticks(rotation=90)
+#     st.pyplot(fig2)
 
-    st.markdown("### 🏷️ Top 25 Index Keywords")
-    top_index_kw = df_final['Index Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
-    fig3, ax3 = plt.subplots(figsize=(8,5))
-    top_index_kw.plot(kind='bar', ax=ax3, color='salmon')
-    plt.xticks(rotation=90)
-    st.pyplot(fig3)
+#     st.markdown("### 🏷️ Top 25 Index Keywords")
+#     top_index_kw = df_final['Index Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
+#     fig3, ax3 = plt.subplots(figsize=(8,5))
+#     top_index_kw.plot(kind='bar', ax=ax3, color='salmon')
+#     plt.xticks(rotation=90)
+#     st.pyplot(fig3)
 
-    st.markdown("### 📚 Top 20 Cited References")
-    top_refs = df_final['References'].str.split(';').explode().str.strip().value_counts().head(20)
-    fig4, ax4 = plt.subplots(figsize=(8,5))
-    top_refs.plot(kind='bar', ax=ax4, color='orange')
-    plt.xticks(rotation=90)
-    st.pyplot(fig4)
+#     st.markdown("### 📚 Top 20 Cited References")
+#     top_refs = df_final['References'].str.split(';').explode().str.strip().value_counts().head(20)
+#     fig4, ax4 = plt.subplots(figsize=(8,5))
+#     top_refs.plot(kind='bar', ax=ax4, color='orange')
+#     plt.xticks(rotation=90)
+#     st.pyplot(fig4)
+st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+
+fusion_completada = st.session_state.get("fusion_completada", False)
+depuracion_realizada = st.session_state.get("depuracion_realizada", False)
+depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
+
+# Mostrar aviso si la Parte 3 está en proceso
+if depuracion_en_proceso:
+    st.info("ℹ️ Esperando a que finalice la depuración para habilitar esta sección.")
+
+# Mostrar botón si se completó la fusión (con o sin depuración) y no está en proceso
+elif fusion_completada and not depuracion_en_proceso:
+    st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+
+    if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+        df_final = st.session_state.get("df_final")
+        if df_final is None:
+            st.error("❌ No se encontró el DataFrame final. Asegúrate de haber completado la fusión correctamente.")
+        else:
+            # -------------------- EXPORTACIONES --------------------
+            output_excel = io.BytesIO()
+            output_csv = io.StringIO()
+            df_final.to_excel(output_excel, index=False)
+            df_final.to_csv(output_csv, index=False)
+
+            st.download_button("⬇️ Descargar Excel depurado", data=output_excel.getvalue(),
+                               file_name="Scopus+WOS(Depurado).xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+            st.download_button("⬇️ Descargar CSV depurado", data=output_csv.getvalue(),
+                               file_name="Scopus+WOS(Depurado).csv", mime="text/csv")
+
+            # -------------------- INFORME RESUMEN --------------------
+            st.markdown("### 📊 Resumen final")
+            st.write(f"**Registros Scopus:** {st.session_state['num_dfsco']}")
+            st.write(f"**Registros WoS:** {st.session_state['num_dfwos']}")
+            st.write(f"**Duplicados eliminados:** {st.session_state['num_duplicados_final']}")
+            st.write(f"**Duplicados sin DOI:** {st.session_state['num_duplicados_sin_doi']}")
+            st.write(f"**Registros finales:** {st.session_state['num_df_final']}")
+
+            # -------------------- HISTOGRAMAS --------------------
+            st.markdown("### 👤 Top 25 autores")
+            top_authors = df_final['Authors'].str.split(';').explode().str.strip().value_counts().head(25)
+            fig1, ax1 = plt.subplots(figsize=(8, 4))
+            top_authors.plot(kind='bar', ax=ax1)
+            plt.xticks(rotation=90)
+            st.pyplot(fig1)
+
+            st.markdown("### 🔑 Top 25 Author Keywords")
+            top_keywords = df_final['Author Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
+            fig2, ax2 = plt.subplots(figsize=(8, 4))
+            top_keywords.plot(kind='bar', ax=ax2)
+            plt.xticks(rotation=90)
+            st.pyplot(fig2)
+
+            st.markdown("### 🏷️ Top 25 Index Keywords")
+            top_index_kw = df_final['Index Keywords'].str.split(';').explode().str.strip().value_counts().head(25)
+            fig3, ax3 = plt.subplots(figsize=(8, 4))
+            top_index_kw.plot(kind='bar', ax=ax3)
+            plt.xticks(rotation=90)
+            st.pyplot(fig3)
+
+            st.markdown("### 📚 Top 20 Cited References")
+            top_refs = df_final['References'].str.split(';').explode().str.strip().value_counts().head(20)
+            fig4, ax4 = plt.subplots(figsize=(8, 4))
+            top_refs.plot(kind='bar', ax=ax4)
+            plt.xticks(rotation=90)
+            st.pyplot(fig4)
+
+else:
+    # Mostrar la sección como deshabilitada visualmente
+    with st.expander("ℹ️ Parte 4: Generar archivos finales e informes (requiere fusión completada)", expanded=True):
+        st.markdown("🔒 Esta sección estará habilitada una vez finalice la fusión (y opcionalmente la depuración).")
