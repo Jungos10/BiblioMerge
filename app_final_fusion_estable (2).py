@@ -109,13 +109,12 @@ if st.session_state["procesado"]:
                                 registro_actual[campo] = valor
                             ultimo_campo = campo
                     todos_registros.extend(registros)
+       
                     dfwos = pd.DataFrame(todos_registros)
-        
-                    # # Guardamos los originales para uso fuera del "with"
+
+                    # Guardar en session_state una vez procesados todos los archivos
                     st.session_state["dfsco"] = dfsco
                     st.session_state["dfwos"] = dfwos
-
-                    # Guardar conteos clave para informes
                     st.session_state["num_dfsco"] = dfsco.shape[0]
                     st.session_state["num_dfwos"] = dfwos.shape[0]
                                        
