@@ -587,6 +587,7 @@ if st.session_state["procesado"]:
                 mensaje_proceso.empty()  # Oculta el mensaje anterior
                 st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
                 st.session_state["fusion_en_proceso"] = False
+                st.session_state["fusion_completada"] = True
 
 
 
