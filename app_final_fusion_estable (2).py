@@ -1174,5 +1174,7 @@ if habilitar_parte4:
 else:
     # Mostrar solo si hubo alguna actividad previa (para no mostrarlo desde el inicio en blanco)
     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
-    st.markdown("<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>", unsafe_allow_html=True)
-    st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
+        st.markdown("<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>", unsafe_allow_html=True)
+        st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
+    else:
+        pass  # <- evita error de indentación
