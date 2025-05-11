@@ -435,9 +435,9 @@ if st.session_state["procesado"]:
                 st.session_state["top_indexkw"] = df_index_keywords.nlargest(25, 'Conteo')[['Index Keywords', 'Conteo']].values.tolist()
 
 
-                mensaje_proceso.empty()  # Oculta el mensaje anterior
-                st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
-                st.session_state["fusion_en_proceso"] = False
+                # mensaje_proceso.empty()  # Oculta el mensaje anterior
+                # st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+                # st.session_state["fusion_en_proceso"] = False
 
                 # ---- Liberar memoria innecesaria tras guardar en session_state ----
                 del dfsco_list
@@ -584,6 +584,9 @@ if st.session_state["procesado"]:
                     "Frecuencia"
                 )
 
+                mensaje_proceso.empty()  # Oculta el mensaje anterior
+                st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+                st.session_state["fusion_en_proceso"] = False
 
 
 
