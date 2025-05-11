@@ -592,129 +592,249 @@ if st.session_state["procesado"]:
 
 # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
 # Parte 3: Depuración opcional del usuario
-st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
-activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
+# st.markdown("### 🧪 Parte 3: Depuración opcional del usuario (4 campos de `df_final`)")
+# activar_depuracion = st.checkbox("🔍 Realizar depuración manual de autores/keywords/referencias")
 
-if activar_depuracion:
-    depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
+# if activar_depuracion:
+#     depuracion_file = st.file_uploader("📥 Sube el archivo Excel con las tablas de conversión", type=["xlsx", "xls"])
     
-    if depuracion_file is not None and st.button("✅ Aplicar depuración"):
+#     if depuracion_file is not None and st.button("✅ Aplicar depuración"):
         
-        try:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
-                tmp.write(depuracion_file.read())
-                tmp_path = tmp.name
-            filename = tmp_path
+#         try:
+#             with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+#                 tmp.write(depuracion_file.read())
+#                 tmp_path = tmp.name
+#             filename = tmp_path
 
      
-            # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
-            sheet_name = 'Authors'
+#             # -------------------- DEPURACIÓN DE AUTHORS ------------------------------
+#             sheet_name = 'Authors'
+#             try:
+#                 df_authors_table = pd.read_excel(filename, sheet_name=sheet_name)
+#                 if df_authors_table.empty or df_authors_table.loc[0, 'New Author'] == '0-change-0':
+#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+#                 else:
+#                     for _, fila in df_authors_table.iterrows():
+#                         author = fila['Authors']
+#                         nueva_author = fila['New Author']
+#                         fila_encontrada = autores[autores['Authors'] == author]
+#                         if not fila_encontrada.empty:
+#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+#                             for idx, pos in zip(indices, posiciones):
+#                                 if idx in df_final.index:
+#                                     current = df_final.at[idx, 'Authors'].split(';')
+#                                     if pos < len(current):
+#                                         current[pos] = nueva_author
+#                                         df_final.at[idx, 'Authors'] = '; '.join(current)
+#                     df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+#                     df_final['Author full names'] = df_final['Authors']
+#                     st.success("Depuración de Authors completada correctamente.")
+#             except Exception as e:
+#                 st.warning(f"Depuración de Authors no posible: {str(e)}")
+
+#             # -------------------- DEPURACIÓN DE AUTHOR KEYWORDS ------------------------------
+#             sheet_name = 'Author Keywords'
+#             try:
+#                 df_authors_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
+#                 if df_authors_keywords_table.empty or df_authors_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
+#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+#                 else:
+#                     for _, fila in df_authors_keywords_table.iterrows():
+#                         keyword = fila['Author Keyword']
+#                         new_keyword = fila['New Keyword']
+#                         fila_encontrada = df_author_keywords[df_author_keywords['Author Keyword'] == keyword]
+#                         if not fila_encontrada.empty:
+#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+#                             for idx, pos in zip(indices, posiciones):
+#                                 if idx in df_final.index:
+#                                     current = df_final.at[idx, 'Author Keywords'].split(';')
+#                                     if pos < len(current):
+#                                         current[pos] = new_keyword
+#                                         df_final.at[idx, 'Author Keywords'] = '; '.join(current)
+#                     df_final['Author Keywords'] = df_final['Author Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+#                     st.success("Depuración de Author Keywords completada correctamente.")
+#             except Exception as e:
+#                 st.warning(f"Depuración de Author Keywords no posible: {str(e)}")
+
+#             # -------------------- DEPURACIÓN DE INDEX KEYWORDS ------------------------------
+#             sheet_name = 'Index Keywords'
+#             try:
+#                 df_index_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
+#                 if df_index_keywords_table.empty or df_index_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
+#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+#                 else:
+#                     for _, fila in df_index_keywords_table.iterrows():
+#                         keyword = fila['Index Keywords']
+#                         new_keyword = fila['New Keyword']
+#                         fila_encontrada = df_index_keywords[df_index_keywords['Index Keywords'] == keyword]
+#                         if not fila_encontrada.empty:
+#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+#                             for idx, pos in zip(indices, posiciones):
+#                                 if idx in df_final.index:
+#                                     current = df_final.at[idx, 'Index Keywords'].split(';')
+#                                     if pos < len(current):
+#                                         current[pos] = new_keyword
+#                                         df_final.at[idx, 'Index Keywords'] = '; '.join(current)
+#                     df_final['Index Keywords'] = df_final['Index Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+#                     st.success("Depuración de Index Keywords completada correctamente.")
+#             except Exception as e:
+#                 st.warning(f"Depuración de Index Keywords no posible: {str(e)}")
+
+#             # -------------------- DEPURACIÓN DE CITED REFERENCES ------------------------------
+#             sheet_name = 'Cited References'
+#             try:
+#                 df_references_table = pd.read_excel(filename, sheet_name=sheet_name)
+#                 if df_references_table.empty or df_references_table.loc[0, 'New Reference'] == '0-change-0':
+#                     st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
+#                 else:
+#                     df_references_table.fillna('', inplace=True)
+#                     for _, fila in df_references_table.iterrows():
+#                         ref = fila['References']
+#                         new_ref = fila['New Reference']
+#                         fila_encontrada = df_references_info[df_references_info['References'] == ref]
+#                         if not fila_encontrada.empty:
+#                             indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
+#                             posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
+#                             for idx, pos in zip(indices, posiciones):
+#                                 if idx in df_final.index:
+#                                     current = df_final.at[idx, 'References'].split(';')
+#                                     if pos < len(current):
+#                                         current[pos] = new_ref
+#                                         df_final.at[idx, 'References'] = '; '.join(current)
+#                     df_final['References'] = df_final['References'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
+#                     df_final['References'] = df_final['References'].str.replace(" ;", "")
+#                     st.success("Depuración de Cited References completada correctamente.")
+#             except Exception as e:
+#                 st.warning(f"Depuración de Cited References no posible: {str(e)}")
+
+#             # Aseguramos se guardan los cambios realizados después de todas las depuraciones para ser utilizados en la Parte 4
+#             st.session_state['df_final'] = df_final
+#         except Exception as e:
+#             st.error(f"Error general durante la depuración: {str(e)}")
+st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
+
+# Mostrar solo si la fusión está finalizada
+if st.session_state.get("fusion_en_proceso") is False:
+
+    if "depuracion_activada" not in st.session_state:
+        st.session_state["depuracion_activada"] = False
+    if "depuracion_realizada" not in st.session_state:
+        st.session_state["depuracion_realizada"] = False
+
+    # Mostrar checkbox solo si aún no se ha activado
+    if not st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
+        if st.checkbox("🔍 Activar depuración manual", key="activar_depuracion"):
+            st.session_state["depuracion_activada"] = True
+            st.rerun()
+
+    # Si activado, mostrar uploader y botón
+    if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
+        st.markdown("Carga el archivo Excel con las tablas de conversión:")
+        depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"])
+
+        if depuracion_file and st.button("✅ Aplicar depuración"):
             try:
-                df_authors_table = pd.read_excel(filename, sheet_name=sheet_name)
-                if df_authors_table.empty or df_authors_table.loc[0, 'New Author'] == '0-change-0':
-                    st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-                else:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+                    tmp.write(depuracion_file.read())
+                    tmp_path = tmp.name
+
+                # Recuperar DataFrames de session_state
+                df_final = st.session_state.get("df_final")
+                autores = st.session_state.get("autores")
+                df_author_keywords = st.session_state.get("df_author_keywords")
+                df_index_keywords = st.session_state.get("df_index_keywords")
+                df_references_info = st.session_state.get("df_references_info")
+
+                # ---- DEPURACIÓN: Authors ----
+                try:
+                    df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
                     for _, fila in df_authors_table.iterrows():
-                        author = fila['Authors']
-                        nueva_author = fila['New Author']
-                        fila_encontrada = autores[autores['Authors'] == author]
-                        if not fila_encontrada.empty:
-                            indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-                            posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-                            for idx, pos in zip(indices, posiciones):
-                                if idx in df_final.index:
-                                    current = df_final.at[idx, 'Authors'].split(';')
-                                    if pos < len(current):
-                                        current[pos] = nueva_author
-                                        df_final.at[idx, 'Authors'] = '; '.join(current)
-                    df_final['Authors'] = df_final['Authors'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-                    df_final['Author full names'] = df_final['Authors']
-                    st.success("Depuración de Authors completada correctamente.")
+                        if fila["New Author"] != "0-change-0":
+                            author = fila["Authors"]
+                            new_author = fila["New Author"]
+                            fila_encontrada = autores[autores["Authors"] == author]
+                            if not fila_encontrada.empty:
+                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                for idx, pos in zip(indices, posiciones):
+                                    autores_actuales = df_final.at[idx, "Authors"].split(";")
+                                    if pos < len(autores_actuales):
+                                        autores_actuales[pos] = new_author
+                                        df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+                    st.success("✅ Depuración de autores completada.")
+                except Exception as e:
+                    st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
+
+                # ---- DEPURACIÓN: Author Keywords ----
+                try:
+                    df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
+                    for _, fila in df_ak.iterrows():
+                        if fila["New Keyword"] != "0-change-0":
+                            old_kw = fila["Author Keyword"]
+                            new_kw = fila["New Keyword"]
+                            fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
+                            if not fila_encontrada.empty:
+                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                for idx, pos in zip(indices, posiciones):
+                                    kws = df_final.at[idx, "Author Keywords"].split(";")
+                                    if pos < len(kws):
+                                        kws[pos] = new_kw
+                                        df_final.at[idx, "Author Keywords"] = "; ".join(kws)
+                    st.success("✅ Depuración de Author Keywords completada.")
+                except Exception as e:
+                    st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
+
+                # ---- DEPURACIÓN: Index Keywords ----
+                try:
+                    df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
+                    for _, fila in df_ik.iterrows():
+                        if fila["New Keyword"] != "0-change-0":
+                            old_kw = fila["Index Keywords"]
+                            new_kw = fila["New Keyword"]
+                            fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
+                            if not fila_encontrada.empty:
+                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                for idx, pos in zip(indices, posiciones):
+                                    kws = df_final.at[idx, "Index Keywords"].split(";")
+                                    if pos < len(kws):
+                                        kws[pos] = new_kw
+                                        df_final.at[idx, "Index Keywords"] = "; ".join(kws)
+                    st.success("✅ Depuración de Index Keywords completada.")
+                except Exception as e:
+                    st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
+
+                # ---- DEPURACIÓN: References ----
+                try:
+                    df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
+                    for _, fila in df_refs.iterrows():
+                        if fila["New Reference"] != "0-change-0":
+                            old_ref = fila["References"]
+                            new_ref = fila["New Reference"]
+                            fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
+                            if not fila_encontrada.empty:
+                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                for idx, pos in zip(indices, posiciones):
+                                    refs = df_final.at[idx, "References"].split(";")
+                                    if pos < len(refs):
+                                        refs[pos] = new_ref
+                                        df_final.at[idx, "References"] = "; ".join(refs)
+                    st.success("✅ Depuración de Referencias completada.")
+                except Exception as e:
+                    st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
+
+                # Guardar el nuevo df_final actualizado
+                st.session_state["df_final"] = df_final
+                st.session_state["depuracion_realizada"] = True
+                st.success("🎉 Todas las depuraciones aplicadas correctamente.")
+
             except Exception as e:
-                st.warning(f"Depuración de Authors no posible: {str(e)}")
-
-            # -------------------- DEPURACIÓN DE AUTHOR KEYWORDS ------------------------------
-            sheet_name = 'Author Keywords'
-            try:
-                df_authors_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
-                if df_authors_keywords_table.empty or df_authors_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
-                    st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-                else:
-                    for _, fila in df_authors_keywords_table.iterrows():
-                        keyword = fila['Author Keyword']
-                        new_keyword = fila['New Keyword']
-                        fila_encontrada = df_author_keywords[df_author_keywords['Author Keyword'] == keyword]
-                        if not fila_encontrada.empty:
-                            indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-                            posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-                            for idx, pos in zip(indices, posiciones):
-                                if idx in df_final.index:
-                                    current = df_final.at[idx, 'Author Keywords'].split(';')
-                                    if pos < len(current):
-                                        current[pos] = new_keyword
-                                        df_final.at[idx, 'Author Keywords'] = '; '.join(current)
-                    df_final['Author Keywords'] = df_final['Author Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-                    st.success("Depuración de Author Keywords completada correctamente.")
-            except Exception as e:
-                st.warning(f"Depuración de Author Keywords no posible: {str(e)}")
-
-            # -------------------- DEPURACIÓN DE INDEX KEYWORDS ------------------------------
-            sheet_name = 'Index Keywords'
-            try:
-                df_index_keywords_table = pd.read_excel(filename, sheet_name=sheet_name)
-                if df_index_keywords_table.empty or df_index_keywords_table.loc[0, 'New Keyword'] == '0-change-0':
-                    st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-                else:
-                    for _, fila in df_index_keywords_table.iterrows():
-                        keyword = fila['Index Keywords']
-                        new_keyword = fila['New Keyword']
-                        fila_encontrada = df_index_keywords[df_index_keywords['Index Keywords'] == keyword]
-                        if not fila_encontrada.empty:
-                            indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-                            posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-                            for idx, pos in zip(indices, posiciones):
-                                if idx in df_final.index:
-                                    current = df_final.at[idx, 'Index Keywords'].split(';')
-                                    if pos < len(current):
-                                        current[pos] = new_keyword
-                                        df_final.at[idx, 'Index Keywords'] = '; '.join(current)
-                    df_final['Index Keywords'] = df_final['Index Keywords'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-                    st.success("Depuración de Index Keywords completada correctamente.")
-            except Exception as e:
-                st.warning(f"Depuración de Index Keywords no posible: {str(e)}")
-
-            # -------------------- DEPURACIÓN DE CITED REFERENCES ------------------------------
-            sheet_name = 'Cited References'
-            try:
-                df_references_table = pd.read_excel(filename, sheet_name=sheet_name)
-                if df_references_table.empty or df_references_table.loc[0, 'New Reference'] == '0-change-0':
-                    st.warning(f"La hoja '{sheet_name}' no ha sido completada. No se aplicaron cambios.")
-                else:
-                    df_references_table.fillna('', inplace=True)
-                    for _, fila in df_references_table.iterrows():
-                        ref = fila['References']
-                        new_ref = fila['New Reference']
-                        fila_encontrada = df_references_info[df_references_info['References'] == ref]
-                        if not fila_encontrada.empty:
-                            indices = [int(i) for i in fila_encontrada['Indices'].iloc[0].split(';')]
-                            posiciones = [int(p) for p in fila_encontrada['Posiciones'].iloc[0].split(';')]
-                            for idx, pos in zip(indices, posiciones):
-                                if idx in df_final.index:
-                                    current = df_final.at[idx, 'References'].split(';')
-                                    if pos < len(current):
-                                        current[pos] = new_ref
-                                        df_final.at[idx, 'References'] = '; '.join(current)
-                    df_final['References'] = df_final['References'].apply(lambda x: '; '.join([a.strip() for a in x.split(';')]))
-                    df_final['References'] = df_final['References'].str.replace(" ;", "")
-                    st.success("Depuración de Cited References completada correctamente.")
-            except Exception as e:
-                st.warning(f"Depuración de Cited References no posible: {str(e)}")
-
-            # Aseguramos se guardan los cambios realizados después de todas las depuraciones para ser utilizados en la Parte 4
-            st.session_state['df_final'] = df_final
-        except Exception as e:
-            st.error(f"Error general durante la depuración: {str(e)}")
-
+                st.error(f"❌ Error general al procesar la depuración: {str(e)}")
 
 
 # -------------------- PARTE 4: GENERAR FICHEROS FINALES --------------------
