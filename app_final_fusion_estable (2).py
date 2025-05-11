@@ -1033,7 +1033,8 @@ fusion_completada = st.session_state.get("fusion_completada", False)
 depuracion_realizada = st.session_state.get("depuracion_realizada", False)
 depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
-habilitar_parte4 = fusion_completada and (not depuracion_en_proceso or fusion_completada and depuracion_realizada)
+#habilitar_parte4 = fusion_completada and (not depuracion_en_proceso or fusion_completada and depuracion_realizada)
+habilitar_parte4 = (fusion_completada or depuracion_realizada) and not depuracion_en_proceso
 
 if habilitar_parte4:
     st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
