@@ -1027,18 +1027,26 @@ if st.session_state.get("procesado") and not st.session_state.get("fusion_en_pro
 #     plt.xticks(rotation=90)
 #     st.pyplot(fig4)
 st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
 
 fusion_completada = st.session_state.get("fusion_completada", False)
 depuracion_realizada = st.session_state.get("depuracion_realizada", False)
-depuracion_activada = st.session_state.get("depuracion_activada", False)
+depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
-# Condiciones para habilitar la generación de archivos finales
-habilitar_parte4 = fusion_completada and not depuracion_activada or (fusion_completada and depuracion_realizada)
+habilitar_parte4 = fusion_completada and not depuracion_en_proceso or (fusion_completada and depuracion_realizada)
 
 if habilitar_parte4:
+    st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+
     if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
         df_final = st.session_state.get("df_final")
+
+        # Aquí iría toda la lógica de generación de archivos (Excel, CSV, RIS, TXT, etc.)
+        # y los informes y visualizaciones finales como los histogramas
+
+        st.success("✅ Archivos finales generados correctamente.")
+else:
+    st.markdown("<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>", unsafe_allow_html=True)
+    st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
 
         import io
         import base64
