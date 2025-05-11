@@ -717,8 +717,9 @@ if st.session_state["procesado"]:
 st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
 
 # Mostrar solo si la fusión está finalizada
-if st.session_state.get("fusion_en_proceso") is False:
-
+#if st.session_state.get("fusion_en_proceso") is False:
+if st.session_state.get("procesado") and not st.session_state.get("fusion_en_proceso", True):
+    
     if "depuracion_activada" not in st.session_state:
         st.session_state["depuracion_activada"] = False
     if "depuracion_realizada" not in st.session_state:
