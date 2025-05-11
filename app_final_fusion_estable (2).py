@@ -1029,6 +1029,14 @@ if st.session_state.get("procesado") and not st.session_state.get("fusion_en_pro
 #     top_refs.plot(kind='bar', ax=ax4, color='orange')
 #     plt.xticks(rotation=90)
 #     st.pyplot(fig4)
+# --- Función para mostrar el botón desactivado con estilo gris ---
+def mostrar_boton_finales_bloqueado():
+    st.markdown(
+        "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
+        unsafe_allow_html=True
+    )
+    st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
+
 st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
 
 fusion_completada = st.session_state.get("fusion_completada", False)
@@ -1174,7 +1182,4 @@ if habilitar_parte4:
 else:
     # Mostrar solo si hubo alguna actividad previa (para no mostrarlo desde el inicio en blanco)
     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
-        st.markdown("<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>", unsafe_allow_html=True)
-        st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
-    else:
-        pass  # <- evita error de indentación
+        mostrar_boton_finales_bloqueado()
