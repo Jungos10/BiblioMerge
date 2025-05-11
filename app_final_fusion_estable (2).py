@@ -27,7 +27,9 @@ if "procesado" not in st.session_state:
     st.session_state["procesado"] = False
 if "fusion_en_proceso" not in st.session_state:
     st.session_state["fusion_en_proceso"] = False
-    st.session_state["fusion_completada"] = True
+if "fusion_completada" not in st.session_state:
+    st.session_state["fusion_completada"] = False
+    #st.session_state["fusion_completada"] = True
 
 # BLOQUE 1 – Subida de archivos y botón de inicio (solo si no se ha procesado)
 if not st.session_state["procesado"]:
