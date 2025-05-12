@@ -508,7 +508,11 @@ if st.session_state["procesado"]:
 
 # -------------------- PARTE 2B: BOTONES DE DESCARGA + REPORTING PERSISTENTE --------------------
 
-if st.session_state.get("fusion_completada", False):
+if (
+    st.session_state.get("fusion_completada", False)
+    and not st.session_state.get("depuracion_activada", False)
+    and not st.session_state.get("parte4_generada", False)
+):
     st.markdown("### 📥 Descarga tus archivos:")
     st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
     st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
