@@ -728,12 +728,6 @@ if not st.session_state.get("parte4_generada", False):
             
         if st.session_state.get("parte4_generada"):
             # ... botones de descarga e informes ...
-        else:
-            if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
-                st.session_state["parte4_generada"] = True
-                st.experimental_rerun()
-              
-            
             df_final = st.session_state.get("df_final")
     
             import io
@@ -863,7 +857,12 @@ if not st.session_state.get("parte4_generada", False):
             mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
     
             st.success("✅ Archivos finales generados correctamente.")
-            
+
+        else:
+            if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+                st.session_state["parte4_generada"] = True
+                st.experimental_rerun()
+    
     if not habilitar_parte4:
         if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
             mostrar_boton_finales_bloqueado()
