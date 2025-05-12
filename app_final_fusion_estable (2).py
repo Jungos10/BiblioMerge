@@ -495,6 +495,11 @@ if st.session_state["procesado"]:
                     df_index_keywords.to_excel(writer, sheet_name='Index Keywords', index=False)
                     df_references_info.to_excel(writer, sheet_name='Cited References', index=False)
 
+                # Guardar outputs en session_state para mantenerlos accesibles
+                st.session_state["output_fusion"] = output_fusion
+                st.session_state["output_duplicados"] = output_duplicados
+                st.session_state["output_tablas"] = output_tablas
+
                 if st.session_state.get("fusion_completada", False):
                 # ---- BOTONES DE DESCARGA ----
                 
