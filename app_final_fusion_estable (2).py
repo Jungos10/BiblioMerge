@@ -862,10 +862,6 @@ if not st.session_state.get("parte4_generada", False):
     
             st.success("✅ Archivos finales generados correctamente.")
 
-    else:
-        if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
-            st.session_state["parte4_generada"] = True
-            st.experimental_rerun()
 
 if not habilitar_parte4:
     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
