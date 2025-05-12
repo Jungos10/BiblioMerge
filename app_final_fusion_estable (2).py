@@ -721,19 +721,23 @@ if not st.session_state.get("parte4_generada", False):
     
   
     habilitar_parte4 = (fusion_completada or depuracion_realizada) #and not depuracion_en_proceso
+
+    # --- Si marcamos el rerun en la ejecución anterior, ahora lo ejecutamos y limpiamos el flag ---
+    if st.session_state.get("activar_rerun_parte4"):
+        st.session_state["parte4_generada"] = True
+        del st.session_state["activar_rerun_parte4"]
+        st.experimental_rerun()
     
     if habilitar_parte4:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-
+    
         if not st.session_state.get("parte4_generada"):
-            boton_generar = st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True)
-            if boton_generar:
-                st.session_state["parte4_generada"] = True
-                st.experimental_rerun()
+            if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+                st.session_state["activar_rerun_parte4"] = True
+    
         else:
-            # --- Aquí va todo lo de generación de archivos e informes ---
             df_final = st.session_state.get("df_final")
-        
+       
        
             import io
             import base64
