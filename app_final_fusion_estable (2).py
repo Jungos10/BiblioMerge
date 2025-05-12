@@ -726,7 +726,8 @@ if not st.session_state.get("parte4_generada", False):
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
 
         if not st.session_state.get("parte4_generada"):
-            if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+            boton_generar = st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True)
+            if boton_generar:
                 st.session_state["parte4_generada"] = True
                 st.experimental_rerun()
         else:
