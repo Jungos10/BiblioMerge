@@ -724,12 +724,15 @@ if not st.session_state.get("parte4_generada", False):
     
     if habilitar_parte4:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-    
-        if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
-            st.session_state["parte4_generada"] = True
 
-        if st.session_state.get("parte4_generada"):
             
+        if st.session_state.get("parte4_generada"):
+            # ... botones de descarga e informes ...
+        else:
+            if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+                st.session_state["parte4_generada"] = True
+                st.experimental_rerun()
+              
             
             df_final = st.session_state.get("df_final")
     
