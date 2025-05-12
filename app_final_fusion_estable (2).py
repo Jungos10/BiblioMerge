@@ -723,12 +723,13 @@ if not st.session_state.get("parte4_generada", False):
     habilitar_parte4 = (fusion_completada or depuracion_realizada) #and not depuracion_en_proceso
 
     # --- Si marcamos el rerun en la ejecución anterior, ahora lo ejecutamos y limpiamos el flag ---
+    
     if st.session_state.get("activar_rerun_parte4"):
         st.session_state["parte4_generada"] = True
         del st.session_state["activar_rerun_parte4"]
-        st.experimental_rerun()
-        st.stop() 
-    
+        st.markdown("🔄 Reiniciando la interfaz...")
+        st.stop()
+   
     if habilitar_parte4:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
     
