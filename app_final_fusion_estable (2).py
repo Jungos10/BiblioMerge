@@ -496,17 +496,18 @@ if st.session_state["procesado"]:
                     df_references_info.to_excel(writer, sheet_name='Cited References', index=False)
 
                 # Guardar outputs en session_state para mantenerlos accesibles
-                st.session_state["output_fusion"] = output_fusion
-                st.session_state["output_duplicados"] = output_duplicados
-                st.session_state["output_tablas"] = output_tablas
+                st.session_state["output_fusion_bytes"] = output_fusion.getvalue()
+                st.session_state["output_duplicados_bytes"] = output_duplicados.getvalue()
+                st.session_state["output_tablas_bytes"] = output_tablas.getvalue()
+                
 
                 if st.session_state.get("fusion_completada", False):
                 # ---- BOTONES DE DESCARGA ----
                 
-                    st.download_button("📥 Descargar Scopus+WOS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
-                    st.download_button("📥 Descargar duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
-                    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", output_tablas.getvalue(), "Tablas_para_depuraciones.xlsx")
-            
+                    st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
+                    st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
+                    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
+                   
             
                 # -------- INFORMES Y VISUALIZACIONES --------
                 # --- Mostrar resultados y visualización si la fusión ha sido completada ---
