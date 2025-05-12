@@ -494,53 +494,55 @@ if st.session_state["procesado"]:
                 st.session_state["output_fusion_bytes"] = output_fusion.getvalue()
                 st.session_state["output_duplicados_bytes"] = output_duplicados.getvalue()
                 st.session_state["output_tablas_bytes"] = output_tablas.getvalue()
-                
 
-                #if st.session_state.get("fusion_completada", False):
-                # ---- BOTONES DE DESCARGA ----
-                
-                st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
-                st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
-                st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
-               
-                            
-                def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
-                    if not lista_datos:
-                        st.warning(f"No hay datos para {titulo}.")
-                        return
-                    etiquetas, valores = zip(*lista_datos)
-                    fig, ax = plt.subplots(figsize=(8, 4))
-                    ax.bar(etiquetas, valores)
-                    ax.set_xlabel(xlabel)
-                    ax.set_ylabel(ylabel)
-                    ax.set_title(titulo)
-                    plt.xticks(rotation=90)
-                    st.pyplot(fig)
-                
-                # Mostrar histogramas desde session_state
-                st.subheader("👥 Top 20 autores con más artículos")
-                mostrar_histograma_top(
-                    st.session_state["top_autores"],
-                    "Top 20 Autores",
-                    "Autores",
-                    "Número de Artículos"
-                )
-                
-                st.subheader("🔑 Top 25 Author Keywords")
-                mostrar_histograma_top(
-                    st.session_state["top_authkw"],
-                    "Top 25 Author Keywords",
-                    "Author Keywords",
-                    "Frecuencia"
-                )
-                
-                st.subheader("🔍 Top 25 Index Keywords")
-                mostrar_histograma_top(
-                    st.session_state["top_indexkw"],
-                    "Top 25 Index Keywords",
-                    "Index Keywords",
-                    "Frecuencia"
-                )
+                # Guardar estado de fusión como completada
+                st.session_state["fusion_completada"] = True
+
+                # ---- BOTONES DE DESCARGA (solo si la fusión ya se completó) ----
+                if st.session_state.get("fusion_completada", False):
+                    st.markdown("### 📥 Descarga tus archivos:")                            
+                    st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
+                    st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
+                    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
+                   
+                                
+                    def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
+                        if not lista_datos:
+                            st.warning(f"No hay datos para {titulo}.")
+                            return
+                        etiquetas, valores = zip(*lista_datos)
+                        fig, ax = plt.subplots(figsize=(8, 4))
+                        ax.bar(etiquetas, valores)
+                        ax.set_xlabel(xlabel)
+                        ax.set_ylabel(ylabel)
+                        ax.set_title(titulo)
+                        plt.xticks(rotation=90)
+                        st.pyplot(fig)
+                    
+                    # Mostrar histogramas desde session_state
+                    st.subheader("👥 Top 20 autores con más artículos")
+                    mostrar_histograma_top(
+                        st.session_state["top_autores"],
+                        "Top 20 Autores",
+                        "Autores",
+                        "Número de Artículos"
+                    )
+                    
+                    st.subheader("🔑 Top 25 Author Keywords")
+                    mostrar_histograma_top(
+                        st.session_state["top_authkw"],
+                        "Top 25 Author Keywords",
+                        "Author Keywords",
+                        "Frecuencia"
+                    )
+                    
+                    st.subheader("🔍 Top 25 Index Keywords")
+                    mostrar_histograma_top(
+                        st.session_state["top_indexkw"],
+                        "Top 25 Index Keywords",
+                        "Index Keywords",
+                        "Frecuencia"
+                    )
 
                 mensaje_proceso.empty()  # Oculta el mensaje anterior
                 st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
