@@ -723,13 +723,17 @@ if not st.session_state.get("parte4_generada", False):
     habilitar_parte4 = (fusion_completada or depuracion_realizada) #and not depuracion_en_proceso
     
     if habilitar_parte4:
-        st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+    st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
 
-            
-        if st.session_state.get("parte4_generada"):
-            # ... botones de descarga e informes ...
-            df_final = st.session_state.get("df_final")
+    if not st.session_state.get("parte4_generada"):
+        if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+            st.session_state["parte4_generada"] = True
+            st.experimental_rerun()
+    else:
+        # --- Aquí va todo lo de generación de archivos e informes ---
+        df_final = st.session_state.get("df_final")
     
+   
             import io
             import base64
             from datetime import datetime
