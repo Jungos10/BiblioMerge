@@ -738,7 +738,7 @@ if not st.session_state.get("parte4_generada", False):
         if not st.session_state["parte4_generada"]:
             if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
                 st.session_state["activar_rerun_parte4"] = True
-                st.stop()
+                st.experimental_rerun()
         else:
             df_final = st.session_state.get("df_final")
     
