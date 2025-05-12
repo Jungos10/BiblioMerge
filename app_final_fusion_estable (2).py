@@ -727,6 +727,7 @@ if not st.session_state.get("parte4_generada", False):
         st.session_state["parte4_generada"] = True
         del st.session_state["activar_rerun_parte4"]
         st.experimental_rerun()
+        st.stop() 
     
     if habilitar_parte4:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
