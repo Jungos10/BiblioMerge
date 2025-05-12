@@ -137,363 +137,363 @@ if st.session_state["procesado"]:
     
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
 
-                # Mapeamos el archivo WOS(dfwos) con el archivo Scopus (dfsco)
-                mapping = {'AU': 'Authors' ,'AF': 'Author full names','TI': 'Title', 'PY': 'Year',
-                           'SO': 'Source title', 'VL': 'Volume', 'IS': 'Issue', 'CR': 'References', 'BP': 'Page start',
-                           'EP': 'Page end', 'PG': 'Page count', 'TC': 'Cited by', 'DI': 'DOI',
-                           'C3': 'Affiliations', 'AB': 'Abstract', 'DE': 'Author Keywords', 'ID': 'Index Keywords',
-                           'FX': 'Funding Texts', 'RP': 'Correspondence Address',
-                           'PU': 'Publisher', 'SN': 'ISSN', 'LA': 'Language of Original Document',
-                           'J9': 'Abbreviated Source Title', 'DT': 'Document Type', 'UT': 'EID', 'C1': 'Authors with affiliations'}
+            # Mapeamos el archivo WOS(dfwos) con el archivo Scopus (dfsco)
+            mapping = {'AU': 'Authors' ,'AF': 'Author full names','TI': 'Title', 'PY': 'Year',
+                       'SO': 'Source title', 'VL': 'Volume', 'IS': 'Issue', 'CR': 'References', 'BP': 'Page start',
+                       'EP': 'Page end', 'PG': 'Page count', 'TC': 'Cited by', 'DI': 'DOI',
+                       'C3': 'Affiliations', 'AB': 'Abstract', 'DE': 'Author Keywords', 'ID': 'Index Keywords',
+                       'FX': 'Funding Texts', 'RP': 'Correspondence Address',
+                       'PU': 'Publisher', 'SN': 'ISSN', 'LA': 'Language of Original Document',
+                       'J9': 'Abbreviated Source Title', 'DT': 'Document Type', 'UT': 'EID', 'C1': 'Authors with affiliations'}
+        
+            dfwos = st.session_state.get("dfwos")
+            dfsco = st.session_state.get("dfsco")
             
-                dfwos = st.session_state.get("dfwos")
-                dfsco = st.session_state.get("dfsco")
-                
-                dfwos_selected = dfwos.rename(columns=mapping)
-                dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
-            
-                dfwos_selected['Source'] = 'WOS'
-                df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
-                df_concatenated.fillna('', inplace=True)
-            
-                df_concatenated['EID'] = (
-                    df_concatenated['EID']
-                    .astype(str)
-                    .str.replace('WOS:', '2-w-')
-                )
-            
-                # Transformar todo en minúsculas salvo excepciones
-                excepciones = ['Year', 'Cited by', 'Volume', 'Page count', 'Issue', 'Art.No.', 'Page start', 'Page end']
-                for columna in df_concatenated.columns:
-                    if columna not in excepciones and df_concatenated[columna].dtype == 'object':
-                        df_concatenated[columna] = df_concatenated[columna].str.lower()
-            
-                df_concatenated['References'] = df_concatenated['References'].str.replace(",,", ",")
-            
-                # Reemplazos de caracteres problemáticos
-                sustituciones = {
-                    "‘": "'", "’": "'", "–": "-", "“": '"', "”": '"', "ε": "e", "ℓ": "l", "γ": "y", ",,": ",",
-                    "ï": "i", "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ñ": "n", "ü": "u", "š": "s",
-                    "ř": "r", "ö": "o", "ņ": "n", "ç": "c", "ć": "c", "ş": "s", "ã": "a", "â": "a", "ń": "n",
-                    "ż": "z", "ė": "e", "č": "c", "ß": "B", "ä": "a", "ê": "e", "ł": "t", "ı": "i", "å": "a",
-                    "ą": "a", "ĭ": "i", "ø": "o", "ý": "y", "≥": ">=", "≤": "<=", "è": "e", "ǐ": "i", "—": "-",
-                    "×": "x", "‐": "-"
-                }
-                for old, new in sustituciones.items():
-                    df_concatenated.replace(old, new, regex=True, inplace=True)
-            
-                # Limpieza adicional de 'Authors'
-                df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(".-", ".")
-                df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(r'[.,]', '', regex=True)
-            
-            
-                # ----- FASE 1: Eliminación de duplicados con DOI -----
-                df_sin_vacios = df_concatenated[df_concatenated['DOI'] != '']
-                duplicados_doi = df_sin_vacios[df_sin_vacios.duplicated(subset=['DOI'], keep=False)]
-                indices_a_eliminar_doi = set()
-                for doi, group in duplicados_doi.groupby('DOI'):
+            dfwos_selected = dfwos.rename(columns=mapping)
+            dfwos_selected = dfwos_selected[[col for col in mapping.values() if col in dfwos_selected.columns]]
+        
+            dfwos_selected['Source'] = 'WOS'
+            df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
+            df_concatenated.fillna('', inplace=True)
+        
+            df_concatenated['EID'] = (
+                df_concatenated['EID']
+                .astype(str)
+                .str.replace('WOS:', '2-w-')
+            )
+        
+            # Transformar todo en minúsculas salvo excepciones
+            excepciones = ['Year', 'Cited by', 'Volume', 'Page count', 'Issue', 'Art.No.', 'Page start', 'Page end']
+            for columna in df_concatenated.columns:
+                if columna not in excepciones and df_concatenated[columna].dtype == 'object':
+                    df_concatenated[columna] = df_concatenated[columna].str.lower()
+        
+            df_concatenated['References'] = df_concatenated['References'].str.replace(",,", ",")
+        
+            # Reemplazos de caracteres problemáticos
+            sustituciones = {
+                "‘": "'", "’": "'", "–": "-", "“": '"', "”": '"', "ε": "e", "ℓ": "l", "γ": "y", ",,": ",",
+                "ï": "i", "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ñ": "n", "ü": "u", "š": "s",
+                "ř": "r", "ö": "o", "ņ": "n", "ç": "c", "ć": "c", "ş": "s", "ã": "a", "â": "a", "ń": "n",
+                "ż": "z", "ė": "e", "č": "c", "ß": "B", "ä": "a", "ê": "e", "ł": "t", "ı": "i", "å": "a",
+                "ą": "a", "ĭ": "i", "ø": "o", "ý": "y", "≥": ">=", "≤": "<=", "è": "e", "ǐ": "i", "—": "-",
+                "×": "x", "‐": "-"
+            }
+            for old, new in sustituciones.items():
+                df_concatenated.replace(old, new, regex=True, inplace=True)
+        
+            # Limpieza adicional de 'Authors'
+            df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(".-", ".")
+            df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(r'[.,]', '', regex=True)
+        
+        
+            # ----- FASE 1: Eliminación de duplicados con DOI -----
+            df_sin_vacios = df_concatenated[df_concatenated['DOI'] != '']
+            duplicados_doi = df_sin_vacios[df_sin_vacios.duplicated(subset=['DOI'], keep=False)]
+            indices_a_eliminar_doi = set()
+            for doi, group in duplicados_doi.groupby('DOI'):
+                if 'scopus' in group['Source'].values:
+                    indices_a_eliminar_doi.update(group[group['Source'] != 'scopus'].index)
+                else:
+                    indices_a_eliminar_doi.update(group.index[1:])
+            duplicados_doi_final = df_concatenated.loc[df_concatenated.index.isin(indices_a_eliminar_doi)].copy()
+            df_concatenated = df_concatenated.drop(list(indices_a_eliminar_doi), errors='ignore')
+        
+            # ----- FASE 2: Eliminación de duplicados sin DOI -----
+            df_concatenated['A_T_Y'] = (
+                df_concatenated['Authors'].fillna("").str[:3] +
+                df_concatenated['Title'].fillna("").str[:8] +
+                df_concatenated['Abstract'].fillna("").str[:6]
+            ).str.lower()
+            duplicados_sin_doi = df_concatenated[df_concatenated.duplicated(subset=['A_T_Y'], keep=False)]
+            indices_a_eliminar_sin_doi = set()
+            for key, group in duplicados_sin_doi.groupby('A_T_Y'):
+                tiene_doi = group['DOI'] != ''
+                if tiene_doi.any():
+                    indices_a_eliminar_sin_doi.update(group[~tiene_doi].index)
+                else:
                     if 'scopus' in group['Source'].values:
-                        indices_a_eliminar_doi.update(group[group['Source'] != 'scopus'].index)
+                        indices_a_eliminar_sin_doi.update(group[group['Source'] != 'scopus'].index)
                     else:
-                        indices_a_eliminar_doi.update(group.index[1:])
-                duplicados_doi_final = df_concatenated.loc[df_concatenated.index.isin(indices_a_eliminar_doi)].copy()
-                df_concatenated = df_concatenated.drop(list(indices_a_eliminar_doi), errors='ignore')
-            
-                # ----- FASE 2: Eliminación de duplicados sin DOI -----
-                df_concatenated['A_T_Y'] = (
-                    df_concatenated['Authors'].fillna("").str[:3] +
-                    df_concatenated['Title'].fillna("").str[:8] +
-                    df_concatenated['Abstract'].fillna("").str[:6]
-                ).str.lower()
-                duplicados_sin_doi = df_concatenated[df_concatenated.duplicated(subset=['A_T_Y'], keep=False)]
-                indices_a_eliminar_sin_doi = set()
-                for key, group in duplicados_sin_doi.groupby('A_T_Y'):
-                    tiene_doi = group['DOI'] != ''
-                    if tiene_doi.any():
-                        indices_a_eliminar_sin_doi.update(group[~tiene_doi].index)
-                    else:
-                        if 'scopus' in group['Source'].values:
-                            indices_a_eliminar_sin_doi.update(group[group['Source'] != 'scopus'].index)
+                        indices_a_eliminar_sin_doi.update(group.index[1:])
+            duplicados_sin_doi_final = df_concatenated.loc[df_concatenated.index.isin(indices_a_eliminar_sin_doi)].copy()
+            df_concatenated = df_concatenated.drop(list(indices_a_eliminar_sin_doi), errors='ignore')
+            df_concatenated.drop(columns=['A_T_Y'], inplace=True)
+        
+            df_concatenated_sin_duplicados = df_concatenated.copy()
+            duplicados_final = pd.concat([duplicados_doi_final, duplicados_sin_doi_final], ignore_index=True)
+        
+        
+            # --------IDENTIFICAMOS AUTORES CON DIFERENTE GRAFÍA Y UNIFICAMOS EN UNA ÚNICA GRAFÍA---------------------
+            def crear_df_conversion(df):
+                codigos_autores = {}
+                grafia_asignada = {}
+        
+                df['Author(s) ID'] = df['Author(s) ID'].fillna('').astype(str)
+                df['Authors'] = df['Authors'].fillna('').astype(str)
+                df['Author full names'] = df['Author full names'].fillna('').astype(str)
+        
+                for index, row in df.iterrows():
+                    autores = [autor.strip() for autor in row['Authors'].split(';') if autor.strip()]
+                    nombres_largos = [nombre.strip() for nombre in row['Author full names'].split(';') if nombre.strip()]
+                    codigos = [codigo.strip() for codigo in row['Author(s) ID'].split(';') if codigo.strip()]
+        
+                    for autor, nombre_largo, codigo in zip(autores, nombres_largos, codigos):
+                        if codigo:
+                            if codigo not in codigos_autores:
+                                codigos_autores[codigo] = {
+                                    'autor': autor, 'nombre_largo': nombre_largo,
+                                    'registros': [], 'posiciones': [], 'articles': 0
+                                }
+                            codigos_autores[codigo]['registros'].append(index)
+                            codigos_autores[codigo]['posiciones'].append(autores.index(autor))
+                            codigos_autores[codigo]['articles'] += 1
+        
+                autores_ordenados = {}
+                for codigo, data in sorted(codigos_autores.items(), key=lambda x: x[1]['articles'], reverse=True):
+                    nombre_autor = data['autor']
+                    if nombre_autor not in autores_ordenados:
+                        autores_ordenados[nombre_autor] = []
+                    autores_ordenados[nombre_autor].append((codigo, data))
+        
+                for nombre_autor, lista_codigos in autores_ordenados.items():
+                    secuencia = 0
+                    for i, (codigo, data_codigos) in enumerate(lista_codigos):
+                        if i == 0:
+                            nuevo_autor = nombre_autor
                         else:
-                            indices_a_eliminar_sin_doi.update(group.index[1:])
-                duplicados_sin_doi_final = df_concatenated.loc[df_concatenated.index.isin(indices_a_eliminar_sin_doi)].copy()
-                df_concatenated = df_concatenated.drop(list(indices_a_eliminar_sin_doi), errors='ignore')
-                df_concatenated.drop(columns=['A_T_Y'], inplace=True)
-            
-                df_concatenated_sin_duplicados = df_concatenated.copy()
-                duplicados_final = pd.concat([duplicados_doi_final, duplicados_sin_doi_final], ignore_index=True)
-            
-            
-                # --------IDENTIFICAMOS AUTORES CON DIFERENTE GRAFÍA Y UNIFICAMOS EN UNA ÚNICA GRAFÍA---------------------
-                def crear_df_conversion(df):
-                    codigos_autores = {}
-                    grafia_asignada = {}
-            
-                    df['Author(s) ID'] = df['Author(s) ID'].fillna('').astype(str)
-                    df['Authors'] = df['Authors'].fillna('').astype(str)
-                    df['Author full names'] = df['Author full names'].fillna('').astype(str)
-            
-                    for index, row in df.iterrows():
-                        autores = [autor.strip() for autor in row['Authors'].split(';') if autor.strip()]
-                        nombres_largos = [nombre.strip() for nombre in row['Author full names'].split(';') if nombre.strip()]
-                        codigos = [codigo.strip() for codigo in row['Author(s) ID'].split(';') if codigo.strip()]
-            
-                        for autor, nombre_largo, codigo in zip(autores, nombres_largos, codigos):
-                            if codigo:
-                                if codigo not in codigos_autores:
-                                    codigos_autores[codigo] = {
-                                        'autor': autor, 'nombre_largo': nombre_largo,
-                                        'registros': [], 'posiciones': [], 'articles': 0
-                                    }
-                                codigos_autores[codigo]['registros'].append(index)
-                                codigos_autores[codigo]['posiciones'].append(autores.index(autor))
-                                codigos_autores[codigo]['articles'] += 1
-            
-                    autores_ordenados = {}
-                    for codigo, data in sorted(codigos_autores.items(), key=lambda x: x[1]['articles'], reverse=True):
-                        nombre_autor = data['autor']
-                        if nombre_autor not in autores_ordenados:
-                            autores_ordenados[nombre_autor] = []
-                        autores_ordenados[nombre_autor].append((codigo, data))
-            
-                    for nombre_autor, lista_codigos in autores_ordenados.items():
-                        secuencia = 0
-                        for i, (codigo, data_codigos) in enumerate(lista_codigos):
-                            if i == 0:
-                                nuevo_autor = nombre_autor
-                            else:
-                                secuencia += 1
-                                nuevo_autor = f"{nombre_autor}_{secuencia}"
-            
-                            grafia_asignada[codigo] = nuevo_autor
-                            codigos_autores[codigo]['autor'] = nuevo_autor
-            
-                    data = []
-                    for codigo, data_codigos in codigos_autores.items():
-                        reg_str = ';'.join(str(reg) for reg in data_codigos['registros'])
-                        pos_str = ';'.join(str(pos) for pos in data_codigos['posiciones'])
-            
-                        data.append({
-                            'Author(s) ID': codigo,
-                            'Authors': data_codigos['autor'],
-                            'Author full names': data_codigos['nombre_largo'],
-                            'Indices': reg_str,
-                            'Posiciones': pos_str,
-                            'Articles': data_codigos['articles']
-                        })
-            
-                    return pd.DataFrame(data)
-            
-                def realizar_reemplazos(df, df_conversion):
-                    total_reemplazos = 0
-                    for _, row in df_conversion.iterrows():
-                        registros = [int(reg) for reg in row['Indices'].split(';')]
-                        posiciones = [int(pos) for pos in row['Posiciones'].split(';')]
-                        nuevo_autor = row['Authors']
-            
-                        for registro, posicion in zip(registros, posiciones):
-                            autores_viejos = df.at[registro, 'Authors'].split(';')
-                            if len(autores_viejos) > posicion:
-                                if autores_viejos[posicion] != nuevo_autor:
-                                    autores_viejos[posicion] = nuevo_autor
-                                    df.at[registro, 'Authors'] = '; '.join(autores_viejos)
-                                    total_reemplazos += 1
-                    return df, total_reemplazos
-            
-                df_conversion = crear_df_conversion(df_concatenated_sin_duplicados)
-                df_concatenated_sin_duplicados, total_reemplazos = realizar_reemplazos(df_concatenated_sin_duplicados, df_conversion)
-            
-                df_autores_sin_cod = df_concatenated_sin_duplicados[df_concatenated_sin_duplicados['Author(s) ID'].apply(lambda x: str(x).strip()) == ''].copy()
-                df_autores_sin_cod['Indices'] = df_autores_sin_cod.index
-            
-                df_autores_sin_cod = df_autores_sin_cod.assign(Authors=df_autores_sin_cod['Authors'].str.split(';'),
-                                                               Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
-                df_autores_sin_cod = df_autores_sin_cod.explode(['Authors', 'Author_full_names'])
-                df_autores_sin_cod['Authors'] = df_autores_sin_cod['Authors'].str.strip()
-                df_autores_sin_cod['Author_full_names'] = df_autores_sin_cod['Author_full_names'].str.strip()
-                df_autores_sin_cod['Posiciones'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).cumcount()
-                df_autores_sin_cod['Articles'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names'])['Authors'].transform('count')
-            
-                df_autores_sin_cod = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).agg(
-                    {'Indices': lambda x: '; '.join(map(str, x)), 'Posiciones': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
-                ).reset_index()
-            
-                autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indices', 'Posiciones', 'Articles']].copy()
-                autores['Authors'] = autores['Authors'].str.strip()
-                autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
-                autores['New Author'] = '0-change-0'
-            
-            
-                from collections import defaultdict
-            
-                # -------- AUTHOR KEYWORDS ----------
-                author_keywords_dict = defaultdict(list)
-                for index, row in df_concatenated_sin_duplicados.iterrows():
-                    author_keywords = row['Author Keywords'].split(';')
-                    for position, keyword in enumerate(author_keywords):
-                        if keyword.strip():
-                            author_keywords_dict[keyword.strip()].append((index, position))
-            
-                author_keywords_list = []
-                author_indices_list = []
-                author_posiciones_list = []
-                author_conteo_list = []
-            
-                for keyword, apariciones in author_keywords_dict.items():
-                    author_keywords_list.append(keyword)
-                    indices, posiciones = zip(*apariciones)
-                    indices_str = ';'.join(map(str, indices))
-                    posiciones_str = ';'.join(map(str, posiciones))
-                    author_indices_list.append(indices_str)
-                    author_posiciones_list.append(posiciones_str)
-                    author_conteo_list.append(len(apariciones))
-            
-                df_author_keywords = pd.DataFrame({
-                    'Author Keyword': author_keywords_list,
-                    'Indices': author_indices_list,
-                    'Posiciones': author_posiciones_list,
-                    'Conteo': author_conteo_list
-                })
-                df_author_keywords['New Keyword'] = '0-change-0'
-            
-                # -------- INDEX KEYWORDS ----------
-                index_keywords_dict = defaultdict(list)
-                for index, row in df_concatenated_sin_duplicados.iterrows():
-                    index_keywords = row['Index Keywords'].split(';')
-                    for position, keyword in enumerate(index_keywords):
-                        if keyword.strip():
-                            index_keywords_dict[keyword.strip()].append((index, position))
-            
-                index_keywords_list = []
-                index_indices_list = []
-                index_posiciones_list = []
-                index_conteo_list = []
-            
-                for keyword, apariciones in index_keywords_dict.items():
-                    index_keywords_list.append(keyword)
-                    indices, posiciones = zip(*apariciones)
-                    index_indices_list.append(';'.join(map(str, indices)))
-                    index_posiciones_list.append(';'.join(map(str, posiciones)))
-                    index_conteo_list.append(len(apariciones))
-            
-                df_index_keywords = pd.DataFrame({
-                    'Index Keywords': index_keywords_list,
-                    'Indices': index_indices_list,
-                    'Posiciones': index_posiciones_list,
-                    'Conteo': index_conteo_list
-                })
-                df_index_keywords['New Keyword'] = '0-change-0'
-            
-                # -------- CITED REFERENCES ----------
-                references_dict = defaultdict(list)
-                for index, row in df_concatenated_sin_duplicados.iterrows():
-                    references = row['References'].split(';')
-                    for position, reference in enumerate(references):
-                        if reference.strip():
-                            references_dict[reference.strip()].append((index, position))
-            
-                reference_list = []
-                indices_list = []
-                positions_list = []
-                count_list = []
-            
-                for reference, apariciones in references_dict.items():
-                    reference_list.append(reference)
-                    indices, posiciones = zip(*apariciones)
-                    indices_list.append(';'.join(map(str, indices)))
-                    positions_list.append(';'.join(map(str, posiciones)))
-                    count_list.append(len(apariciones))
-            
-                df_references_info = pd.DataFrame({
-                    'References': reference_list,
-                    'Indices': indices_list,
-                    'Posiciones': positions_list,
-                    'Count': count_list
-                })
-                df_references_info['New Reference'] = '0-change-0'
-            
-            
-                df_final = df_concatenated_sin_duplicados.copy()
-            
-                # Convertir campos numéricos y rellenar vacíos
-                df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].apply(pd.to_numeric, errors='coerce')
-                df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
-                df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
+                            secuencia += 1
+                            nuevo_autor = f"{nombre_autor}_{secuencia}"
+        
+                        grafia_asignada[codigo] = nuevo_autor
+                        codigos_autores[codigo]['autor'] = nuevo_autor
+        
+                data = []
+                for codigo, data_codigos in codigos_autores.items():
+                    reg_str = ';'.join(str(reg) for reg in data_codigos['registros'])
+                    pos_str = ';'.join(str(pos) for pos in data_codigos['posiciones'])
+        
+                    data.append({
+                        'Author(s) ID': codigo,
+                        'Authors': data_codigos['autor'],
+                        'Author full names': data_codigos['nombre_largo'],
+                        'Indices': reg_str,
+                        'Posiciones': pos_str,
+                        'Articles': data_codigos['articles']
+                    })
+        
+                return pd.DataFrame(data)
+        
+            def realizar_reemplazos(df, df_conversion):
+                total_reemplazos = 0
+                for _, row in df_conversion.iterrows():
+                    registros = [int(reg) for reg in row['Indices'].split(';')]
+                    posiciones = [int(pos) for pos in row['Posiciones'].split(';')]
+                    nuevo_autor = row['Authors']
+        
+                    for registro, posicion in zip(registros, posiciones):
+                        autores_viejos = df.at[registro, 'Authors'].split(';')
+                        if len(autores_viejos) > posicion:
+                            if autores_viejos[posicion] != nuevo_autor:
+                                autores_viejos[posicion] = nuevo_autor
+                                df.at[registro, 'Authors'] = '; '.join(autores_viejos)
+                                total_reemplazos += 1
+                return df, total_reemplazos
+        
+            df_conversion = crear_df_conversion(df_concatenated_sin_duplicados)
+            df_concatenated_sin_duplicados, total_reemplazos = realizar_reemplazos(df_concatenated_sin_duplicados, df_conversion)
+        
+            df_autores_sin_cod = df_concatenated_sin_duplicados[df_concatenated_sin_duplicados['Author(s) ID'].apply(lambda x: str(x).strip()) == ''].copy()
+            df_autores_sin_cod['Indices'] = df_autores_sin_cod.index
+        
+            df_autores_sin_cod = df_autores_sin_cod.assign(Authors=df_autores_sin_cod['Authors'].str.split(';'),
+                                                           Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
+            df_autores_sin_cod = df_autores_sin_cod.explode(['Authors', 'Author_full_names'])
+            df_autores_sin_cod['Authors'] = df_autores_sin_cod['Authors'].str.strip()
+            df_autores_sin_cod['Author_full_names'] = df_autores_sin_cod['Author_full_names'].str.strip()
+            df_autores_sin_cod['Posiciones'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).cumcount()
+            df_autores_sin_cod['Articles'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names'])['Authors'].transform('count')
+        
+            df_autores_sin_cod = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).agg(
+                {'Indices': lambda x: '; '.join(map(str, x)), 'Posiciones': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
+            ).reset_index()
+        
+            autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indices', 'Posiciones', 'Articles']].copy()
+            autores['Authors'] = autores['Authors'].str.strip()
+            autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
+            autores['New Author'] = '0-change-0'
+        
+        
+            from collections import defaultdict
+        
+            # -------- AUTHOR KEYWORDS ----------
+            author_keywords_dict = defaultdict(list)
+            for index, row in df_concatenated_sin_duplicados.iterrows():
+                author_keywords = row['Author Keywords'].split(';')
+                for position, keyword in enumerate(author_keywords):
+                    if keyword.strip():
+                        author_keywords_dict[keyword.strip()].append((index, position))
+        
+            author_keywords_list = []
+            author_indices_list = []
+            author_posiciones_list = []
+            author_conteo_list = []
+        
+            for keyword, apariciones in author_keywords_dict.items():
+                author_keywords_list.append(keyword)
+                indices, posiciones = zip(*apariciones)
+                indices_str = ';'.join(map(str, indices))
+                posiciones_str = ';'.join(map(str, posiciones))
+                author_indices_list.append(indices_str)
+                author_posiciones_list.append(posiciones_str)
+                author_conteo_list.append(len(apariciones))
+        
+            df_author_keywords = pd.DataFrame({
+                'Author Keyword': author_keywords_list,
+                'Indices': author_indices_list,
+                'Posiciones': author_posiciones_list,
+                'Conteo': author_conteo_list
+            })
+            df_author_keywords['New Keyword'] = '0-change-0'
+        
+            # -------- INDEX KEYWORDS ----------
+            index_keywords_dict = defaultdict(list)
+            for index, row in df_concatenated_sin_duplicados.iterrows():
+                index_keywords = row['Index Keywords'].split(';')
+                for position, keyword in enumerate(index_keywords):
+                    if keyword.strip():
+                        index_keywords_dict[keyword.strip()].append((index, position))
+        
+            index_keywords_list = []
+            index_indices_list = []
+            index_posiciones_list = []
+            index_conteo_list = []
+        
+            for keyword, apariciones in index_keywords_dict.items():
+                index_keywords_list.append(keyword)
+                indices, posiciones = zip(*apariciones)
+                index_indices_list.append(';'.join(map(str, indices)))
+                index_posiciones_list.append(';'.join(map(str, posiciones)))
+                index_conteo_list.append(len(apariciones))
+        
+            df_index_keywords = pd.DataFrame({
+                'Index Keywords': index_keywords_list,
+                'Indices': index_indices_list,
+                'Posiciones': index_posiciones_list,
+                'Conteo': index_conteo_list
+            })
+            df_index_keywords['New Keyword'] = '0-change-0'
+        
+            # -------- CITED REFERENCES ----------
+            references_dict = defaultdict(list)
+            for index, row in df_concatenated_sin_duplicados.iterrows():
+                references = row['References'].split(';')
+                for position, reference in enumerate(references):
+                    if reference.strip():
+                        references_dict[reference.strip()].append((index, position))
+        
+            reference_list = []
+            indices_list = []
+            positions_list = []
+            count_list = []
+        
+            for reference, apariciones in references_dict.items():
+                reference_list.append(reference)
+                indices, posiciones = zip(*apariciones)
+                indices_list.append(';'.join(map(str, indices)))
+                positions_list.append(';'.join(map(str, posiciones)))
+                count_list.append(len(apariciones))
+        
+            df_references_info = pd.DataFrame({
+                'References': reference_list,
+                'Indices': indices_list,
+                'Posiciones': positions_list,
+                'Count': count_list
+            })
+            df_references_info['New Reference'] = '0-change-0'
+        
+        
+            df_final = df_concatenated_sin_duplicados.copy()
+        
+            # Convertir campos numéricos y rellenar vacíos
+            df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].apply(pd.to_numeric, errors='coerce')
+            df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].fillna(0)
+            df_final[['Volume', 'Cited by', 'Page count', 'Year']] = df_final[['Volume', 'Cited by', 'Page count', 'Year']].astype(int)
 
-                 # Guardar para usar luego
-                st.session_state["df_final"] = df_final
-                
-                # Guardar conteos clave para informes
-                st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
-                st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
-                st.session_state["num_df_final"] = df_final.shape[0]
-
-                # Guardar los dataframes necesarios para informes y exportación
-                st.session_state["duplicados_final"] = duplicados_final
-                st.session_state["duplicados_sin_doi_final"] = duplicados_sin_doi_final
-                st.session_state["autores"] = autores
-                st.session_state["df_author_keywords"] = df_author_keywords
-                st.session_state["df_index_keywords"] = df_index_keywords
-                st.session_state["df_references_info"] = df_references_info
-
-                # Guardar top valores para histogramas (no guardar los DataFrames enteros)
-                st.session_state["top_autores"] = autores.nlargest(20, 'Articles')[['Authors', 'Articles']].values.tolist()
-                st.session_state["top_authkw"] = df_author_keywords.nlargest(25, 'Conteo')[['Author Keyword', 'Conteo']].values.tolist()
-                st.session_state["top_indexkw"] = df_index_keywords.nlargest(25, 'Conteo')[['Index Keywords', 'Conteo']].values.tolist()
-
-                # ---- Liberar memoria innecesaria tras guardar en session_state ----
-                del dfsco_list
-                del dfwos_selected
-                del df_concatenated
-                del df_concatenated_sin_duplicados
-                del df_sin_vacios
-                
-                del duplicados_doi
-                del duplicados_sin_doi
-                del duplicados_doi_final
-                del duplicados_sin_doi_final
-                del indices_a_eliminar_doi
-                del indices_a_eliminar_sin_doi
-                
-                del df_autores_sin_cod
-                del df_conversion
-                
-                del author_keywords_dict
-                del index_keywords_dict
-                del references_dict
-
-                # Librería que fuerza la limpieaza de lo borrado
-                gc.collect()
-    
-                # Generación de archivos Excel para descarga
-                import io
+             # Guardar para usar luego
+            st.session_state["df_final"] = df_final
             
-                output_fusion = io.BytesIO()
-                output_duplicados = io.BytesIO()
-                output_tablas = io.BytesIO()
+            # Guardar conteos clave para informes
+            st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
+            st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
+            st.session_state["num_df_final"] = df_final.shape[0]
+
+            # Guardar los dataframes necesarios para informes y exportación
+            st.session_state["duplicados_final"] = duplicados_final
+            st.session_state["duplicados_sin_doi_final"] = duplicados_sin_doi_final
+            st.session_state["autores"] = autores
+            st.session_state["df_author_keywords"] = df_author_keywords
+            st.session_state["df_index_keywords"] = df_index_keywords
+            st.session_state["df_references_info"] = df_references_info
+
+            # Guardar top valores para histogramas (no guardar los DataFrames enteros)
+            st.session_state["top_autores"] = autores.nlargest(20, 'Articles')[['Authors', 'Articles']].values.tolist()
+            st.session_state["top_authkw"] = df_author_keywords.nlargest(25, 'Conteo')[['Author Keyword', 'Conteo']].values.tolist()
+            st.session_state["top_indexkw"] = df_index_keywords.nlargest(25, 'Conteo')[['Index Keywords', 'Conteo']].values.tolist()
+
+            # ---- Liberar memoria innecesaria tras guardar en session_state ----
+            del dfsco_list
+            del dfwos_selected
+            del df_concatenated
+            del df_concatenated_sin_duplicados
+            del df_sin_vacios
             
-                # Recuperar los DataFrames necesarios
-                df_final = st.session_state.get("df_final")
-                duplicados_final = st.session_state.get("duplicados_final")
-                autores = st.session_state.get("autores")
-                df_author_keywords = st.session_state.get("df_author_keywords")
-                df_index_keywords = st.session_state.get("df_index_keywords")
-                df_references_info = st.session_state.get("df_references_info")
-                
-                # Fichero Scopus+WOS
-                with pd.ExcelWriter(output_fusion, engine='xlsxwriter') as writer:
-                    df_final.to_excel(writer, index=False)
+            del duplicados_doi
+            del duplicados_sin_doi
+            del duplicados_doi_final
+            del duplicados_sin_doi_final
+            del indices_a_eliminar_doi
+            del indices_a_eliminar_sin_doi
             
-                # Fichero de duplicados
-                with pd.ExcelWriter(output_duplicados, engine='xlsxwriter') as writer:
-                    duplicados_final.to_excel(writer, index=False)
+            del df_autores_sin_cod
+            del df_conversion
             
-                # Fichero de tablas para depuración
-                with pd.ExcelWriter(output_tablas, engine='xlsxwriter') as writer:
-                    autores.to_excel(writer, sheet_name='Authors', index=False)
-                    df_author_keywords.to_excel(writer, sheet_name='Author Keywords', index=False)
-                    df_index_keywords.to_excel(writer, sheet_name='Index Keywords', index=False)
-                    df_references_info.to_excel(writer, sheet_name='Cited References', index=False)
+            del author_keywords_dict
+            del index_keywords_dict
+            del references_dict
+
+            # Librería que fuerza la limpieaza de lo borrado
+            gc.collect()
+
+            # Generación de archivos Excel para descarga
+            import io
+        
+            output_fusion = io.BytesIO()
+            output_duplicados = io.BytesIO()
+            output_tablas = io.BytesIO()
+        
+            # Recuperar los DataFrames necesarios
+            df_final = st.session_state.get("df_final")
+            duplicados_final = st.session_state.get("duplicados_final")
+            autores = st.session_state.get("autores")
+            df_author_keywords = st.session_state.get("df_author_keywords")
+            df_index_keywords = st.session_state.get("df_index_keywords")
+            df_references_info = st.session_state.get("df_references_info")
+            
+            # Fichero Scopus+WOS
+            with pd.ExcelWriter(output_fusion, engine='xlsxwriter') as writer:
+                df_final.to_excel(writer, index=False)
+        
+            # Fichero de duplicados
+            with pd.ExcelWriter(output_duplicados, engine='xlsxwriter') as writer:
+                duplicados_final.to_excel(writer, index=False)
+        
+            # Fichero de tablas para depuración
+            with pd.ExcelWriter(output_tablas, engine='xlsxwriter') as writer:
+                autores.to_excel(writer, sheet_name='Authors', index=False)
+                df_author_keywords.to_excel(writer, sheet_name='Author Keywords', index=False)
+                df_index_keywords.to_excel(writer, sheet_name='Index Keywords', index=False)
+                df_references_info.to_excel(writer, sheet_name='Cited References', index=False)
 
             # Guardar archivos en session_state
             st.session_state["output_fusion_bytes"] = output_fusion.getvalue()
@@ -553,10 +553,10 @@ if st.session_state.get("fusion_completada", False):
     )
 
 
-            mensaje_proceso.empty()  # Oculta el mensaje anterior
-            st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
-            st.session_state["fusion_en_proceso"] = False
-            st.session_state["fusion_completada"] = True
+            # mensaje_proceso.empty()  # Oculta el mensaje anterior
+            # st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+            # st.session_state["fusion_en_proceso"] = False
+            # st.session_state["fusion_completada"] = True
                 
 
 if not st.session_state.get("parte4_generada", False):
