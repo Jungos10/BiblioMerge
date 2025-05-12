@@ -608,10 +608,10 @@ if (
                 #         "Frecuencia"
                 #     )
 
-                mensaje_proceso.empty()  # Oculta el mensaje anterior
+            mensaje_proceso.empty()  # Oculta el mensaje anterior
                 #st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
-                st.session_state["fusion_en_proceso"] = False
-                st.session_state["fusion_completada"] = True
+            st.session_state["fusion_en_proceso"] = False
+            st.session_state["fusion_completada"] = True
                 
 
 if not st.session_state.get("parte4_generada", False):
