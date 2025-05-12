@@ -491,57 +491,125 @@ if st.session_state["procesado"]:
                 st.session_state["output_duplicados_bytes"] = output_duplicados.getvalue()
                 st.session_state["output_tablas_bytes"] = output_tablas.getvalue()
 
-                # Guardar estado de fusión como completada
-                st.session_state["fusion_completada"] = True
+                # Mostrar resultados si los outputs están en session_state
+if (
+    "output_fusion_bytes" in st.session_state and
+    "output_duplicados_bytes" in st.session_state and
+    "output_tablas_bytes" in st.session_state and
+    "top_autores" in st.session_state and
+    "top_authkw" in st.session_state and
+    "top_indexkw" in st.session_state and
+    "num_df_final" in st.session_state and
+    "num_dfsco" in st.session_state and
+    "num_dfwos" in st.session_state and
+    "num_duplicados_final" in st.session_state and
+    "num_duplicados_sin_doi" in st.session_state
+):
+    st.markdown("## 📥 Archivos disponibles para descarga:")
+    st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
+    st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
+    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
 
-                # ---- BOTONES DE DESCARGA (solo si la fusión ya se completó) ----
-                if st.session_state.get("fusion_completada", False):
-                    st.markdown("### 📥 Descarga tus archivos:")                            
-                    st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
-                    st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
-                    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
+    st.markdown("---")
+    st.markdown("## 📊 Informe de resumen de la fusión")
+
+    st.write(f"**🔹 Registros Scopus:** {st.session_state['num_dfsco']}")
+    st.write(f"**🔹 Registros WoS:** {st.session_state['num_dfwos']}")
+    st.write(f"**➖ Duplicados eliminados (total):** {st.session_state['num_duplicados_final']}")
+    st.write(f"&nbsp;&nbsp;&nbsp;&nbsp;• sin DOI: {st.session_state['num_duplicados_sin_doi']}")
+    st.write(f"**✅ Registros finales:** {st.session_state['num_df_final']}")
+
+    st.markdown("---")
+
+    def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
+        if not lista_datos:
+            st.warning(f"No hay datos para {titulo}.")
+            return
+        etiquetas, valores = zip(*lista_datos)
+        fig, ax = plt.subplots(figsize=(8, 4))
+        ax.bar(etiquetas, valores)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_title(titulo)
+        plt.xticks(rotation=90)
+        st.pyplot(fig)
+
+    st.subheader("👥 Top 20 autores con más artículos")
+    mostrar_histograma_top(
+        st.session_state["top_autores"],
+        "Top 20 Autores",
+        "Autores",
+        "Número de Artículos"
+    )
+
+    st.subheader("🔑 Top 25 Author Keywords")
+    mostrar_histograma_top(
+        st.session_state["top_authkw"],
+        "Top 25 Author Keywords",
+        "Author Keywords",
+        "Frecuencia"
+    )
+
+    st.subheader("🔍 Top 25 Index Keywords")
+    mostrar_histograma_top(
+        st.session_state["top_indexkw"],
+        "Top 25 Index Keywords",
+        "Index Keywords",
+        "Frecuencia"
+    )
+
+    st.success("✅ Fusión completada con éxito. Puedes continuar con la depuración o generar los ficheros finales.")
+                # # Guardar estado de fusión como completada
+                # st.session_state["fusion_completada"] = True
+
+                # # ---- BOTONES DE DESCARGA (solo si la fusión ya se completó) ----
+                # if st.session_state.get("fusion_completada", False):
+                #     st.markdown("### 📥 Descarga tus archivos:")                            
+                #     st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
+                #     st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
+                #     st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
                    
                                 
-                    def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
-                        if not lista_datos:
-                            st.warning(f"No hay datos para {titulo}.")
-                            return
-                        etiquetas, valores = zip(*lista_datos)
-                        fig, ax = plt.subplots(figsize=(8, 4))
-                        ax.bar(etiquetas, valores)
-                        ax.set_xlabel(xlabel)
-                        ax.set_ylabel(ylabel)
-                        ax.set_title(titulo)
-                        plt.xticks(rotation=90)
-                        st.pyplot(fig)
+                #     def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
+                #         if not lista_datos:
+                #             st.warning(f"No hay datos para {titulo}.")
+                #             return
+                #         etiquetas, valores = zip(*lista_datos)
+                #         fig, ax = plt.subplots(figsize=(8, 4))
+                #         ax.bar(etiquetas, valores)
+                #         ax.set_xlabel(xlabel)
+                #         ax.set_ylabel(ylabel)
+                #         ax.set_title(titulo)
+                #         plt.xticks(rotation=90)
+                #         st.pyplot(fig)
                     
-                    # Mostrar histogramas desde session_state
-                    st.subheader("👥 Top 20 autores con más artículos")
-                    mostrar_histograma_top(
-                        st.session_state["top_autores"],
-                        "Top 20 Autores",
-                        "Autores",
-                        "Número de Artículos"
-                    )
+                #     # Mostrar histogramas desde session_state
+                #     st.subheader("👥 Top 20 autores con más artículos")
+                #     mostrar_histograma_top(
+                #         st.session_state["top_autores"],
+                #         "Top 20 Autores",
+                #         "Autores",
+                #         "Número de Artículos"
+                #     )
                     
-                    st.subheader("🔑 Top 25 Author Keywords")
-                    mostrar_histograma_top(
-                        st.session_state["top_authkw"],
-                        "Top 25 Author Keywords",
-                        "Author Keywords",
-                        "Frecuencia"
-                    )
+                #     st.subheader("🔑 Top 25 Author Keywords")
+                #     mostrar_histograma_top(
+                #         st.session_state["top_authkw"],
+                #         "Top 25 Author Keywords",
+                #         "Author Keywords",
+                #         "Frecuencia"
+                #     )
                     
-                    st.subheader("🔍 Top 25 Index Keywords")
-                    mostrar_histograma_top(
-                        st.session_state["top_indexkw"],
-                        "Top 25 Index Keywords",
-                        "Index Keywords",
-                        "Frecuencia"
-                    )
+                #     st.subheader("🔍 Top 25 Index Keywords")
+                #     mostrar_histograma_top(
+                #         st.session_state["top_indexkw"],
+                #         "Top 25 Index Keywords",
+                #         "Index Keywords",
+                #         "Frecuencia"
+                #     )
 
                 mensaje_proceso.empty()  # Oculta el mensaje anterior
-                st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+                #st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
                 st.session_state["fusion_en_proceso"] = False
                 st.session_state["fusion_completada"] = True
                 
