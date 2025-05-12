@@ -494,16 +494,18 @@ if st.session_state["procesado"]:
                     df_author_keywords.to_excel(writer, sheet_name='Author Keywords', index=False)
                     df_index_keywords.to_excel(writer, sheet_name='Index Keywords', index=False)
                     df_references_info.to_excel(writer, sheet_name='Cited References', index=False)
-            
-                # Streamlit download buttons
-                st.download_button("📥 Descargar Scopus+WOS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
-                st.download_button("📥 Descargar duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
-                st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", output_tablas.getvalue(), "Tablas_para_depuraciones.xlsx")
+
+                if st.session_state.get("fusion_completada", False):
+                # ---- BOTONES DE DESCARGA ----
+                
+                    st.download_button("📥 Descargar Scopus+WOS.xlsx", output_fusion.getvalue(), "Scopus+WOS.xlsx")
+                    st.download_button("📥 Descargar duplicados eliminados", output_duplicados.getvalue(), "Scopus+WOS(duplicados).xlsx")
+                    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", output_tablas.getvalue(), "Tablas_para_depuraciones.xlsx")
             
             
                 # -------- INFORMES Y VISUALIZACIONES --------
                 # --- Mostrar resultados y visualización si la fusión ha sido completada ---
-                if st.session_state.get("fusion_completada", False):
+                
                     st.subheader("📊 Información de la fusión")
                 
                     #st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
