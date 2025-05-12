@@ -860,7 +860,7 @@ if not st.session_state.get("parte4_generada", False):
             mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
     
             st.success("✅ Archivos finales generados correctamente.")
-else:
-    # Mostrar solo si hubo alguna actividad previa (para no mostrarlo desde el inicio en blanco)
-    if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
+            
+    if not habilitar_parte4:
+        if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
             mostrar_boton_finales_bloqueado()
