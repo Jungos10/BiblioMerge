@@ -727,6 +727,8 @@ if not st.session_state.get("parte4_generada", False):
     
         if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
             st.session_state["parte4_generada"] = True
+
+        if st.session_state.get("parte4_generada"):
             
             
             df_final = st.session_state.get("df_final")
