@@ -502,89 +502,91 @@ if st.session_state["procesado"]:
             
             
                 # -------- INFORMES Y VISUALIZACIONES --------
-                st.subheader("📊 Información de la fusión")
-            
-                #st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
-                #st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
-                st.markdown(f"- Registros Scopus: **{st.session_state['num_dfsco']}**")
-                st.markdown(f"- Registros WoS: **{st.session_state['num_dfwos']}**")
-                st.markdown(f"- Registros duplicados eliminados: **{st.session_state['num_duplicados_final']}**")
-                st.markdown(f"- De ellos, sin DOI: **{st.session_state['num_duplicados_sin_doi']}**")
-                st.markdown(f"- Registros finales Scopus + WoS: **{st.session_state['num_df_final']}**")
-                #st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
-                #st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
-                #st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
-            
-                # # HISTOGRAMA: AUTORES
-                # st.subheader("👥 Top 20 autores con más artículos")
-                # autores_sorted = autores.sort_values(by='Articles', ascending=False).head(20)
-                # fig1, ax1 = plt.subplots(figsize=(8, 4))
-                # ax1.bar(autores_sorted['Authors'], autores_sorted['Articles'])
-                # ax1.set_xlabel('Autores')
-                # ax1.set_ylabel('Número de Artículos')
-                # ax1.set_title('Top 20 Autores')
-                # plt.xticks(rotation=90)
-                # st.pyplot(fig1)
-            
-                # # HISTOGRAMA: AUTHOR KEYWORDS
-                # st.subheader("🔑 Top 25 Author Keywords")
-                # df_sorted_authkw = df_author_keywords.sort_values(by='Conteo', ascending=False).head(25)
-                # fig2, ax2 = plt.subplots(figsize=(8, 4))
-                # ax2.bar(df_sorted_authkw['Author Keyword'], df_sorted_authkw['Conteo'])
-                # ax2.set_xlabel('Author Keywords')
-                # ax2.set_ylabel('Frecuencia')
-                # ax2.set_title('Top 25 Author Keywords')
-                # plt.xticks(rotation=90)
-                # st.pyplot(fig2)
-            
-                # # HISTOGRAMA: INDEX KEYWORDS
-                # st.subheader("🔍 Top 25 Index Keywords")
-                # df_sorted_indkw = df_index_keywords.sort_values(by='Conteo', ascending=False).head(25)
-                # fig3, ax3 = plt.subplots(figsize=(8, 4))
-                # ax3.bar(df_sorted_indkw['Index Keywords'], df_sorted_indkw['Conteo'])
-                # ax3.set_xlabel('Index Keywords')
-                # ax3.set_ylabel('Frecuencia')
-                # ax3.set_title('Top 25 Index Keywords')
-                # plt.xticks(rotation=90)
-                # st.pyplot(fig3)
-            
-                def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
-                    if not lista_datos:
-                        st.warning(f"No hay datos para {titulo}.")
-                        return
-                    etiquetas, valores = zip(*lista_datos)
-                    fig, ax = plt.subplots(figsize=(8, 4))
-                    ax.bar(etiquetas, valores)
-                    ax.set_xlabel(xlabel)
-                    ax.set_ylabel(ylabel)
-                    ax.set_title(titulo)
-                    plt.xticks(rotation=90)
-                    st.pyplot(fig)
+                # --- Mostrar resultados y visualización si la fusión ha sido completada ---
+                if st.session_state.get("fusion_completada", False):
+                    st.subheader("📊 Información de la fusión")
                 
-                # Mostrar histogramas desde session_state
-                st.subheader("👥 Top 20 autores con más artículos")
-                mostrar_histograma_top(
-                    st.session_state["top_autores"],
-                    "Top 20 Autores",
-                    "Autores",
-                    "Número de Artículos"
-                )
+                    #st.markdown(f"- Registros Scopus: **{dfsco.shape[0]}**")
+                    #st.markdown(f"- Registros WoS: **{dfwos.shape[0]}**")
+                    st.markdown(f"- Registros Scopus: **{st.session_state['num_dfsco']}**")
+                    st.markdown(f"- Registros WoS: **{st.session_state['num_dfwos']}**")
+                    st.markdown(f"- Registros duplicados eliminados: **{st.session_state['num_duplicados_final']}**")
+                    st.markdown(f"- De ellos, sin DOI: **{st.session_state['num_duplicados_sin_doi']}**")
+                    st.markdown(f"- Registros finales Scopus + WoS: **{st.session_state['num_df_final']}**")
+                    #st.markdown(f"- Registros duplicados eliminados: **{duplicados_final.shape[0]}**")
+                    #st.markdown(f"- De ellos, sin DOI: **{duplicados_sin_doi_final.shape[0]}**")
+                    #st.markdown(f"- Registros finales Scopus + WoS: **{df_final.shape[0]}**")
                 
-                st.subheader("🔑 Top 25 Author Keywords")
-                mostrar_histograma_top(
-                    st.session_state["top_authkw"],
-                    "Top 25 Author Keywords",
-                    "Author Keywords",
-                    "Frecuencia"
-                )
+                    # # HISTOGRAMA: AUTORES
+                    # st.subheader("👥 Top 20 autores con más artículos")
+                    # autores_sorted = autores.sort_values(by='Articles', ascending=False).head(20)
+                    # fig1, ax1 = plt.subplots(figsize=(8, 4))
+                    # ax1.bar(autores_sorted['Authors'], autores_sorted['Articles'])
+                    # ax1.set_xlabel('Autores')
+                    # ax1.set_ylabel('Número de Artículos')
+                    # ax1.set_title('Top 20 Autores')
+                    # plt.xticks(rotation=90)
+                    # st.pyplot(fig1)
                 
-                st.subheader("🔍 Top 25 Index Keywords")
-                mostrar_histograma_top(
-                    st.session_state["top_indexkw"],
-                    "Top 25 Index Keywords",
-                    "Index Keywords",
-                    "Frecuencia"
-                )
+                    # # HISTOGRAMA: AUTHOR KEYWORDS
+                    # st.subheader("🔑 Top 25 Author Keywords")
+                    # df_sorted_authkw = df_author_keywords.sort_values(by='Conteo', ascending=False).head(25)
+                    # fig2, ax2 = plt.subplots(figsize=(8, 4))
+                    # ax2.bar(df_sorted_authkw['Author Keyword'], df_sorted_authkw['Conteo'])
+                    # ax2.set_xlabel('Author Keywords')
+                    # ax2.set_ylabel('Frecuencia')
+                    # ax2.set_title('Top 25 Author Keywords')
+                    # plt.xticks(rotation=90)
+                    # st.pyplot(fig2)
+                
+                    # # HISTOGRAMA: INDEX KEYWORDS
+                    # st.subheader("🔍 Top 25 Index Keywords")
+                    # df_sorted_indkw = df_index_keywords.sort_values(by='Conteo', ascending=False).head(25)
+                    # fig3, ax3 = plt.subplots(figsize=(8, 4))
+                    # ax3.bar(df_sorted_indkw['Index Keywords'], df_sorted_indkw['Conteo'])
+                    # ax3.set_xlabel('Index Keywords')
+                    # ax3.set_ylabel('Frecuencia')
+                    # ax3.set_title('Top 25 Index Keywords')
+                    # plt.xticks(rotation=90)
+                    # st.pyplot(fig3)
+                
+                    def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
+                        if not lista_datos:
+                            st.warning(f"No hay datos para {titulo}.")
+                            return
+                        etiquetas, valores = zip(*lista_datos)
+                        fig, ax = plt.subplots(figsize=(8, 4))
+                        ax.bar(etiquetas, valores)
+                        ax.set_xlabel(xlabel)
+                        ax.set_ylabel(ylabel)
+                        ax.set_title(titulo)
+                        plt.xticks(rotation=90)
+                        st.pyplot(fig)
+                    
+                    # Mostrar histogramas desde session_state
+                    st.subheader("👥 Top 20 autores con más artículos")
+                    mostrar_histograma_top(
+                        st.session_state["top_autores"],
+                        "Top 20 Autores",
+                        "Autores",
+                        "Número de Artículos"
+                    )
+                    
+                    st.subheader("🔑 Top 25 Author Keywords")
+                    mostrar_histograma_top(
+                        st.session_state["top_authkw"],
+                        "Top 25 Author Keywords",
+                        "Author Keywords",
+                        "Frecuencia"
+                    )
+                    
+                    st.subheader("🔍 Top 25 Index Keywords")
+                    mostrar_histograma_top(
+                        st.session_state["top_indexkw"],
+                        "Top 25 Index Keywords",
+                        "Index Keywords",
+                        "Frecuencia"
+                    )
 
                 mensaje_proceso.empty()  # Oculta el mensaje anterior
                 st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
