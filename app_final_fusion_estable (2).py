@@ -129,14 +129,14 @@ if st.session_state["procesado"]:
 if st.session_state.get("procesado") and st.session_state.get("fusion_en_proceso"):
     
     # 🔁 Crear el contenedor del mensaje una sola vez
-    mensaje_proceso = st.empty()
-    
+    if "mensaje_proceso" not in st.session_state:
+    st.session_state["mensaje_proceso"] = st.empty()
+
     # ✅ Mostrar mensaje solo la primera vez que se entra aquí
     if "fusion_mensaje_mostrado" not in st.session_state:
         st.session_state["fusion_mensaje_mostrado"] = True
-        mensaje_proceso = st.empty()
-        mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
-
+        st.session_state["mensaje_proceso"].markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+    
     # ✅ Spinner activo mientras se realiza todo el procesamiento
     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):   
 
@@ -510,7 +510,10 @@ if st.session_state.get("procesado") and st.session_state.get("fusion_en_proceso
         st.session_state["fusion_en_proceso"] = False
         st.session_state["fusion_completada"] = True
         st.session_state.pop("fusion_mensaje_mostrado", None)  # 🔁 Eliminar para futuros procesos
-        mensaje_proceso.empty()
+        
+        st.session_state["mensaje_proceso"].empty()
+        st.session_state.pop("mensaje_proceso", None)
+        
         st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
 
 # -------------------- PARTE 2B: BOTONES DE DESCARGA + REPORTING PERSISTENTE --------------------
