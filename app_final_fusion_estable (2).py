@@ -129,11 +129,11 @@ if st.session_state["procesado"]:
 
 if st.session_state["procesado"]:
     if st.session_state["fusion_en_proceso"]:
-    if "mensaje_proceso_key" not in st.session_state:
-        st.session_state["mensaje_proceso_key"] = st.empty()
-
-    with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-        st.session_state["mensaje_proceso_key"].markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+        if "mensaje_proceso_key" not in st.session_state:
+            st.session_state["mensaje_proceso_key"] = st.empty()
+    
+        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+            st.session_state["mensaje_proceso_key"].markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
     
                
     
@@ -504,8 +504,8 @@ if st.session_state["procesado"]:
 
             # Finalizar estado
             if "mensaje_proceso_key" in st.session_state:
-            st.session_state["mensaje_proceso_key"].empty()
-            del st.session_state["mensaje_proceso_key"]
+                st.session_state["mensaje_proceso_key"].empty()
+                del st.session_state["mensaje_proceso_key"]
             
             st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
             st.session_state["fusion_en_proceso"] = False
