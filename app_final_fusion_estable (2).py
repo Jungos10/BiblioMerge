@@ -736,7 +736,7 @@ if not st.session_state.get("parte4_generada", False):
             boton = st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True)
             if boton:
                 st.session_state["parte4_generada"] = True
-                st.experimental_set_query_params(refresh="1")  # fuerza cambio mínimo para refrescar
+                st.query_params["refresh"] = "1"  # fuerza un cambio de estado para recargar
                 st.stop()  # detiene, la siguiente ejecución entrará al bloque else
                   
         
