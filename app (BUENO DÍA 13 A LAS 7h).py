@@ -701,7 +701,9 @@ if not st.session_state.get("parte4_generada", False):
     
                 except Exception as e:
                     st.error(f"❌ Error general al procesar la depuración: {str(e)}")
-    
+                    
+                st.markdown("### 🧪 Vista previa de `df_final` (post-depuración)")
+                st.dataframe(st.session_state["df_final"].head(50))  # Muestra primeras 50 filas
     
 #     # -------------------- PARTE 4: GENERAR FICHEROS FINALES --------------------
     
