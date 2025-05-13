@@ -60,61 +60,61 @@ if not st.session_state["procesado"]:
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state["procesado"]:
    
-            time.sleep(0.1)  # Forzar visualización del spinner
+        time.sleep(0.1)  # Forzar visualización del spinner
 
-            scopus_files = st.session_state["scopus_files"]
-            wos_files = st.session_state["wos_files"]
+        scopus_files = st.session_state["scopus_files"]
+        wos_files = st.session_state["wos_files"]
 
-            # --- SCOPUS ---
-            dfsco_list = []
-            for file in scopus_files:
-                df = pd.read_csv(file)
-                dfsco_list.append(df)
-            dfsco = pd.concat(dfsco_list, ignore_index=True)
-            dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
-            dfsco['Source'] = 'scopus'
+        # --- SCOPUS ---
+        dfsco_list = []
+        for file in scopus_files:
+            df = pd.read_csv(file)
+            dfsco_list.append(df)
+        dfsco = pd.concat(dfsco_list, ignore_index=True)
+        dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
+        dfsco['Source'] = 'scopus'
 
-                       
-            # --- WoS ---
-            campos_multiples = ['AU', 'AF', 'CR']
-            todos_registros = []
-            for file in wos_files:
-                registros = []
-                registro_actual = {}
-                ultimo_campo = None
-                lines = file.getvalue().decode('ISO-8859-1').splitlines()
-                for linea in lines:
-                    if not linea.strip() or linea.startswith('EF'):
-                        if registro_actual:
-                            registros.append(registro_actual)
-                            registro_actual = {}
-                            ultimo_campo = None
-                        continue
-                    campo = linea[:2].strip()
-                    valor = linea[3:].strip()
-                    if not campo:
-                        if ultimo_campo in campos_multiples:
-                            registro_actual[ultimo_campo] += "; " + valor
-                        else:
-                            registro_actual[ultimo_campo] += " " + valor
+                   
+        # --- WoS ---
+        campos_multiples = ['AU', 'AF', 'CR']
+        todos_registros = []
+        for file in wos_files:
+            registros = []
+            registro_actual = {}
+            ultimo_campo = None
+            lines = file.getvalue().decode('ISO-8859-1').splitlines()
+            for linea in lines:
+                if not linea.strip() or linea.startswith('EF'):
+                    if registro_actual:
+                        registros.append(registro_actual)
+                        registro_actual = {}
+                        ultimo_campo = None
+                    continue
+                campo = linea[:2].strip()
+                valor = linea[3:].strip()
+                if not campo:
+                    if ultimo_campo in campos_multiples:
+                        registro_actual[ultimo_campo] += "; " + valor
                     else:
-                        if campo in campos_multiples:
-                            if campo in registro_actual:
-                                registro_actual[campo] += "; " + valor
-                            else:
-                                registro_actual[campo] = valor
+                        registro_actual[ultimo_campo] += " " + valor
+                else:
+                    if campo in campos_multiples:
+                        if campo in registro_actual:
+                            registro_actual[campo] += "; " + valor
                         else:
                             registro_actual[campo] = valor
-                        ultimo_campo = campo
-                todos_registros.extend(registros)
-   
-            dfwos = pd.DataFrame(todos_registros)
+                    else:
+                        registro_actual[campo] = valor
+                    ultimo_campo = campo
+            todos_registros.extend(registros)
 
-            # Guardar en session_state una vez procesados todos los archivos
-            st.session_state["dfsco"] = dfsco
-            st.session_state["dfwos"] = dfwos
-            st.session_state["num_dfsco"] = dfsco.shape[0]
-            st.session_state["num_dfwos"] = dfwos.shape[0]
+        dfwos = pd.DataFrame(todos_registros)
+
+        # Guardar en session_state una vez procesados todos los archivos
+        st.session_state["dfsco"] = dfsco
+        st.session_state["dfwos"] = dfwos
+        st.session_state["num_dfsco"] = dfsco.shape[0]
+        st.session_state["num_dfwos"] = dfwos.shape[0]
                                        
 
 
