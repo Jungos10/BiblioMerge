@@ -1014,13 +1014,36 @@ if st.session_state.get("parte4_generada"):
     st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip")
 
     # Histogramas
-    def mostrar_top(df, columna, titulo, color):
-        top_vals = df[columna].str.split(';').explode().str.strip().value_counts().head(25)
-        fig, ax = plt.subplots(figsize=(8, 4))
-        top_vals.plot(kind='bar', ax=ax, color=color)
-        ax.set_title(titulo)
-        plt.xticks(rotation=90)
-        st.pyplot(fig)
+    # def mostrar_top(df, columna, titulo, color):
+    #     top_vals = df[columna].str.split(';').explode().str.strip().value_counts().head(25)
+    #     fig, ax = plt.subplots(figsize=(8, 4))
+    #     top_vals.plot(kind='bar', ax=ax, color=color)
+    #     ax.set_title(titulo)
+    #     plt.xticks(rotation=90)
+    #     st.pyplot(fig)
+
+    def mostrar_top(df, columna, titulo, color, max_label_length=40):
+    top_vals = (
+        df[columna]
+        .str.split(';')
+        .explode()
+        .str.strip()
+        .dropna()
+    )
+    top_vals = top_vals[top_vals != '']  # Eliminar vacíos
+    top_vals = top_vals.value_counts().head(25)
+
+    # Recortar etiquetas largas
+    etiquetas_recortadas = [
+        val if len(val) <= max_label_length else val[:max_label_length] + '...'
+        for val in top_vals.index
+    ]
+
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.bar(etiquetas_recortadas, top_vals.values, color=color)
+    ax.set_title(titulo)
+    plt.xticks(rotation=90)
+    st.pyplot(fig)
 
     st.markdown("### 📊 Informes de resumen final")
     st.write(f"**Registros finales:** {df_final.shape[0]}")
