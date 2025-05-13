@@ -877,6 +877,12 @@ if not st.session_state.get("parte4_generada", False):
 #     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
 #         mostrar_boton_finales_bloqueado()
 
+
+import io
+import base64
+from datetime import datetime
+import zipfile
+import matplotlib.pyplot as plt
 # --- Función para mostrar el botón desactivado con estilo gris ---
 def mostrar_boton_finales_bloqueado():
     st.markdown(
