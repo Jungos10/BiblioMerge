@@ -132,7 +132,7 @@ if st.session_state["procesado"]:
         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
             mensaje_proceso = st.empty()
             mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
-               
+            with st.spinner("🔄 Fusionando archivos y limpiando registros..."):   
     
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
 
