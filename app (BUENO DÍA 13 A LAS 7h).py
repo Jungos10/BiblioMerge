@@ -58,12 +58,10 @@ if not st.session_state["procesado"]:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
-if st.session_state["procesado"]:
-   
-    time.sleep(0.1)  # Forzar visualización del spinner
-
+if st.session_state.get("procesado", False):
     scopus_files = st.session_state["scopus_files"]
     wos_files = st.session_state["wos_files"]
+
 
     # --- SCOPUS ---
     dfsco_list = []
@@ -122,20 +120,14 @@ if st.session_state["procesado"]:
 
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
 # -------------------- PARTE 2: PROCESAMIENTO Y FUSIÓN --------------------
+# BLOQUE 3 – Proceso de fusión real
+if st.session_state.get("fusion_en_proceso", False):
 
-if st.session_state["procesado"]:
-    if st.session_state["fusion_en_proceso"]:
-        mensaje_proceso = st.empty()
-        st.session_state["mensaje_proceso"] = mensaje_proceso  # Guardar para borrarlo luego
-        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-            mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
-    
-    
-    # if st.session_state["fusion_en_proceso"]:
-    #     mensaje_proceso = st.empty()
-    #     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-    #         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
-    #         time.sleep(0.1)
+    mensaje_proceso = st.empty()
+    st.session_state["mensaje_proceso"] = mensaje_proceso
+
+    with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+        mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
            
     
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
@@ -504,7 +496,7 @@ if st.session_state["procesado"]:
             st.session_state["output_tablas_bytes"] = output_tablas.getvalue()
 
             # Finalizar estado
-            mensaje_proceso.empty()
+            #mensaje_proceso.empty()
             st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
             st.session_state["fusion_en_proceso"] = False
             st.session_state["fusion_completada"] = True
