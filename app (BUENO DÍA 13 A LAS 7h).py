@@ -58,7 +58,7 @@ if not st.session_state["procesado"]:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
-if st.session_state.get("procesado", False):
+if st.session_state.get("fusion_en_proceso", False):
     scopus_files = st.session_state["scopus_files"]
     wos_files = st.session_state["wos_files"]
 
