@@ -127,7 +127,10 @@ if st.session_state["procesado"]:
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
 # -------------------- PARTE 2: PROCESAMIENTO Y FUSIÓN --------------------
 if st.session_state.get("procesado") and st.session_state.get("fusion_en_proceso"):
-
+    
+    # 🔁 Crear el contenedor del mensaje una sola vez
+    mensaje_proceso = st.empty()
+    
     # ✅ Mostrar mensaje solo la primera vez que se entra aquí
     if "fusion_mensaje_mostrado" not in st.session_state:
         st.session_state["fusion_mensaje_mostrado"] = True
