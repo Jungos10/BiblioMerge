@@ -677,6 +677,26 @@ if not st.session_state.get("parte4_generada", False):
                     # ---- DEPURACIÓN: References ----
                     try:
                         df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
+
+                            # 🔍 Diagnóstico para verificar coincidencias
+                        st.markdown("### 🔎 Diagnóstico de coincidencia de referencias")
+                        refs_excel = df_refs["References"].dropna().astype(str).str.strip().tolist()
+                        refs_info = df_references_info["References"].dropna().astype(str).str.strip().tolist()
+                    
+                        coincidencias = set(refs_excel) & set(refs_info)
+                    
+                        st.write("🔢 Total referencias en Excel:", len(refs_excel))
+                        st.write("🔢 Total referencias en df_references_info:", len(refs_info))
+                        st.write("✅ Coincidencias exactas encontradas:", len(coincidencias))
+                    
+                        if len(coincidencias) == 0:
+                            st.warning("❌ No hay coincidencias exactas. Puede haber diferencias invisibles entre los textos.")
+                            if refs_excel and refs_info:
+                                st.write("🔍 Primera referencia del Excel (repr):")
+                                st.code(repr(refs_excel[0]))
+                                st.write("🔍 Primera referencia en df_references_info (repr):")
+                                st.code(repr(refs_info[0]))
+            
                         for _, fila in df_refs.iterrows():
                             if fila["New Reference"] != "0-change-0":
                                 old_ref = fila["References"]
@@ -702,8 +722,7 @@ if not st.session_state.get("parte4_generada", False):
                 except Exception as e:
                     st.error(f"❌ Error general al procesar la depuración: {str(e)}")
                     
-                st.markdown("### 🧪 Vista previa de `df_final` (post-depuración)")
-                st.dataframe(st.session_state["df_final"].head(50))  # Muestra primeras 50 filas
+
     
 #     # -------------------- PARTE 4: GENERAR FICHEROS FINALES --------------------
     
