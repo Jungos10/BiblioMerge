@@ -500,7 +500,7 @@ if st.session_state["procesado"]:
             st.session_state["output_tablas_bytes"] = output_tablas.getvalue()
 
             # Finalizar estado
-            
+            mensaje_proceso.empty()
             
             st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
             st.session_state["fusion_en_proceso"] = False
