@@ -140,7 +140,7 @@ if st.session_state.get("procesado") and st.session_state.get("fusion_en_proceso
     # ✅ Spinner activo mientras se realiza todo el procesamiento
     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):   
 
-# ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
+        # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
 
         # Mapeamos el archivo WOS(dfwos) con el archivo Scopus (dfsco)
         mapping = {'AU': 'Authors' ,'AF': 'Author full names','TI': 'Title', 'PY': 'Year',
