@@ -677,15 +677,6 @@ if not st.session_state.get("parte4_generada", False):
                     # ---- DEPURACIÓN: References ----
                     try:
                         df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
-
-                        if len(coincidencias) == 0:
-                            st.warning("❌ No hay coincidencias exactas. Puede haber diferencias invisibles entre los textos.")
-                            if refs_excel and refs_info:
-                                st.write("🔍 Primera referencia del Excel (repr):")
-                                st.code(repr(refs_excel[0]))
-                                st.write("🔍 Primera referencia en df_references_info (repr):")
-                                st.code(repr(refs_info[0]))
-            
                         for _, fila in df_refs.iterrows():
                             if fila["New Reference"] != "0-change-0":
                                 old_ref = fila["References"]
