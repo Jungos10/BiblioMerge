@@ -59,10 +59,10 @@ if not st.session_state["procesado"]:
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state["procesado"]:
-    if st.session_state["fusion_en_proceso"]:
-            mensaje_proceso = st.empty()  # Contenedor temporal para el mensaje de inicio
-            with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-                mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+    # if st.session_state["fusion_en_proceso"]:
+    #         mensaje_proceso = st.empty()  # Contenedor temporal para el mensaje de inicio
+    #         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+    #             mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
                 time.sleep(0.1)  # Forzar visualización del spinner
 
@@ -130,9 +130,16 @@ if st.session_state["procesado"]:
 if st.session_state["procesado"]:
     if st.session_state["fusion_en_proceso"]:
         mensaje_proceso = st.empty()
+        st.session_state["mensaje_proceso"] = mensaje_proceso  # Guardar para borrarlo luego
         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
             mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
-            time.sleep(0.1)
+    
+    
+    # if st.session_state["fusion_en_proceso"]:
+    #     mensaje_proceso = st.empty()
+    #     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+    #         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+    #         time.sleep(0.1)
            
     
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
@@ -505,6 +512,11 @@ if st.session_state["procesado"]:
             st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
             st.session_state["fusion_en_proceso"] = False
             st.session_state["fusion_completada"] = True
+
+            # Limpiar mensaje mostrado al inicio
+            if "mensaje_proceso" in st.session_state:
+                st.session_state["mensaje_proceso"].empty()
+                st.session_state.pop("mensaje_proceso")
 
 # -------------------- PARTE 2B: BOTONES DE DESCARGA + REPORTING PERSISTENTE --------------------
 
