@@ -126,12 +126,19 @@ if st.session_state["procesado"]:
 
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
 # -------------------- PARTE 2: PROCESAMIENTO Y FUSIÓN --------------------
+if st.session_state.get("procesado") and st.session_state.get("fusion_en_proceso"):
 
-if st.session_state["procesado"]:
-    if st.session_state["fusion_en_proceso"]:
-        # ✅ Mostrar mensaje inicial de fusión (solo una vez)
+    # ✅ Mostrar mensaje solo la primera vez que se entra aquí
+    if "fusion_mensaje_mostrado" not in st.session_state:
+        st.session_state["fusion_mensaje_mostrado"] = True
         mensaje_proceso = st.empty()
         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+
+# if st.session_state["procesado"]:
+#     if st.session_state["fusion_en_proceso"]:
+#         # ✅ Mostrar mensaje inicial de fusión (solo una vez)
+#         mensaje_proceso = st.empty()
+#         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
         # ✅ Spinner activo mientras se realiza todo el procesamiento
         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):   
@@ -502,11 +509,12 @@ if st.session_state["procesado"]:
             st.session_state["output_tablas_bytes"] = output_tablas.getvalue()
 
             # Finalizar estado
-            mensaje_proceso.empty()
-            
-            st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+            # ✅ Al final: limpiar mensaje y actualizar estados
             st.session_state["fusion_en_proceso"] = False
             st.session_state["fusion_completada"] = True
+            st.session_state.pop("fusion_mensaje_mostrado", None)  # 🔁 Eliminar para futuros procesos
+            mensaje_proceso.empty()
+            st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
 
 # -------------------- PARTE 2B: BOTONES DE DESCARGA + REPORTING PERSISTENTE --------------------
 
