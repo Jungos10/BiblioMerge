@@ -9,9 +9,13 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# CSS + cabecera HTML alineada y fija
+# CSS para cabecera fija centrada SIN botón decorativo
 st.markdown("""
 <style>
+body {
+    padding-top: 10px;  /* Evita recorte en la parte superior */
+}
+
 .fixed-header {
     position: fixed;
     top: 0;
@@ -44,6 +48,7 @@ st.markdown("""
 .resources li {
     margin-bottom: 0.2rem;
 }
+
 .content {
     margin-top: 130px;
 }
@@ -54,11 +59,6 @@ st.markdown("""
     <div class="header-left">
       <h2>📚 Fusionador Scopus + WoS</h2>
       <p style="margin:0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
-    </div>
-    <div>
-      <form method="post">
-        <button type="submit">🔁 Reiniciar todo</button>
-      </form>
     </div>
     <div class="resources">
       <details>
@@ -74,11 +74,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Desplaza el resto del contenido
+# Inicia el contenido desplazado para que no se oculte
 st.markdown('<div class="content">', unsafe_allow_html=True)
 
-# Botón real de reinicio (funcional)
-if st.button("🔁 Reiniciar todo", key="btn_reset"):
+# ✅ Botón funcional de reinicio
+if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
     st.session_state.clear()
     st.rerun()
 
