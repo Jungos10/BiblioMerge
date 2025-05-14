@@ -651,19 +651,19 @@ if not st.session_state.get("parte4_generada", False):
                             st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la tabla de conversión en la hoja 'Author Keywords' del fichero Excel no ha sido completada.")
                         else:
                             for _, fila in df_ak.iterrows():
-                            if fila["New Keyword"] != "0-change-0":
-                                old_kw = fila["Author Keyword"]
-                                new_kw = fila["New Keyword"]
-                                fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
-                                if not fila_encontrada.empty:
-                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                    for idx, pos in zip(indices, posiciones):
-                                        kws = df_final.at[idx, "Author Keywords"].split(";")
-                                        if pos < len(kws):
-                                            kws[pos] = new_kw
-                                            df_final.at[idx, "Author Keywords"] = "; ".join(kws)
-                        st.success("✅ Depuración de Author Keywords completada.")
+                                if fila["New Keyword"] != "0-change-0":
+                                    old_kw = fila["Author Keyword"]
+                                    new_kw = fila["New Keyword"]
+                                    fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
+                                    if not fila_encontrada.empty:
+                                        indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                        posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                        for idx, pos in zip(indices, posiciones):
+                                            kws = df_final.at[idx, "Author Keywords"].split(";")
+                                            if pos < len(kws):
+                                                kws[pos] = new_kw
+                                                df_final.at[idx, "Author Keywords"] = "; ".join(kws)
+                            st.success("✅ Depuración de Author Keywords completada.")
                             
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
