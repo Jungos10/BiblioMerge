@@ -691,9 +691,23 @@ if not st.session_state.get("parte4_generada", False):
                         #                     refs[pos] = new_ref
                         #                     df_final.at[idx, "References"] = "; ".join(refs)
 
+                        # for _, fila in df_refs.iterrows():
+                        #     new_ref = fila["New Reference"]
+                        #     if pd.notna(new_ref) and new_ref != "0-change-0":
+                        #         old_ref = fila["References"]
+                        #         fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
+                        #         if not fila_encontrada.empty:
+                        #             indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                        #             posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                        #             for idx, pos in zip(indices, posiciones):
+                        #                 refs = df_final.at[idx, "References"].split(";")
+                        #                 if pos < len(refs):
+                        #                     refs[pos] = new_ref
+                        #                     df_final.at[idx, "References"] = "; ".join(refs)
+
                         for _, fila in df_refs.iterrows():
                             new_ref = fila["New Reference"]
-                            if pd.notna(new_ref) and new_ref != "0-change-0":
+                            if pd.notna(new_ref) and str(new_ref) != "0-change-0":
                                 old_ref = fila["References"]
                                 fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
                                 if not fila_encontrada.empty:
@@ -702,8 +716,9 @@ if not st.session_state.get("parte4_generada", False):
                                     for idx, pos in zip(indices, posiciones):
                                         refs = df_final.at[idx, "References"].split(";")
                                         if pos < len(refs):
-                                            refs[pos] = new_ref
-                                            df_final.at[idx, "References"] = "; ".join(refs)
+                                            # Asegura que incluso "" reemplace la posición correspondiente
+                                            refs[pos] = "" if new_ref == "" else new_ref
+                                            df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
                                             
                         st.success("✅ Depuración de Referencias completada.")
                     except Exception as e:
