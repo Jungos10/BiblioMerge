@@ -420,7 +420,7 @@ if st.session_state.get("fusion_en_proceso", False):
         
         # Guardar conteos clave para informes
         st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
-        st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
+        #st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
         st.session_state["num_df_final"] = df_final.shape[0]
 
         # Guardar los dataframes necesarios para informes y exportación
@@ -523,7 +523,7 @@ if (
     st.write(f"**Registros Scopus:** {st.session_state.get('num_dfsco', 0)}")
     st.write(f"**Registros WoS:** {st.session_state.get('num_dfwos', 0)}")
     st.write(f"**Duplicados eliminados:** {st.session_state.get('num_duplicados_final', 0)}")
-    st.write(f"**Duplicados sin DOI:** {st.session_state.get('num_duplicados_sin_doi', 0)}")
+    #st.write(f"**Duplicados sin DOI:** {st.session_state.get('num_duplicados_sin_doi', 0)}")
     st.write(f"**Registros finales:** {st.session_state.get('num_df_final', 0)}")
     
     # Mostrar histogramas desde session_state
