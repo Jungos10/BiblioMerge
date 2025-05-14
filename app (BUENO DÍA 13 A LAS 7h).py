@@ -704,7 +704,8 @@ if not st.session_state.get("parte4_generada", False):
                         #                 if pos < len(refs):
                         #                     refs[pos] = new_ref
                         #                     df_final.at[idx, "References"] = "; ".join(refs)
-
+                        st.write("Vista previa de 'New Reference'")
+                        st.write(df_refs["New Reference"].head(10).tolist())
                         for _, fila in df_refs.iterrows():
                             new_ref = fila["New Reference"]
                             if pd.notna(new_ref) and str(new_ref) != "0-change-0":
