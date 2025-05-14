@@ -677,50 +677,6 @@ if not st.session_state.get("parte4_generada", False):
                     # ---- DEPURACIÓN: References ----
                     try:
                         df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
-                        # for _, fila in df_refs.iterrows():
-                        #     if fila["New Reference"] != "0-change-0":
-                        #         old_ref = fila["References"]
-                        #         new_ref = fila["New Reference"]
-                        #         fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
-                        #         if not fila_encontrada.empty:
-                        #             indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                        #             posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                        #             for idx, pos in zip(indices, posiciones):
-                        #                 refs = df_final.at[idx, "References"].split(";")
-                        #                 if pos < len(refs):
-                        #                     refs[pos] = new_ref
-                        #                     df_final.at[idx, "References"] = "; ".join(refs)
-
-                        # for _, fila in df_refs.iterrows():
-                        #     new_ref = fila["New Reference"]
-                        #     if pd.notna(new_ref) and new_ref != "0-change-0":
-                        #         old_ref = fila["References"]
-                        #         fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
-                        #         if not fila_encontrada.empty:
-                        #             indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                        #             posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                        #             for idx, pos in zip(indices, posiciones):
-                        #                 refs = df_final.at[idx, "References"].split(";")
-                        #                 if pos < len(refs):
-                        #                     refs[pos] = new_ref
-                        #                     df_final.at[idx, "References"] = "; ".join(refs)
-                        # st.write("Vista previa de 'New Reference'")
-                        # st.write(df_refs["New Reference"].head(10).tolist())
-                        # for _, fila in df_refs.iterrows():
-                        #     new_ref = fila["New Reference"]
-                        #     if pd.notna(new_ref) and str(new_ref) != "0-change-0":
-                        #         old_ref = fila["References"]
-                        #         fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
-                        #         if not fila_encontrada.empty:
-                        #             indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                        #             posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                        #             for idx, pos in zip(indices, posiciones):
-                        #                 refs = df_final.at[idx, "References"].split(";")
-                        #                 if pos < len(refs):
-                        #                     # Asegura que incluso "" reemplace la posición correspondiente
-                        #                     refs[pos] = "" if new_ref == "" else new_ref
-                        #                     df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
-
                         for _, fila in df_refs.iterrows():
                             old_ref = fila["References"]
                             new_ref = fila["New Reference"]
