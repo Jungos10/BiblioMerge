@@ -623,6 +623,7 @@ if not st.session_state.get("parte4_generada", False):
                         elif df_authors_table.loc[0, 'New Author'] == "0-change-0":
                             st.warning(f"❌ Depuración de Authors no ha sido posible porque la tabla de conversión en la hoja 'Authors' del fichero Excel no ha sido completada.")
                         else:
+                            reemplazos_authors = 0
                             for _, fila in df_authors_table.iterrows():
                                 if fila["New Author"] != "0-change-0":
                                     author = fila["Authors"]
@@ -636,8 +637,10 @@ if not st.session_state.get("parte4_generada", False):
                                             if pos < len(autores_actuales):
                                                 autores_actuales[pos] = new_author
                                                 df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+                                                reemplazos_authors += 1
                             st.success("✅ Depuración de autores completada.")
-                            
+                            st.info(f"ℹ️ Se han realizado {reemplazos_authors} reemplazos en Authors.")
+                    
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
     
