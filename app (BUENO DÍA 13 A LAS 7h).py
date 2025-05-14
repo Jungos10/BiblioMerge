@@ -604,7 +604,7 @@ if not st.session_state.get("parte4_generada", False):
         not st.session_state.get("parte4_generada", False)
     ):
     
-        st.subheader("🧹 Parte 3: Depuración manual")
+        #st.subheader("🧹 Parte 3: Depuración manual")
     
         # Inicializar flags si no existen
         if "depuracion_activada" not in st.session_state:
