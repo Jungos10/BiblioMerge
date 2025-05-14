@@ -19,23 +19,32 @@ st.markdown("""
     position: sticky;
     top: 0;
     background-color: white;
-    padding: 1rem 2rem;
+    padding: 1.2rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 999;
+    width: 100%;
 }
 
 .header-inner {
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: nowrap;
     gap: 2rem;
-    flex-wrap: wrap;
+    width: 100%;
+}
+
+.header-left {
+    flex: 2;
 }
 
 .header-left h2 {
-    margin: 0;
+    margin: 0 0 0.2rem 0;
+}
+
+.resources {
+    flex: 1;
+    text-align: right;
 }
 
 .resources ul {
@@ -69,10 +78,13 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 👉 Botón funcional (fuera de la cabecera)
+# Botón funcional fuera de la cabecera
 if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
     st.session_state.clear()
     st.rerun()
+
+
+
 
 # # Configuración inicial
 # st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
