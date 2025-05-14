@@ -9,7 +9,7 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# HTML y CSS de cabecera fija real
+# --- CSS para cabecera fija ---
 st.markdown("""
     <style>
         .fixed-header {
@@ -18,16 +18,20 @@ st.markdown("""
             left: 0;
             width: 100%;
             background-color: white;
-            padding: 1rem;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 1rem 0.5rem;
             z-index: 1000;
         }
         .content {
-            margin-top: 120px;
+            margin-top: 150px;
         }
     </style>
+""", unsafe_allow_html=True)
 
-    <div class="fixed-header">
+# --- CABECERA FIJA HTML centrada ---
+st.markdown("""
+<div class="fixed-header">
+    <div style="max-width: 1000px; margin: auto;">
         <h2>📚 Fusionador Scopus + WoS</h2>
         <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
         <details>
@@ -39,18 +43,20 @@ st.markdown("""
             </ul>
         </details>
     </div>
+</div>
 """, unsafe_allow_html=True)
 
-# Desplazamiento del resto del contenido
+# --- INICIO DE CONTENIDO desplazado ---
 st.markdown('<div class="content">', unsafe_allow_html=True)
 
-# El botón funcional va FUERA de la cabecera
-if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
-    st.session_state.clear()
-    st.rerun()
-    
-# 👉 Inicia el contenido desplazado
-st.markdown('<div class="content">', unsafe_allow_html=True)
+# --- Botón de reinicio en la barra lateral ---
+with st.sidebar:
+    st.markdown("## Opciones")
+    if st.button("🔁 Reiniciar todo", key="btn_reset"):
+        st.session_state.clear()
+        st.rerun()
+
+
 
 # # Configuración inicial
 # st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
