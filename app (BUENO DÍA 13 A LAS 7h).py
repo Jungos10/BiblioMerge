@@ -618,10 +618,10 @@ if not st.session_state.get("parte4_generada", False):
             value=st.session_state["depuracion_activada"]
         )
 
-    # Mostrar uploader si la depuración está activada pero aún no realizada
-    if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
-        st.markdown("Carga el archivo Excel con las tablas de conversión:")
-        depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"], key="uploader_depuracion")
+        # Mostrar uploader si la depuración está activada pero aún no realizada
+        if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
+            st.markdown("Carga el archivo Excel con las tablas de conversión:")
+            depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"], key="uploader_depuracion")
 
 
 
