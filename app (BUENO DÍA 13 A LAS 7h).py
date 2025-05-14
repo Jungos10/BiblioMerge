@@ -9,50 +9,46 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# 👉 CSS para fijar la cabecera y desplazar el contenido
+# HTML y CSS de cabecera fija real
 st.markdown("""
     <style>
-        .header {
+        .fixed-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             background-color: white;
-            padding: 1rem 1rem 0.5rem 1rem;
+            padding: 1rem;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            z-index: 999;
+            z-index: 1000;
         }
         .content {
-            margin-top: 130px; /* Ajusta según altura de cabecera */
+            margin-top: 120px;
         }
     </style>
+
+    <div class="fixed-header">
+        <h2>📚 Fusionador Scopus + WoS</h2>
+        <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
+        <details>
+            <summary style="cursor: pointer;">📎 Recursos útiles</summary>
+            <ul>
+                <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario (PDF)</a></li>
+                <li><a href="https://youtube.com" target="_blank">🎬 Video demostración</a></li>
+                <li><a href="https://example.com/archivos.zip" target="_blank">📁 Archivos de prueba</a></li>
+            </ul>
+        </details>
+    </div>
 """, unsafe_allow_html=True)
 
-# 👉 CABECERA FIJA CON TÍTULO, BOTÓN Y RECURSOS
-st.markdown('<div class="header">', unsafe_allow_html=True)
-with st.container():
-    col1, col2, col3 = st.columns([4, 1, 2])
+# Desplazamiento del resto del contenido
+st.markdown('<div class="content">', unsafe_allow_html=True)
 
-    with col1:
-        st.markdown("## 📚 Fusionador Scopus + WoS")
-        st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
-
-    with col2:
-        if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
-            st.session_state.clear()
-            st.rerun()
-
-    with col3:
-        with st.expander("📎 Recursos útiles", expanded=False):
-            st.markdown("""
-            - 📘 [Guía de usuario (PDF)](https://example.com/guia.pdf)
-            - 🎬 [Video demostración](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-            - 📁 [Archivos de prueba](https://example.com/archivos_prueba.zip)
-            """)
-
-st.markdown('</div>', unsafe_allow_html=True)
-st.divider()
-
+# El botón funcional va FUERA de la cabecera
+if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+    st.session_state.clear()
+    st.rerun()
+    
 # 👉 Inicia el contenido desplazado
 st.markdown('<div class="content">', unsafe_allow_html=True)
 
