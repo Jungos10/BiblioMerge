@@ -915,6 +915,19 @@ if st.session_state.get("parte4_generada"):
 
     st.markdown("### 📊 Informes de resumen final")
     st.write(f"**Registros finales:** {df_final.shape[0]}")
+
+    # Contar elementos únicos en cada campo
+    num_autores = len(set(";".join(df_final["Authors"].dropna()).split(";")))
+    num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
+    num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
+    num_references = len(set(";".join(df_final["References"].dropna()).split(";")))
+    
+    st.write(f"**👤 Authors:** {num_autores}")
+    st.write(f"**🔑 Author Keywords:** {num_author_keywords}")
+    st.write(f"**🏷️ Index Keywords:** {num_index_keywords}")
+    st.write(f"**📚 Cited References:** {num_references}")
+
+# Gráficos Top existentes
     mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
     mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
     mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
