@@ -9,22 +9,19 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# CSS para cabecera fija centrada SIN botón decorativo
+st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
+
+# 👇 Aquí va el bloque de cabecera sticky
 st.markdown("""
 <style>
-body {
-    padding-top: 10px;  /* Evita recorte en la parte superior */
-}
-
-.fixed-header {
-    position: fixed;
+.sticky-header {
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
     background-color: white;
     padding: 1rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
+    z-index: 999;
 }
 
 .header-inner {
@@ -33,6 +30,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .header-left h2 {
@@ -46,15 +45,11 @@ body {
 }
 
 .resources li {
-    margin-bottom: 0.2rem;
-}
-
-.content {
-    margin-top: 130px;
+    margin-bottom: 0.3rem;
 }
 </style>
 
-<div class="fixed-header">
+<div class="sticky-header">
   <div class="header-inner">
     <div class="header-left">
       <h2>📚 Fusionador Scopus + WoS</h2>
@@ -74,14 +69,10 @@ body {
 </div>
 """, unsafe_allow_html=True)
 
-# Inicia el contenido desplazado para que no se oculte
-st.markdown('<div class="content">', unsafe_allow_html=True)
-
-# ✅ Botón funcional de reinicio
+# 👉 Botón funcional (fuera de la cabecera)
 if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
     st.session_state.clear()
     st.rerun()
-
 
 # # Configuración inicial
 # st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
