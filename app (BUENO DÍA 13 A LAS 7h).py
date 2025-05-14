@@ -9,18 +9,41 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# Configuración inicial
-st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
-st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
-st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+# CABECERA CON TÍTULO, BOTÓN Y ENLACES DE RECURSOS
+with st.container():
+    col1, col2, col3 = st.columns([4, 1, 2])
 
-# 🔁 Botón de reinicio global
-st.markdown("#### ")
-col_reset = st.columns([5, 1])[1]
-with col_reset:
-    if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
-        st.session_state.clear()
-        st.rerun()
+    with col1:
+        st.markdown("## 📚 Fusionador Scopus + WoS")
+        st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+
+    with col2:
+        if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
+            st.session_state.clear()
+            st.rerun()
+
+    with col3:
+        with st.expander("📎 Recursos útiles", expanded=False):
+            st.markdown("""
+            - 📘 [Guía de usuario (PDF)](https://example.com/guia.pdf)
+            - 🎬 [Video demostración](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+            - 📁 [Archivos de prueba](https://example.com/archivos_prueba.zip)
+            """)
+
+st.divider()
+
+# # Configuración inicial
+# st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
+# st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
+# st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+
+# # 🔁 Botón de reinicio global
+# st.markdown("#### ")
+# col_reset = st.columns([5, 1])[1]
+# with col_reset:
+#     if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
+#         st.session_state.clear()
+#         st.rerun()
 
 # Inicializar estados
 if "procesado" not in st.session_state:
