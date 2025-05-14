@@ -653,6 +653,7 @@ if not st.session_state.get("parte4_generada", False):
                         elif df_ak.loc[0, 'New Keyword'] == "0-change-0":
                             st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la tabla de conversión en la hoja 'Author Keywords' del fichero Excel no ha sido completada.")
                         else:
+                            conteo_reemplazos_ak = 0
                             for _, fila in df_ak.iterrows():
                                 if fila["New Keyword"] != "0-change-0":
                                     old_kw = fila["Author Keyword"]
@@ -666,7 +667,9 @@ if not st.session_state.get("parte4_generada", False):
                                             if pos < len(kws):
                                                 kws[pos] = new_kw
                                                 df_final.at[idx, "Author Keywords"] = "; ".join(kws)
+                                                conteo_reemplazos_ak += 1
                             st.success("✅ Depuración de Author Keywords completada.")
+                            st.info(f"✏️ Se han realizado {conteo_reemplazos_ak} reemplazos en la columna Author Keywords.")
                             
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
@@ -680,6 +683,7 @@ if not st.session_state.get("parte4_generada", False):
                         elif df_ik.loc[0, 'New Keyword'] == "0-change-0":
                             st.warning(f"❌ Depuración de Index Keywords no ha sido posible porque la tabla de conversión en la hoja 'Index Keywords' del fichero Excel no ha sido completada.")
                         else:
+                            conteo_reemplazos_ik = 0
                             for _, fila in df_ik.iterrows():
                                 if fila["New Keyword"] != "0-change-0":
                                     old_kw = fila["Index Keywords"]
@@ -693,7 +697,9 @@ if not st.session_state.get("parte4_generada", False):
                                             if pos < len(kws):
                                                 kws[pos] = new_kw
                                                 df_final.at[idx, "Index Keywords"] = "; ".join(kws)
+                                                conteo_reemplazos_ik += 1
                             st.success("✅ Depuración de Index Keywords completada.")
+                            st.info(f"✏️ Se han realizado {conteo_reemplazos_ik} reemplazos en la columna Index Keywords.")
                             
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
@@ -707,6 +713,7 @@ if not st.session_state.get("parte4_generada", False):
                         elif df_refs.loc[0, 'New Reference'] == "0-change-0":
                             st.warning(f"❌ Depuración de Referencias no ha sido posible porque la tabla de conversión en la hoja 'Cited References' del fichero Excel no ha sido completada.")
                         else:
+                            conteo_reemplazos_refs = 0
                             for _, fila in df_refs.iterrows():
                                 old_ref = fila["References"]
                                 new_ref = fila["New Reference"]
@@ -722,8 +729,9 @@ if not st.session_state.get("parte4_generada", False):
                                             if pos < len(refs):
                                                 refs[pos] = "" if pd.isna(new_ref) else new_ref
                                                 df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
-                                                
+                                                conteo_reemplazos_refs += 1
                             st.success("✅ Depuración de Referencias completada.")
+                            st.info(f"✏️ Se han realizado {conteo_reemplazos_refs} reemplazos en la columna References.")
                             
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
