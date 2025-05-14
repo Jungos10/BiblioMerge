@@ -669,7 +669,7 @@ if not st.session_state.get("parte4_generada", False):
                                                 df_final.at[idx, "Author Keywords"] = "; ".join(kws)
                                                 conteo_reemplazos_ak += 1
                             st.success("✅ Depuración de Author Keywords completada.")
-                            st.info(f"✏️ Se han realizado {conteo_reemplazos_ak} reemplazos en la columna Author Keywords.")
+                            st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ak} reemplazos en la columna Author Keywords.")
                             
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
@@ -699,7 +699,7 @@ if not st.session_state.get("parte4_generada", False):
                                                 df_final.at[idx, "Index Keywords"] = "; ".join(kws)
                                                 conteo_reemplazos_ik += 1
                             st.success("✅ Depuración de Index Keywords completada.")
-                            st.info(f"✏️ Se han realizado {conteo_reemplazos_ik} reemplazos en la columna Index Keywords.")
+                            st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ik} reemplazos en la columna Index Keywords.")
                             
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
@@ -731,7 +731,7 @@ if not st.session_state.get("parte4_generada", False):
                                                 df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
                                                 conteo_reemplazos_refs += 1
                             st.success("✅ Depuración de Referencias completada.")
-                            st.info(f"✏️ Se han realizado {conteo_reemplazos_refs} reemplazos en la columna References.")
+                            st.info(f"ℹ️ Se han realizado {conteo_reemplazos_refs} reemplazos en la columna References.")
                             
                     except Exception as e:
                         st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
