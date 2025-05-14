@@ -9,7 +9,27 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# CABECERA CON TÍTULO, BOTÓN Y ENLACES DE RECURSOS
+# 👉 CSS para fijar la cabecera y desplazar el contenido
+st.markdown("""
+    <style>
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 1rem 1rem 0.5rem 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+        .content {
+            margin-top: 130px; /* Ajusta según altura de cabecera */
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# 👉 CABECERA FIJA CON TÍTULO, BOTÓN Y RECURSOS
+st.markdown('<div class="header">', unsafe_allow_html=True)
 with st.container():
     col1, col2, col3 = st.columns([4, 1, 2])
 
@@ -30,7 +50,11 @@ with st.container():
             - 📁 [Archivos de prueba](https://example.com/archivos_prueba.zip)
             """)
 
+st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
+
+# 👉 Inicia el contenido desplazado
+st.markdown('<div class="content">', unsafe_allow_html=True)
 
 # # Configuración inicial
 # st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
