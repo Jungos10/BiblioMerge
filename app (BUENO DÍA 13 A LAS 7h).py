@@ -9,53 +9,78 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# --- CSS para cabecera fija ---
+# CSS + cabecera HTML alineada y fija
 st.markdown("""
-    <style>
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            padding: 1rem 0.5rem;
-            z-index: 1000;
-        }
-        .content {
-            margin-top: 150px;
-        }
-    </style>
-""", unsafe_allow_html=True)
+<style>
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
 
-# --- CABECERA FIJA HTML centrada ---
-st.markdown("""
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left h2 {
+    margin: 0;
+}
+
+.resources ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.resources li {
+    margin-bottom: 0.2rem;
+}
+.content {
+    margin-top: 130px;
+}
+</style>
+
 <div class="fixed-header">
-    <div style="max-width: 1000px; margin: auto;">
-        <h2>📚 Fusionador Scopus + WoS</h2>
-        <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
-        <details>
-            <summary style="cursor: pointer;">📎 Recursos útiles</summary>
-            <ul>
-                <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario (PDF)</a></li>
-                <li><a href="https://youtube.com" target="_blank">🎬 Video demostración</a></li>
-                <li><a href="https://example.com/archivos.zip" target="_blank">📁 Archivos de prueba</a></li>
-            </ul>
-        </details>
+  <div class="header-inner">
+    <div class="header-left">
+      <h2>📚 Fusionador Scopus + WoS</h2>
+      <p style="margin:0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
     </div>
+    <div>
+      <form method="post">
+        <button type="submit">🔁 Reiniciar todo</button>
+      </form>
+    </div>
+    <div class="resources">
+      <details>
+        <summary style="cursor: pointer;">📎 Recursos útiles</summary>
+        <ul>
+          <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
+          <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
+          <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
+        </ul>
+      </details>
+    </div>
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- INICIO DE CONTENIDO desplazado ---
+# Desplaza el resto del contenido
 st.markdown('<div class="content">', unsafe_allow_html=True)
 
-# --- Botón de reinicio en la barra lateral ---
-with st.sidebar:
-    st.markdown("## Opciones")
-    if st.button("🔁 Reiniciar todo", key="btn_reset"):
-        st.session_state.clear()
-        st.rerun()
-
+# Botón real de reinicio (funcional)
+if st.button("🔁 Reiniciar todo", key="btn_reset"):
+    st.session_state.clear()
+    st.rerun()
 
 
 # # Configuración inicial
