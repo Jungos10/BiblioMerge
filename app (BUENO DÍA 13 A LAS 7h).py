@@ -11,63 +11,29 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-# CSS para una cabecera centrada sticky
-st.markdown("""
-<style>
-.centered-header {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    padding: 1.2rem 2rem 0.5rem 2rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-}
+with st.container():
+    col1, col2, col3 = st.columns([3, 2, 1])
 
-.header-box {
-    width: 75%;
-    max-width: 1100px;
-}
+    with col1:
+        st.markdown("### 📚 Fusionador Scopus + WoS")
+        st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
 
-.header-box h2 {
-    margin-bottom: 0.3rem;
-}
+    with col2:
+        with st.expander("📎 Recursos útiles", expanded=False):
+            st.markdown("""
+            - [📘 Guía de usuario](https://example.com/guia.pdf)
+            - [🎬 Video demo](https://youtube.com)
+            - [📁 Archivos de prueba](https://example.com/pruebas.zip)
+            """)
 
-.resources ul {
-    list-style: none;
-    margin: 0;
-    padding-left: 1rem;
-}
-.resources li {
-    margin-bottom: 0.3rem;
-}
-</style>
+    with col3:
+        st.markdown("### ")  # Espaciado vertical
+        if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+            st.session_state.clear()
+            st.rerun()
 
-<div class="centered-header">
-  <div class="header-box">
-    <h2>📚 Fusionador Scopus + WoS</h2>
-    <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
-    <details>
-        <summary style="cursor: pointer;">📎 Recursos útiles</summary>
-        <div class="resources">
-            <ul>
-                <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
-                <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
-                <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
-            </ul>
-        </div>
-    </details>
-  </div>
-</div>
-""", unsafe_allow_html=True)
+st.divider()
 
-# Botón funcional arriba a la derecha (fuera del sticky)
-col_a, col_b = st.columns([5, 1])
-with col_b:
-    if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
-        st.session_state.clear()
-        st.rerun()
 
 
 
