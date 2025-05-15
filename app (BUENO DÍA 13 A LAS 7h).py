@@ -651,13 +651,13 @@ if (
             # st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
             # st.session_state["fusion_en_proceso"] = False
             # st.session_state["fusion_completada"] = True
-                
 
+                
+# -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
 if not st.session_state.get("parte4_generada", False):
 
-    # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
-   
-    st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
+   with col1:
+       st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
     
     # Mostrar solo si la fusión está finalizada o no se ha activado la Parte 4
     # if (
@@ -686,29 +686,28 @@ if not st.session_state.get("parte4_generada", False):
         not st.session_state.get("parte4_generada", False)
     ):
     
-        #st.subheader("🧹 Parte 3: Depuración manual")
+        with col1:    
+            # Inicializar flags si no existen
+            if "depuracion_activada" not in st.session_state:
+                st.session_state["depuracion_activada"] = False
+            if "depuracion_realizada" not in st.session_state:
+                st.session_state["depuracion_realizada"] = False
+        
+            # Mostrar checkbox para activar depuración manual
+            st.session_state["depuracion_activada"] = st.checkbox(
+                "🔍 Activar depuración manual",
+                value=st.session_state["depuracion_activada"]
+            )
     
-        # Inicializar flags si no existen
-        if "depuracion_activada" not in st.session_state:
-            st.session_state["depuracion_activada"] = False
-        if "depuracion_realizada" not in st.session_state:
-            st.session_state["depuracion_realizada"] = False
+            # Mostrar uploader si la depuración está activada pero aún no realizada
+            if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
+                st.markdown("Carga el archivo Excel con las tablas de conversión:")
+                depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"], key="uploader_depuracion")
     
-        # Mostrar checkbox para activar depuración manual
-        st.session_state["depuracion_activada"] = st.checkbox(
-            "🔍 Activar depuración manual",
-            value=st.session_state["depuracion_activada"]
-        )
-
-        # Mostrar uploader si la depuración está activada pero aún no realizada
-        if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
-            st.markdown("Carga el archivo Excel con las tablas de conversión:")
-            depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"], key="uploader_depuracion")
-
-
-
-            
-            if depuracion_file and st.button("✅ Aplicar depuración"):
+    
+    
+                
+                if depuracion_file and st.button("✅ Aplicar depuración"):
                 try:
                     with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
                         tmp.write(depuracion_file.read())
