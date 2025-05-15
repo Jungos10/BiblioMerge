@@ -23,21 +23,21 @@ st.markdown("""
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         padding: 3.5rem 2rem 0.8rem 2rem;
         font-family: sans-serif;
-        #text-align: center;
+        
     }
 
     .titulo-cabecera {
         font-size: 1.6rem;
         font-weight: bold;
         margin-bottom: 0.3rem;
-        margin-left: 10rem; 
+        margin-left: 13rem; 
         text-align: left;
     }
 
     .subtitulo-cabecera {
         font-size: 1rem;
         margin-bottom: 0.5rem;
-        margin-left: 10rem; 
+        margin-left: 13rem; 
         text-align: left;
     }
 
