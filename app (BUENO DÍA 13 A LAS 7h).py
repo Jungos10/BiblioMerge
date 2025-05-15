@@ -9,79 +9,45 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
+st.set_page_config(layout="wide")
 
-# 👇 Aquí va el bloque de cabecera sticky
+# CSS para hacer sticky el bloque de Streamlit
 st.markdown("""
-<style>
-.sticky-header {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    background-color: white;
-    padding: 1.2rem 2rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    z-index: 999;
-    width: 100%;
-}
-
-.header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    gap: 2rem;
-    width: 100%;
-}
-
-.header-left {
-    flex: 2;
-}
-
-.header-left h2 {
-    margin: 0 0 0.2rem 0;
-}
-
-.resources {
-    flex: 1;
-    text-align: right;
-}
-
-.resources ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.resources li {
-    margin-bottom: 0.3rem;
-}
-</style>
-
-<div class="sticky-header">
-  <div class="header-inner">
-    <div class="header-left">
-      <h2>📚 Fusionador Scopus + WoS</h2>
-      <p style="margin:0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
-    </div>
-    <div class="resources">
-      <details>
-        <summary style="cursor: pointer;">📎 Recursos útiles</summary>
-        <ul>
-          <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
-          <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
-          <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
-        </ul>
-      </details>
-    </div>
-  </div>
-</div>
+    <style>
+    .sticky-row {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        background-color: white;
+        padding: 1rem 0 0.5rem 0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    </style>
 """, unsafe_allow_html=True)
 
-# Botón funcional fuera de la cabecera
-if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
-    st.session_state.clear()
-    st.rerun()
+# Sticky Streamlit block (con columnas)
+with st.container():
+    st.markdown('<div class="sticky-row">', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([3, 1, 2])
+
+    with col1:
+        st.markdown("## 📚 Fusionador Scopus + WoS")
+        st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+
+    with col2:
+        if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+            st.session_state.clear()
+            st.rerun()
+
+    with col3:
+        with st.expander("📎 Recursos útiles", expanded=False):
+            st.markdown("""
+            - [📘 Guía](https://example.com/guia.pdf)
+            - [🎬 Video](https://youtube.com)
+            - [📁 Pruebas](https://example.com/pruebas.zip)
+            """)
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 
