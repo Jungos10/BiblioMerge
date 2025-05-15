@@ -20,36 +20,36 @@ st.markdown("""
     left: 0;
     width: 100%;
     background-color: white;
-    padding: 1.5rem 2rem 1rem 2rem;  /* REDUCIDO para pegarlo más arriba */
+    padding: 1rem 2rem 0.5rem 2rem;  /* MÁS COMPACTO */
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 1000;
     font-family: sans-serif;
 }
 .fixed-header h2 {
     margin: 0;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
 }
 .fixed-header .content {
     max-width: 1200px;
     margin: auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
-    gap: 1rem;
 }
 .fixed-header .resources {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* 🔧 Esto alinea los enlaces completamente a la derecha */
-    gap: 0.3rem;
+    align-items: flex-end;
+    text-align: right;
+    gap: 0.2rem;
     font-size: 0.95rem;
 }
 .fixed-header .resources a {
     text-decoration: none;
 }
 .content-spacer {
-    height: 160px;  /* REDUCIDO para acercar el contenido al header */
+    height: 120px;  /* MÁS PEGADO */
 }
 </style>
 
@@ -69,7 +69,6 @@ st.markdown("""
 
 <div class="content-spacer"></div>
 """, unsafe_allow_html=True)
-
 # Cuerpo principal dividido en columnas
 col1, col2 = st.columns([1.3, 2])  # Puedes ajustar proporciones
 
