@@ -11,75 +11,70 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-# CABECERA STICKY VISUAL (HTML + CSS)
+# CABECERA STICKY REHECHA DESDE CERO
 st.markdown("""
-<style>
-.fixed-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: white;
-    padding: 1.2rem 2rem 0.5rem 2rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    z-index: 999;
-    font-family: sans-serif;
-}
-.fixed-header .row {
-    max-width: 1300px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2rem;
-    flex-wrap: nowrap;
-}
-.fixed-header .title {
-    flex-grow: 1;
-}
-.fixed-header h2 {
-    margin: 0;
-    font-size: 1.7rem;
-    white-space: normal;
-}
-.fixed-header p {
-    margin: 0.2rem 0 0 0;
-    font-size: 1rem;
-}
-.fixed-header .resources {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
-    gap: 0.3rem;
-}
-.fixed-header .resources a {
-    font-size: 0.95rem;
-    color: #0066cc;
-    text-decoration: none;
-}
-.content-spacer {
-    height: 130px;
-}
-</style>
+    <style>
+    .sticky-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        font-family: sans-serif;
+    }
+    .sticky-inner {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .sticky-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    .sticky-subtitle {
+        font-size: 0.95rem;
+        margin: 0.3rem 0 0 0;
+    }
+    .sticky-resources {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+        font-size: 0.9rem;
+    }
+    .sticky-resources a {
+        color: #0066cc;
+        text-decoration: none;
+        margin-bottom: 0.2rem;
+    }
+    .header-spacer {
+        height: 120px;
+    }
+    </style>
 
-<div class="fixed-header">
-  <div class="row">
-    <div class="title">
-      <h2>📚 Fusionador Scopus + WoS</h2>
-      <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
+    <div class="sticky-header">
+      <div class="sticky-inner">
+        <div>
+          <div class="sticky-title">📚 Fusionador Scopus + WoS</div>
+          <div class="sticky-subtitle">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</div>
+        </div>
+        <div class="sticky-resources">
+          <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
+          <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
+          <a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a>
+        </div>
+      </div>
     </div>
-    <div class="resources">
-      <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
-      <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
-      <a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a>
-    </div>
-  </div>
-</div>
 
-<div class="content-spacer"></div>
+    <div class="header-spacer"></div>
 """, unsafe_allow_html=True)
-
 # Cuerpo principal dividido en columnas
 col1, col2 = st.columns([1.3, 2])  # Puedes ajustar proporciones
 
