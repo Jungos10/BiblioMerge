@@ -20,7 +20,7 @@ st.markdown("""
     left: 0;
     width: 100%;
     background-color: white;
-    padding: 2rem 2rem 1rem 2rem;
+    padding: 2.5rem 2rem 1.5rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 1000;
     font-family: sans-serif;
@@ -34,16 +34,22 @@ st.markdown("""
     margin: auto;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;  /* Permite salto si falta espacio */
+    align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 .fixed-header .resources {
     text-align: right;
-    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.95rem;
+}
+.fixed-header .resources a {
+    text-decoration: none;
 }
 .content-spacer {
-    height: 220px; /* Espacio debajo del header */
+    height: 230px;
 }
 </style>
 
@@ -54,20 +60,16 @@ st.markdown("""
       <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
     </div>
     <div class="resources">
-      <details open>
-        <summary style="cursor: pointer;">📎 Recursos útiles</summary>
-        <ul style="list-style:none; padding-left:1rem;">
-          <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
-          <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
-          <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
-        </ul>
-      </details>
+      <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
+      <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
+      <a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a>
     </div>
   </div>
 </div>
 
 <div class="content-spacer"></div>
 """, unsafe_allow_html=True)
+
 
 
 # Inicializar estados
