@@ -14,59 +14,50 @@ st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 # CABECERA STICKY VISUAL (HTML + CSS)
 st.markdown("""
 <style>
-/* CABECERA FINA Y FUNCIONAL */
 .fixed-header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     background-color: white;
-    padding: 1rem 2rem 0.25rem 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    z-index: 1000;
+    padding: 1.2rem 2rem 0.5rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 999;
     font-family: sans-serif;
 }
-.fixed-header h2 {
-    margin: 0;
-    font-size: 1.55rem;
-    white-space: nowrap;
-}
-.fixed-header .content {
+.fixed-header .row {
     max-width: 1200px;
     margin: auto;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    flex-wrap: nowrap;
+    gap: 2rem;
 }
-
-/* RECURSOS ALINEADOS A LA DERECHA */
+.fixed-header .title {
+    flex-grow: 1;
+}
 .fixed-header .resources {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: flex-start;
     text-align: right;
-    gap: 0.2rem;
-    min-width: 220px;
+    gap: 0.3rem;
 }
 .fixed-header .resources a {
-    text-decoration: none;
-    font-size: 0.94rem;
+    font-size: 0.93rem;
     color: #0066cc;
+    text-decoration: none;
 }
-
-/* REDUCIR SEPARACIÓN CON EL CONTENIDO */
 .content-spacer {
-    height: 100px;
+    height: 120px;
 }
 </style>
 
 <div class="fixed-header">
-  <div class="content">
-    <div>
-      <h2>📚 Fusionador Scopus + WoS</h2>
-      <p style="margin: 0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
+  <div class="row">
+    <div class="title">
+      <h2 style="margin:0;">📚 Fusionador Scopus + WoS</h2>
+      <p style="margin:0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
     </div>
     <div class="resources">
       <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
