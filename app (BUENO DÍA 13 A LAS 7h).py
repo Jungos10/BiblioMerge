@@ -11,44 +11,86 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-with st.container():
-    col1, col2, col3 = st.columns([3, 2, 1])
+# CSS + HTML para cabecera sticky visual con botón decorativo
+st.markdown("""
+<style>
+/* Cabecera sticky real */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 999;
+}
 
-    with col1:
-        st.markdown("### 📚 Fusionador Scopus + WoS")
-        st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+/* Distribución horizontal */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    gap: 2rem;
+}
 
-    with col2:
-        with st.expander("📎 Recursos útiles", expanded=False):
-            st.markdown("""
-            - [📘 Guía de usuario](https://example.com/guia.pdf)
-            - [🎬 Video demo](https://youtube.com)
-            - [📁 Archivos de prueba](https://example.com/pruebas.zip)
-            """)
+/* Contenido izquierdo */
+.header-title h2 {
+    margin: 0 0 0.3rem 0;
+}
 
-    with col3:
-        st.markdown("### ")  # Espaciado vertical
-        if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
-            st.session_state.clear()
-            st.rerun()
+/* Contenido derecho */
+.header-resources {
+    text-align: right;
+}
 
-st.divider()
+.fake-button {
+    background-color: #ff4b4b;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: default;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    display: inline-block;
+}
 
+/* Espacio para que no tape contenido */
+.spacer {
+    height: 130px;
+}
+</style>
 
+<div class="fixed-header">
+  <div class="header-content">
+    <div class="header-title">
+      <h2>📚 Fusionador Scopus + WoS</h2>
+      <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
+    </div>
+    <div class="header-resources">
+      <details>
+        <summary style="cursor: pointer;">📎 Recursos útiles</summary>
+        <ul style="list-style:none; padding-left:1rem; margin-top:0.3rem;">
+          <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
+          <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
+          <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
+        </ul>
+      </details>
+      <div class="fake-button">🔁 Reiniciar</div>
+    </div>
+  </div>
+</div>
 
+<div class="spacer"></div>
+""", unsafe_allow_html=True)
 
-# # Configuración inicial
-# st.set_page_config(page_title="Fusionador Scopus + WoS", layout="centered")
-# st.title("Fusionador de archivos bibliográficos: Scopus + WoS")
-# st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
-
-# # 🔁 Botón de reinicio global
-# st.markdown("#### ")
-# col_reset = st.columns([5, 1])[1]
-# with col_reset:
-#     if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
-#         st.session_state.clear()
-#         st.rerun()
+# Botón real justo debajo, funcional
+if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+    st.session_state.clear()
+    st.rerun()
 
 # Inicializar estados
 if "procesado" not in st.session_state:
