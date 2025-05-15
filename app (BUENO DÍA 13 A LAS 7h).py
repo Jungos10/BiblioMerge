@@ -659,28 +659,7 @@ if not st.session_state.get("parte4_generada", False):
    with col1:
        st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
     
-    # Mostrar solo si la fusión está finalizada o no se ha activado la Parte 4
-    # if (
-    #     st.session_state.get("procesado") and 
-    #     not st.session_state.get("fusion_en_proceso", True) and 
-    #     not st.session_state.get("parte4_generada", False)
-    # ):    
-    #     if "depuracion_activada" not in st.session_state:
-    #         st.session_state["depuracion_activada"] = False
-    #     if "depuracion_realizada" not in st.session_state:
-    #         st.session_state["depuracion_realizada"] = False
-    
-    #     # Mostrar checkbox solo si aún no se ha activado
-    #     if not st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
-    #         if st.checkbox("🔍 Activar depuración manual", key="activar_depuracion"):
-    #             st.session_state["depuracion_activada"] = True
-    #             st.rerun()
-    
-    #     # Si activado, mostrar uploader y botón
-    #     if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
-    #         st.markdown("Carga el archivo Excel con las tablas de conversión:")
-    #         depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"])
-    if (
+   if (
         st.session_state.get("procesado") and 
         not st.session_state.get("fusion_en_proceso", True) and 
         not st.session_state.get("parte4_generada", False)
