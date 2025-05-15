@@ -11,13 +11,9 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
+# CSS y cabecera HTML
 st.markdown("""
 <style>
-/* Evitar que la cabecera tape el contenido al principio */
-body {
-    padding-top: 180px;
-}
-
 /* Cabecera fija */
 .fixed-header {
     position: fixed;
@@ -31,7 +27,7 @@ body {
     box-sizing: border-box;
 }
 
-/* Contenido interno flexible */
+/* Distribución del contenido dentro de cabecera */
 .header-inner {
     max-width: 1200px;
     margin: auto;
@@ -46,7 +42,7 @@ body {
     margin: 0 0 0.3rem 0;
 }
 
-/* Recursos alineados a la derecha */
+/* Sección recursos */
 .resources {
     flex: 1;
     text-align: right;
@@ -62,16 +58,21 @@ body {
     margin-bottom: 0.3rem;
 }
 
-/* Botón funcional fijo separado */
+/* Botón funcional fijo */
 .fixed-button {
     position: fixed;
     top: 130px;
     right: 2rem;
     z-index: 1001;
     background-color: white;
-    padding: 0.5rem 0.5rem 0.5rem 0;
+    padding: 0.25rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     border-radius: 6px;
+}
+
+/* Espaciador */
+.spacer {
+    height: 190px;
 }
 </style>
 
@@ -94,15 +95,17 @@ body {
     </div>
   </div>
 </div>
+
+<!-- ESPACIADOR PARA QUE EL CONTENIDO NO SE CORTE -->
+<div class="spacer"></div>
 """, unsafe_allow_html=True)
 
-# BOTÓN FUNCIONAL, FIJO Y NORMAL
+# Botón funcional visible y fijo
 st.markdown('<div class="fixed-button">', unsafe_allow_html=True)
 if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
     st.session_state.clear()
     st.rerun()
 st.markdown('</div>', unsafe_allow_html=True)
-
 
 # Inicializar estados
 if "procesado" not in st.session_state:
