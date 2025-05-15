@@ -11,21 +11,23 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-# CSS + HTML para cabecera sticky con botón funcional separado
+# Cabecera sticky + botón fijo
 st.markdown("""
 <style>
-/* Cabecera fija */
+/* CABECERA STICKY */
 .fixed-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: white;
-    padding: 1rem 2rem 0.5rem 2rem;
+    padding: 1.5rem 2rem 1rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 1000;
+    box-sizing: border-box;
 }
 
+/* DISTRIBUCIÓN CABECERA */
 .header-inner {
     max-width: 1200px;
     margin: auto;
@@ -33,43 +35,53 @@ st.markdown("""
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .header-inner h2 {
-    margin: 0;
+    margin: 0 0 0.5rem 0;
 }
 
-.header-resources {
-    text-align: right;
-}
-
-/* Botón funcional también fijo, debajo de la cabecera */
+/* BOTÓN REAL - FIJO */
 .fixed-button {
     position: fixed;
-    top: 90px;
+    top: 110px;
     right: 2rem;
     z-index: 1001;
     background-color: white;
-    padding-top: 0.5rem;
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 6px;
+    width: 140px;
 }
 
-/* Margen al contenido principal */
+/* SEPARADOR PARA QUE NO SE SOLAPE CONTENIDO */
 .spacer {
-    margin-top: 150px;
+    height: 180px;
+}
+
+.resources ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.resources li {
+    margin-bottom: 0.3rem;
 }
 </style>
 
-<!-- Cabecera -->
+<!-- CABECERA -->
 <div class="fixed-header">
   <div class="header-inner">
     <div>
       <h2>📚 Fusionador Scopus + WoS</h2>
       <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
     </div>
-    <div class="header-resources">
+    <div class="resources">
       <details>
         <summary style="cursor: pointer;">📎 Recursos útiles</summary>
-        <ul style="list-style:none; padding-left:1rem; margin-top:0.3rem;">
+        <ul>
           <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
           <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
           <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
@@ -79,16 +91,17 @@ st.markdown("""
   </div>
 </div>
 
-<!-- Espacio para que no se solape el contenido -->
+<!-- ESPACIADOR -->
 <div class="spacer"></div>
 """, unsafe_allow_html=True)
 
-# Botón funcional en capa superior fija
+# BOTÓN FUNCIONAL FIJO
 st.markdown('<div class="fixed-button">', unsafe_allow_html=True)
-if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
     st.session_state.clear()
     st.rerun()
 st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 # Inicializar estados
