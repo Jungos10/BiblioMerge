@@ -20,7 +20,7 @@ st.markdown("""
     left: 0;
     width: 100%;
     background-color: white;
-    padding: 2.5rem 2rem 1.5rem 2rem;
+    padding: 1.5rem 2rem 1rem 2rem;  /* REDUCIDO para pegarlo más arriba */
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 1000;
     font-family: sans-serif;
@@ -39,9 +39,9 @@ st.markdown("""
     gap: 1rem;
 }
 .fixed-header .resources {
-    text-align: right;
     display: flex;
     flex-direction: column;
+    align-items: flex-end; /* 🔧 Esto alinea los enlaces completamente a la derecha */
     gap: 0.3rem;
     font-size: 0.95rem;
 }
@@ -49,7 +49,7 @@ st.markdown("""
     text-decoration: none;
 }
 .content-spacer {
-    height: 230px;
+    height: 160px;  /* REDUCIDO para acercar el contenido al header */
 }
 </style>
 
