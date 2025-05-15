@@ -77,12 +77,26 @@ st.markdown("""
 # Dividir en columna izquierda (menú), separador visual, y columna derecha (informes)
 col1, col_sep, col2 = st.columns([1, 0.1, 1])  # Puedes ajustar proporciones
 
-# Separador visual (col_sep)
+# Separador visual con altura relativa grande para que recorra la pantalla
 with col_sep:
     st.markdown(
-        "<div style='background-color: #f0f2f6; height: 100%; border-radius: 0.5rem;'>&nbsp;</div>",
+        """
+        <div style='
+            background-color: #f0f2f6;
+            height: 100vh;
+            min-height: 600px;
+            width: 100%;
+            border-radius: 0.5rem;
+        '></div>
+        """,
         unsafe_allow_html=True
     )
+# # Separador visual (col_sep)
+# with col_sep:
+#     st.markdown(
+#         "<div style='background-color: #f0f2f6; height: 100%; border-radius: 0.5rem;'>&nbsp;</div>",
+#         unsafe_allow_html=True
+#     )
 # # Cuerpo principal dividido en columnas
 # col1, col2 = st.columns([1, 1])  # Puedes ajustar proporciones
 
