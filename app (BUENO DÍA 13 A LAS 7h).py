@@ -97,29 +97,30 @@ if "fusion_completada" not in st.session_state:
 
 # BLOQUE 1 – Subida de archivos y botón de inicio (solo si no se ha procesado)
 if not st.session_state["procesado"]:
-    scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
-    wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
-
-    if scopus_files:
-        st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
-        for f in scopus_files:
-            st.markdown(f"- {f.name}")
-    if wos_files:
-        st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
-        for f in wos_files:
-            st.markdown(f"- {f.name}")
-
-    col1, _ = st.columns([1, 1])
-    with col1:
-        if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
-            if scopus_files and wos_files:
-                st.session_state["scopus_files"] = scopus_files
-                st.session_state["wos_files"] = wos_files
-                st.session_state["fusion_en_proceso"] = True
-                st.session_state["procesado"] = True
-                st.rerun()
-            else:
-                st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
+        with col1:
+        scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
+        wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
+    
+        if scopus_files:
+            st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
+            for f in scopus_files:
+                st.markdown(f"- {f.name}")
+        if wos_files:
+            st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
+            for f in wos_files:
+                st.markdown(f"- {f.name}")
+    
+        col1, _ = st.columns([1, 1])
+        with col1:
+            if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
+                if scopus_files and wos_files:
+                    st.session_state["scopus_files"] = scopus_files
+                    st.session_state["wos_files"] = wos_files
+                    st.session_state["fusion_en_proceso"] = True
+                    st.session_state["procesado"] = True
+                    st.rerun()
+                else:
+                    st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state.get("fusion_en_proceso", False):
