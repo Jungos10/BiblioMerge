@@ -20,47 +20,46 @@ st.markdown("""
     left: 0;
     right: 0;
     background-color: white;
-    padding: 1rem 2rem 0.5rem 2rem;
+    padding: 1.2rem 2rem 0.5rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 999;
     font-family: sans-serif;
 }
 .fixed-header .row {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: nowrap;
 }
 .fixed-header .title {
     flex-grow: 1;
-    min-width: 300px;
 }
 .fixed-header h2 {
     margin: 0;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     white-space: normal;
 }
 .fixed-header p {
     margin: 0.2rem 0 0 0;
+    font-size: 1rem;
 }
 .fixed-header .resources {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     text-align: right;
-    gap: 0.2rem;
-    min-width: 200px;
+    gap: 0.3rem;
 }
 .fixed-header .resources a {
-    font-size: 0.94rem;
+    font-size: 0.95rem;
     color: #0066cc;
     text-decoration: none;
 }
 .content-spacer {
-    height: 110px;
+    height: 130px;
 }
 </style>
 
@@ -80,7 +79,6 @@ st.markdown("""
 
 <div class="content-spacer"></div>
 """, unsafe_allow_html=True)
-
 
 # Cuerpo principal dividido en columnas
 col1, col2 = st.columns([1.3, 2])  # Puedes ajustar proporciones
