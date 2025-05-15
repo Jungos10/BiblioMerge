@@ -20,13 +20,14 @@ st.markdown("""
     left: 0;
     width: 100%;
     background-color: white;
-    padding: 1.5rem 2rem 1rem 2rem;
+    padding: 2rem 2rem 1rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 1000;
     font-family: sans-serif;
 }
 .fixed-header h2 {
     margin: 0;
+    font-size: 1.6rem;
 }
 .fixed-header .content {
     max-width: 1200px;
@@ -34,14 +35,15 @@ st.markdown("""
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: wrap;  /* Permite salto si falta espacio */
+    gap: 1rem;
 }
 .fixed-header .resources {
     text-align: right;
     min-width: 250px;
 }
 .content-spacer {
-    height: 160px;
+    height: 220px; /* Espacio debajo del header */
 }
 </style>
 
@@ -52,7 +54,7 @@ st.markdown("""
       <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
     </div>
     <div class="resources">
-      <details>
+      <details open>
         <summary style="cursor: pointer;">📎 Recursos útiles</summary>
         <ul style="list-style:none; padding-left:1rem;">
           <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
@@ -66,7 +68,6 @@ st.markdown("""
 
 <div class="content-spacer"></div>
 """, unsafe_allow_html=True)
-
 
 
 # Inicializar estados
