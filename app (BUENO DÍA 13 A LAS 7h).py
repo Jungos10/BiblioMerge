@@ -578,56 +578,57 @@ if (
     and not st.session_state.get("depuracion_activada", False)
     and not st.session_state.get("parte4_generada", False)
 ):
-    st.markdown("### 📥 Descarga tus archivos:")
-    st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
-    st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
-    st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
-
-    # ----------- REPORTING FINAL DE FUSIÓN -----------
-    st.markdown("### 📊 Informe resumen de la fusión")
-    st.write(f"**Registros Scopus:** {st.session_state.get('num_dfsco', 0)}")
-    st.write(f"**Registros WoS:** {st.session_state.get('num_dfwos', 0)}")
-    st.write(f"**Duplicados eliminados:** {st.session_state.get('num_duplicados_final', 0)}")
-    #st.write(f"**Duplicados sin DOI:** {st.session_state.get('num_duplicados_sin_doi', 0)}")
-    st.write(f"**Registros finales:** {st.session_state.get('num_df_final', 0)}")
+    with col2:
+        st.markdown("### 📥 Descarga tus archivos:")
+        st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
+        st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
+        st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
     
-    # Mostrar histogramas desde session_state
-    def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
-        if not lista_datos:
-            st.warning(f"No hay datos para {titulo}.")
-            return
-        etiquetas, valores = zip(*lista_datos)
-        fig, ax = plt.subplots(figsize=(8, 4))
-        ax.bar(etiquetas, valores)
-        ax.set_xlabel(xlabel)
-        ax.set_ylabel(ylabel)
-        ax.set_title(titulo)
-        plt.xticks(rotation=90)
-        st.pyplot(fig)
-
-    st.subheader("👥 Top 20 autores con más artículos")
-    mostrar_histograma_top(
-        st.session_state["top_autores"],
-        "Top 20 Autores",
-        "Autores",
-        "Número de Artículos"
-    )
-
-    st.subheader("🔑 Top 25 Author Keywords")
-    mostrar_histograma_top(
-        st.session_state["top_authkw"],
-        "Top 25 Author Keywords",
-        "Author Keywords",
-        "Frecuencia"
-    )
-
-    st.subheader("🔍 Top 25 Index Keywords")
-    mostrar_histograma_top(
-        st.session_state["top_indexkw"],
-        "Top 25 Index Keywords",
-        "Index Keywords",
-        "Frecuencia"
-    )
+        # ----------- REPORTING FINAL DE FUSIÓN -----------
+        st.markdown("### 📊 Informe resumen de la fusión")
+        st.write(f"**Registros Scopus:** {st.session_state.get('num_dfsco', 0)}")
+        st.write(f"**Registros WoS:** {st.session_state.get('num_dfwos', 0)}")
+        st.write(f"**Duplicados eliminados:** {st.session_state.get('num_duplicados_final', 0)}")
+        #st.write(f"**Duplicados sin DOI:** {st.session_state.get('num_duplicados_sin_doi', 0)}")
+        st.write(f"**Registros finales:** {st.session_state.get('num_df_final', 0)}")
+        
+        # Mostrar histogramas desde session_state
+        def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
+            if not lista_datos:
+                st.warning(f"No hay datos para {titulo}.")
+                return
+            etiquetas, valores = zip(*lista_datos)
+            fig, ax = plt.subplots(figsize=(8, 4))
+            ax.bar(etiquetas, valores)
+            ax.set_xlabel(xlabel)
+            ax.set_ylabel(ylabel)
+            ax.set_title(titulo)
+            plt.xticks(rotation=90)
+            st.pyplot(fig)
+    
+        st.subheader("👥 Top 20 autores con más artículos")
+        mostrar_histograma_top(
+            st.session_state["top_autores"],
+            "Top 20 Autores",
+            "Autores",
+            "Número de Artículos"
+        )
+    
+        st.subheader("🔑 Top 25 Author Keywords")
+        mostrar_histograma_top(
+            st.session_state["top_authkw"],
+            "Top 25 Author Keywords",
+            "Author Keywords",
+            "Frecuencia"
+        )
+    
+        st.subheader("🔍 Top 25 Index Keywords")
+        mostrar_histograma_top(
+            st.session_state["top_indexkw"],
+            "Top 25 Index Keywords",
+            "Index Keywords",
+            "Frecuencia"
+        )
 
 
             # mensaje_proceso.empty()  # Oculta el mensaje anterior
