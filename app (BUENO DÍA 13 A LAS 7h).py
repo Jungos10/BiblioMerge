@@ -76,7 +76,7 @@ st.markdown("""
 
 
 # Cuerpo principal dividido en columnas
-col1, col2 = st.columns([1.3, 2])  # Puedes ajustar proporciones
+col1, col2 = st.columns([1, 1])  # Puedes ajustar proporciones
 
 with col1:
     st.markdown("### 📂 Menú de aplicación")
