@@ -105,12 +105,6 @@ if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
     st.rerun()
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Botón funcional visible y fijo
-st.markdown('<div class="fixed-button">', unsafe_allow_html=True)
-if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
-    st.session_state.clear()
-    st.rerun()
-st.markdown('</div>', unsafe_allow_html=True)
 
 # Inicializar estados
 if "procesado" not in st.session_state:
