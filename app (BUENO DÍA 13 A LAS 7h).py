@@ -824,12 +824,14 @@ if not st.session_state.get("parte4_generada", False):
                             except Exception as e:
                                 st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
             
-                            # Guardar el nuevo df_final actualizado
-                            st.session_state["df_final"] = df_final
-                            st.session_state["depuracion_realizada"] = True
+                        # Guardar el nuevo df_final actualizado
+                        st.session_state["df_final"] = df_final
+                        st.session_state["depuracion_realizada"] = True
+                        with col2:
                             st.success("🎉 Todas las depuraciones aplicadas correctamente.")
-            
-                        except Exception as e:
+        
+                    except Exception as e:
+                        with col2:
                             st.error(f"❌ Error general al procesar la depuración: {str(e)}")
                     
 
