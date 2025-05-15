@@ -11,10 +11,14 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-# Cabecera sticky + botón fijo
 st.markdown("""
 <style>
-/* CABECERA STICKY */
+/* Evitar que la cabecera tape el contenido al principio */
+body {
+    padding-top: 180px;
+}
+
+/* Cabecera fija */
 .fixed-header {
     position: fixed;
     top: 0;
@@ -27,7 +31,7 @@ st.markdown("""
     box-sizing: border-box;
 }
 
-/* DISTRIBUCIÓN CABECERA */
+/* Contenido interno flexible */
 .header-inner {
     max-width: 1200px;
     margin: auto;
@@ -35,29 +39,17 @@ st.markdown("""
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .header-inner h2 {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.3rem 0;
 }
 
-/* BOTÓN REAL - FIJO */
-.fixed-button {
-    position: fixed;
-    top: 110px;
-    right: 2rem;
-    z-index: 1001;
-    background-color: white;
-    padding: 0.5rem 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border-radius: 6px;
-    width: 140px;
-}
-
-/* SEPARADOR PARA QUE NO SE SOLAPE CONTENIDO */
-.spacer {
-    height: 180px;
+/* Recursos alineados a la derecha */
+.resources {
+    flex: 1;
+    text-align: right;
 }
 
 .resources ul {
@@ -68,6 +60,18 @@ st.markdown("""
 
 .resources li {
     margin-bottom: 0.3rem;
+}
+
+/* Botón funcional fijo separado */
+.fixed-button {
+    position: fixed;
+    top: 130px;
+    right: 2rem;
+    z-index: 1001;
+    background-color: white;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 6px;
 }
 </style>
 
@@ -90,18 +94,14 @@ st.markdown("""
     </div>
   </div>
 </div>
-
-<!-- ESPACIADOR -->
-<div class="spacer"></div>
 """, unsafe_allow_html=True)
 
-# BOTÓN FUNCIONAL FIJO
+# BOTÓN FUNCIONAL, FIJO Y NORMAL
 st.markdown('<div class="fixed-button">', unsafe_allow_html=True)
-if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary", use_container_width=True):
+if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
     st.session_state.clear()
     st.rerun()
 st.markdown('</div>', unsafe_allow_html=True)
-
 
 
 # Inicializar estados
