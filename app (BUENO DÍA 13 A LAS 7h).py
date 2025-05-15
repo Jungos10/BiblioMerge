@@ -14,20 +14,22 @@ st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 # CABECERA STICKY VISUAL (HTML + CSS)
 st.markdown("""
 <style>
+/* CABECERA FINA Y FUNCIONAL */
 .fixed-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: white;
-    padding: 1rem 2rem 0.5rem 2rem;  /* MÁS COMPACTO */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 1rem 2rem 0.25rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 1000;
     font-family: sans-serif;
 }
 .fixed-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.55rem;
+    white-space: nowrap;
 }
 .fixed-header .content {
     max-width: 1200px;
@@ -35,21 +37,28 @@ st.markdown("""
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
+
+/* RECURSOS ALINEADOS A LA DERECHA */
 .fixed-header .resources {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: flex-start;
     text-align: right;
     gap: 0.2rem;
-    font-size: 0.95rem;
+    min-width: 220px;
 }
 .fixed-header .resources a {
     text-decoration: none;
+    font-size: 0.94rem;
+    color: #0066cc;
 }
+
+/* REDUCIR SEPARACIÓN CON EL CONTENIDO */
 .content-spacer {
-    height: 120px;  /* MÁS PEGADO */
+    height: 100px;
 }
 </style>
 
@@ -57,7 +66,7 @@ st.markdown("""
   <div class="content">
     <div>
       <h2>📚 Fusionador Scopus + WoS</h2>
-      <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
+      <p style="margin: 0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
     </div>
     <div class="resources">
       <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
@@ -69,6 +78,9 @@ st.markdown("""
 
 <div class="content-spacer"></div>
 """, unsafe_allow_html=True)
+
+
+
 # Cuerpo principal dividido en columnas
 col1, col2 = st.columns([1.3, 2])  # Puedes ajustar proporciones
 
