@@ -39,7 +39,7 @@ st.markdown("""
     .recursos-cabecera {
         position: absolute;
         top: 1.2rem;
-        right: 2rem;
+        right: 1rem;
         text-align: right;
         font-size: 0.95rem;
     }
