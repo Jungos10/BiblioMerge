@@ -11,23 +11,22 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-# CSS y cabecera HTML
 st.markdown("""
 <style>
-/* Cabecera fija */
+/* Cabecera Fija */
 .fixed-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: white;
-    padding: 1.5rem 2rem 1rem 2rem;
+    padding: 2rem 2rem 1rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 1000;
     box-sizing: border-box;
 }
 
-/* Distribución del contenido dentro de cabecera */
+/* Contenido cabecera */
 .header-inner {
     max-width: 1200px;
     margin: auto;
@@ -39,10 +38,11 @@ st.markdown("""
 }
 
 .header-inner h2 {
-    margin: 0 0 0.3rem 0;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.6rem;
 }
 
-/* Sección recursos */
+/* Recursos */
 .resources {
     flex: 1;
     text-align: right;
@@ -58,21 +58,19 @@ st.markdown("""
     margin-bottom: 0.3rem;
 }
 
-/* Botón funcional fijo */
+/* Botón funcional fijo, bien alineado */
 .fixed-button {
     position: fixed;
-    top: 130px;
+    top: 110px;
     right: 2rem;
     z-index: 1001;
     background-color: white;
-    padding: 0.25rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border-radius: 6px;
+    transform: translateY(0);
 }
 
-/* Espaciador */
+/* Separador que empuja el contenido hacia abajo */
 .spacer {
-    height: 190px;
+    height: 200px;
 }
 </style>
 
@@ -96,9 +94,16 @@ st.markdown("""
   </div>
 </div>
 
-<!-- ESPACIADOR PARA QUE EL CONTENIDO NO SE CORTE -->
+<!-- ESPACIADOR -->
 <div class="spacer"></div>
 """, unsafe_allow_html=True)
+
+# BOTÓN FUNCIONAL FIJO DEBAJO DE LA CABECERA
+st.markdown('<div class="fixed-button">', unsafe_allow_html=True)
+if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+    st.session_state.clear()
+    st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Botón funcional visible y fijo
 st.markdown('<div class="fixed-button">', unsafe_allow_html=True)
