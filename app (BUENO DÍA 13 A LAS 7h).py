@@ -91,14 +91,7 @@ with col_sep:
         """,
         unsafe_allow_html=True
     )
-# # Separador visual (col_sep)
-# with col_sep:
-#     st.markdown(
-#         "<div style='background-color: #f0f2f6; height: 100%; border-radius: 0.5rem;'>&nbsp;</div>",
-#         unsafe_allow_html=True
-#     )
-# # Cuerpo principal dividido en columnas
-# col1, col2 = st.columns([1, 1])  # Puedes ajustar proporciones
+
 
 with col1:
     st.markdown("### 📂 Menú de aplicación")
