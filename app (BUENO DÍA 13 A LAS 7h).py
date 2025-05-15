@@ -97,7 +97,7 @@ if "fusion_completada" not in st.session_state:
 
 # BLOQUE 1 – Subida de archivos y botón de inicio (solo si no se ha procesado)
 if not st.session_state["procesado"]:
-        with col1:
+    with col1:
         scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
         wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
     
