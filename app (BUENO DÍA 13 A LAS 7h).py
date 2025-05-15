@@ -20,7 +20,7 @@ st.markdown("""
     left: 0;
     right: 0;
     background-color: white;
-    padding: 1.2rem 2rem 0.5rem 2rem;
+    padding: 1rem 2rem 0.5rem 2rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     z-index: 999;
     font-family: sans-serif;
@@ -30,34 +30,45 @@ st.markdown("""
     margin: auto;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 2rem;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 .fixed-header .title {
     flex-grow: 1;
+    min-width: 300px;
+}
+.fixed-header h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    white-space: normal;
+}
+.fixed-header p {
+    margin: 0.2rem 0 0 0;
 }
 .fixed-header .resources {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     text-align: right;
-    gap: 0.3rem;
+    gap: 0.2rem;
+    min-width: 200px;
 }
 .fixed-header .resources a {
-    font-size: 0.93rem;
+    font-size: 0.94rem;
     color: #0066cc;
     text-decoration: none;
 }
 .content-spacer {
-    height: 120px;
+    height: 110px;
 }
 </style>
 
 <div class="fixed-header">
   <div class="row">
     <div class="title">
-      <h2 style="margin:0;">📚 Fusionador Scopus + WoS</h2>
-      <p style="margin:0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
+      <h2>📚 Fusionador Scopus + WoS</h2>
+      <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
     </div>
     <div class="resources">
       <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
@@ -69,7 +80,6 @@ st.markdown("""
 
 <div class="content-spacer"></div>
 """, unsafe_allow_html=True)
-
 
 
 # Cuerpo principal dividido en columnas
