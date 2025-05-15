@@ -577,7 +577,8 @@ if st.session_state.get("fusion_en_proceso", False):
 
         # Finalizar estado
         #mensaje_proceso.empty()
-        st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+        with col1:
+            st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
         st.session_state["fusion_en_proceso"] = False
         st.session_state["fusion_completada"] = True
 
