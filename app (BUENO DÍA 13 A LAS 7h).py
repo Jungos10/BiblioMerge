@@ -30,14 +30,14 @@ st.markdown("""
         font-size: 1.6rem;
         font-weight: bold;
         margin-bottom: 0.3rem;
-        margin-left: 25rem; 
+        margin-left: 30rem; 
         text-align: left;
     }
 
     .subtitulo-cabecera {
         font-size: 1rem;
         margin-bottom: 0.5rem;
-        margin-left: 25rem; 
+        margin-left: 30rem; 
         text-align: left;
     }
 
