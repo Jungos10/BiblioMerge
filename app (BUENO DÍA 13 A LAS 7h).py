@@ -698,136 +698,139 @@ if not st.session_state.get("parte4_generada", False):
                         df_author_keywords = st.session_state.get("df_author_keywords")
                         df_index_keywords = st.session_state.get("df_index_keywords")
                         df_references_info = st.session_state.get("df_references_info")
-    
-                        # ---- DEPURACIÓN: Authors ----
-                        try:
-                            df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
-    
-                            if df_authors_table.empty:
-                                st.warning(f"❌ Depuración de Authors no ha sido posible porque la hoja está vacía.")
-                            elif df_authors_table.loc[0, 'New Author'] == "0-change-0":
-                                st.warning(f"❌ Depuración de Authors no ha sido posible porque la tabla de conversión en la hoja 'Authors' del fichero Excel no ha sido completada.")
-                            else:
-                                reemplazos_authors = 0
-                                for _, fila in df_authors_table.iterrows():
-                                    if fila["New Author"] != "0-change-0":
-                                        author = fila["Authors"]
-                                        new_author = fila["New Author"]
-                                        fila_encontrada = autores[autores["Authors"] == author]
-                                        if not fila_encontrada.empty:
-                                            indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                            posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                            for idx, pos in zip(indices, posiciones):
-                                                autores_actuales = df_final.at[idx, "Authors"].split(";")
-                                                if pos < len(autores_actuales):
-                                                    autores_actuales[pos] = new_author
-                                                    df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
-                                                    reemplazos_authors += 1
-                                st.success("✅ Depuración de autores completada.")
-                                st.info(f"ℹ️ Se han realizado {reemplazos_authors} reemplazos en Authors.")
-                        
-                        except Exception as e:
-                            st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
-        
-                        # ---- DEPURACIÓN: Author Keywords ----
-                        try:
-                            df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
-    
-                            if df_ak.empty:
-                                st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la hoja está vacía.")
-                            elif df_ak.loc[0, 'New Keyword'] == "0-change-0":
-                                st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la tabla de conversión en la hoja 'Author Keywords' del fichero Excel no ha sido completada.")
-                            else:
-                                conteo_reemplazos_ak = 0
-                                for _, fila in df_ak.iterrows():
-                                    if fila["New Keyword"] != "0-change-0":
-                                        old_kw = fila["Author Keyword"]
-                                        new_kw = fila["New Keyword"]
-                                        fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
-                                        if not fila_encontrada.empty:
-                                            indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                            posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                            for idx, pos in zip(indices, posiciones):
-                                                kws = df_final.at[idx, "Author Keywords"].split(";")
-                                                if pos < len(kws):
-                                                    kws[pos] = new_kw
-                                                    df_final.at[idx, "Author Keywords"] = "; ".join(kws)
-                                                    conteo_reemplazos_ak += 1
-                                st.success("✅ Depuración de Author Keywords completada.")
-                                st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ak} reemplazos en la columna Author Keywords.")
+
+                        # Mostrar mensajes en col2
+                        with col2:
                                 
+                            # ---- DEPURACIÓN: Authors ----
+                            try:
+                                df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
+        
+                                if df_authors_table.empty:
+                                    st.warning(f"❌ Depuración de Authors no ha sido posible porque la hoja está vacía.")
+                                elif df_authors_table.loc[0, 'New Author'] == "0-change-0":
+                                    st.warning(f"❌ Depuración de Authors no ha sido posible porque la tabla de conversión en la hoja 'Authors' del fichero Excel no ha sido completada.")
+                                else:
+                                    reemplazos_authors = 0
+                                    for _, fila in df_authors_table.iterrows():
+                                        if fila["New Author"] != "0-change-0":
+                                            author = fila["Authors"]
+                                            new_author = fila["New Author"]
+                                            fila_encontrada = autores[autores["Authors"] == author]
+                                            if not fila_encontrada.empty:
+                                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                for idx, pos in zip(indices, posiciones):
+                                                    autores_actuales = df_final.at[idx, "Authors"].split(";")
+                                                    if pos < len(autores_actuales):
+                                                        autores_actuales[pos] = new_author
+                                                        df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+                                                        reemplazos_authors += 1
+                                    st.success("✅ Depuración de autores completada.")
+                                    st.info(f"ℹ️ Se han realizado {reemplazos_authors} reemplazos en Authors.")
+                            
+                            except Exception as e:
+                                st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
+            
+                            # ---- DEPURACIÓN: Author Keywords ----
+                            try:
+                                df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
+        
+                                if df_ak.empty:
+                                    st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la hoja está vacía.")
+                                elif df_ak.loc[0, 'New Keyword'] == "0-change-0":
+                                    st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la tabla de conversión en la hoja 'Author Keywords' del fichero Excel no ha sido completada.")
+                                else:
+                                    conteo_reemplazos_ak = 0
+                                    for _, fila in df_ak.iterrows():
+                                        if fila["New Keyword"] != "0-change-0":
+                                            old_kw = fila["Author Keyword"]
+                                            new_kw = fila["New Keyword"]
+                                            fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
+                                            if not fila_encontrada.empty:
+                                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                for idx, pos in zip(indices, posiciones):
+                                                    kws = df_final.at[idx, "Author Keywords"].split(";")
+                                                    if pos < len(kws):
+                                                        kws[pos] = new_kw
+                                                        df_final.at[idx, "Author Keywords"] = "; ".join(kws)
+                                                        conteo_reemplazos_ak += 1
+                                    st.success("✅ Depuración de Author Keywords completada.")
+                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ak} reemplazos en la columna Author Keywords.")
+                                    
+                            except Exception as e:
+                                st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
+            
+                            # ---- DEPURACIÓN: Index Keywords ----
+                            try:
+                                df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
+        
+                                if df_ik.empty:
+                                    st.warning(f"❌ Depuración de Index Keywords no ha sido posible porque la hoja está vacía.")
+                                elif df_ik.loc[0, 'New Keyword'] == "0-change-0":
+                                    st.warning(f"❌ Depuración de Index Keywords no ha sido posible porque la tabla de conversión en la hoja 'Index Keywords' del fichero Excel no ha sido completada.")
+                                else:
+                                    conteo_reemplazos_ik = 0
+                                    for _, fila in df_ik.iterrows():
+                                        if fila["New Keyword"] != "0-change-0":
+                                            old_kw = fila["Index Keywords"]
+                                            new_kw = fila["New Keyword"]
+                                            fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
+                                            if not fila_encontrada.empty:
+                                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                for idx, pos in zip(indices, posiciones):
+                                                    kws = df_final.at[idx, "Index Keywords"].split(";")
+                                                    if pos < len(kws):
+                                                        kws[pos] = new_kw
+                                                        df_final.at[idx, "Index Keywords"] = "; ".join(kws)
+                                                        conteo_reemplazos_ik += 1
+                                    st.success("✅ Depuración de Index Keywords completada.")
+                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ik} reemplazos en la columna Index Keywords.")
+                                    
+                            except Exception as e:
+                                st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
+            
+                            # ---- DEPURACIÓN: References ----
+                            try:
+                                df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
+        
+                                if df_refs.empty:
+                                    st.warning(f"❌ Depuración de Referencias no ha sido posible porque la hoja está vacía.")
+                                elif df_refs.loc[0, 'New Reference'] == "0-change-0":
+                                    st.warning(f"❌ Depuración de Referencias no ha sido posible porque la tabla de conversión en la hoja 'Cited References' del fichero Excel no ha sido completada.")
+                                else:
+                                    conteo_reemplazos_refs = 0
+                                    for _, fila in df_refs.iterrows():
+                                        old_ref = fila["References"]
+                                        new_ref = fila["New Reference"]
+                                    
+                                        # Aceptar tanto valores no nulos como NaN explícitamente (para borrar)
+                                        if new_ref != "0-change-0":
+                                            fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
+                                            if not fila_encontrada.empty:
+                                                indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                for idx, pos in zip(indices, posiciones):
+                                                    refs = df_final.at[idx, "References"].split(";")
+                                                    if pos < len(refs):
+                                                        refs[pos] = "" if pd.isna(new_ref) else new_ref
+                                                        df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
+                                                        conteo_reemplazos_refs += 1
+                                    st.success("✅ Depuración de Referencias completada.")
+                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_refs} reemplazos en la columna References.")
+                                    
+                            except Exception as e:
+                                st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
+            
+                            # Guardar el nuevo df_final actualizado
+                            st.session_state["df_final"] = df_final
+                            st.session_state["depuracion_realizada"] = True
+                            st.success("🎉 Todas las depuraciones aplicadas correctamente.")
+            
                         except Exception as e:
-                            st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
-        
-                        # ---- DEPURACIÓN: Index Keywords ----
-                        try:
-                            df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
-    
-                            if df_ik.empty:
-                                st.warning(f"❌ Depuración de Index Keywords no ha sido posible porque la hoja está vacía.")
-                            elif df_ik.loc[0, 'New Keyword'] == "0-change-0":
-                                st.warning(f"❌ Depuración de Index Keywords no ha sido posible porque la tabla de conversión en la hoja 'Index Keywords' del fichero Excel no ha sido completada.")
-                            else:
-                                conteo_reemplazos_ik = 0
-                                for _, fila in df_ik.iterrows():
-                                    if fila["New Keyword"] != "0-change-0":
-                                        old_kw = fila["Index Keywords"]
-                                        new_kw = fila["New Keyword"]
-                                        fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
-                                        if not fila_encontrada.empty:
-                                            indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                            posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                            for idx, pos in zip(indices, posiciones):
-                                                kws = df_final.at[idx, "Index Keywords"].split(";")
-                                                if pos < len(kws):
-                                                    kws[pos] = new_kw
-                                                    df_final.at[idx, "Index Keywords"] = "; ".join(kws)
-                                                    conteo_reemplazos_ik += 1
-                                st.success("✅ Depuración de Index Keywords completada.")
-                                st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ik} reemplazos en la columna Index Keywords.")
-                                
-                        except Exception as e:
-                            st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
-        
-                        # ---- DEPURACIÓN: References ----
-                        try:
-                            df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
-    
-                            if df_refs.empty:
-                                st.warning(f"❌ Depuración de Referencias no ha sido posible porque la hoja está vacía.")
-                            elif df_refs.loc[0, 'New Reference'] == "0-change-0":
-                                st.warning(f"❌ Depuración de Referencias no ha sido posible porque la tabla de conversión en la hoja 'Cited References' del fichero Excel no ha sido completada.")
-                            else:
-                                conteo_reemplazos_refs = 0
-                                for _, fila in df_refs.iterrows():
-                                    old_ref = fila["References"]
-                                    new_ref = fila["New Reference"]
-                                
-                                    # Aceptar tanto valores no nulos como NaN explícitamente (para borrar)
-                                    if new_ref != "0-change-0":
-                                        fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
-                                        if not fila_encontrada.empty:
-                                            indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                            posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                            for idx, pos in zip(indices, posiciones):
-                                                refs = df_final.at[idx, "References"].split(";")
-                                                if pos < len(refs):
-                                                    refs[pos] = "" if pd.isna(new_ref) else new_ref
-                                                    df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
-                                                    conteo_reemplazos_refs += 1
-                                st.success("✅ Depuración de Referencias completada.")
-                                st.info(f"ℹ️ Se han realizado {conteo_reemplazos_refs} reemplazos en la columna References.")
-                                
-                        except Exception as e:
-                            st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
-        
-                        # Guardar el nuevo df_final actualizado
-                        st.session_state["df_final"] = df_final
-                        st.session_state["depuracion_realizada"] = True
-                        st.success("🎉 Todas las depuraciones aplicadas correctamente.")
-        
-                    except Exception as e:
-                        st.error(f"❌ Error general al procesar la depuración: {str(e)}")
+                            st.error(f"❌ Error general al procesar la depuración: {str(e)}")
                     
 
     
