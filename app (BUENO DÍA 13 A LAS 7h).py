@@ -11,16 +11,64 @@ import gc
 
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-with st.container():
-    st.markdown("## 📚 Fusionador Scopus + WoS")
-    st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
+# CABECERA STICKY VISUAL (HTML + CSS)
+st.markdown("""
+<style>
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 1.5rem 2rem 1rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+    font-family: sans-serif;
+}
+.fixed-header h2 {
+    margin: 0;
+}
+.fixed-header .content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.fixed-header .resources {
+    text-align: right;
+    min-width: 250px;
+}
+.content-spacer {
+    height: 160px;
+}
+</style>
 
-    with st.expander("📎 Recursos útiles"):
-        st.markdown("""
-        - [📘 Guía de usuario](https://example.com/guia.pdf)
-        - [🎬 Video demo](https://youtube.com)
-        - [📁 Archivos de prueba](https://example.com/pruebas.zip)
-        """)
+<div class="fixed-header">
+  <div class="content">
+    <div>
+      <h2>📚 Fusionador Scopus + WoS</h2>
+      <p>Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
+    </div>
+    <div class="resources">
+      <details>
+        <summary style="cursor: pointer;">📎 Recursos útiles</summary>
+        <ul style="list-style:none; padding-left:1rem;">
+          <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
+          <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
+          <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</div>
+
+<div class="content-spacer"></div>
+""", unsafe_allow_html=True)
+
+
+
 # Inicializar estados
 if "procesado" not in st.session_state:
     st.session_state["procesado"] = False
