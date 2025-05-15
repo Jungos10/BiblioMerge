@@ -9,65 +9,26 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
+# layout wide
 st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
 
-# CSS sticky para cabecera visual
-st.markdown("""
-<style>
-.sticky-header {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    padding: 1rem 2rem 0.5rem 2rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
+# Cabecera normal (no sticky)
+st.title("📚 Fusionador Scopus + WoS")
+st.markdown("Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.")
 
-.header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
+# Sidebar fijo
+with st.sidebar:
+    st.markdown("## 🔁 Opciones")
+    if st.button("Reiniciar todo"):
+        st.session_state.clear()
+        st.rerun()
 
-.header-left h2 {
-    margin: 0;
-}
-.resources ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.resources li {
-    margin-bottom: 0.3rem;
-}
-</style>
-
-<div class="sticky-header">
-  <div class="header-inner">
-    <div class="header-left">
-      <h2>📚 Fusionador Scopus + WoS</h2>
-      <p style="margin:0;">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</p>
-    </div>
-    <div class="resources">
-      <details>
-        <summary style="cursor: pointer;">📎 Recursos útiles</summary>
-        <ul>
-          <li><a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a></li>
-          <li><a href="https://youtube.com" target="_blank">🎬 Video demo</a></li>
-          <li><a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a></li>
-        </ul>
-      </details>
-    </div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
-
-# Botón funcional justo debajo (queda pegado visualmente)
-if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
-    st.session_state.clear()
-    st.rerun()
+    st.markdown("### 📎 Recursos útiles")
+    st.markdown("""
+    - [📘 Guía](https://example.com/guia.pdf)
+    - [🎬 Video](https://youtube.com)
+    - [📁 Pruebas](https://example.com/pruebas.zip)
+    """)
 
 
 
