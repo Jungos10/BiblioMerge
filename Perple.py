@@ -108,6 +108,8 @@ if "fusion_en_proceso" not in st.session_state:
 if "fusion_completada" not in st.session_state:
     st.session_state["fusion_completada"] = False
     #st.session_state["fusion_completada"] = True
+if "estado_fusion" not in st.session_state:
+    st.session_state["estado_fusion"] = "inicio"
 
 
 # -------------------- BLOQUE 1: SUBIDA DE ARCHIVOS --------------------
