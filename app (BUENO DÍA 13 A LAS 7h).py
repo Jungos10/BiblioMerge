@@ -92,11 +92,6 @@ with col_sep:
         unsafe_allow_html=True
     )
     
-# Si la fusión está en proceso, mostrar el mensaje arriba (solo tras pulsar el botón)
-if st.session_state.get("fusion_en_proceso", False) and not st.session_state.get("fusion_completada", False):
-    with col1:
-        st.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
-
 with col1:
     st.markdown("### 📂 Menú de aplicación")
 
@@ -217,14 +212,20 @@ if st.session_state.get("fusion_en_proceso", False):
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
 # -------------------- PARTE 2: PROCESAMIENTO Y FUSIÓN --------------------
 # BLOQUE 3 – Proceso de fusión real
-if st.session_state.get("fusion_en_proceso", False):
+# if st.session_state.get("fusion_en_proceso", False):
 
+#     mensaje_proceso = st.empty()
+#     st.session_state["mensaje_proceso"] = mensaje_proceso
+
+#     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+#         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+
+if st.session_state.get("fusion_en_proceso", False):
     mensaje_proceso = st.empty()
     st.session_state["mensaje_proceso"] = mensaje_proceso
 
     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-        mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
-           
+        mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...*
     
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
 
