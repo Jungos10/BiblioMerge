@@ -124,11 +124,11 @@ if not st.session_state["procesado"]:
                     st.session_state["fusion_en_proceso"] = True
                     st.session_state["procesado"] = True
         
-                    # ✅ Mostrar mensaje y spinner arriba (antes del rerun)
-                    with col1:
-                        st.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
-                    with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-                        time.sleep(1.5)  # pequeño retardo para mostrar spinner real
+                    # # ✅ Mostrar mensaje y spinner arriba (antes del rerun)
+                    # with col1:
+                    #     st.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
+                    # with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+                    #     time.sleep(1.5)  # pequeño retardo para mostrar spinner real
         
                     st.rerun()
                 else:
@@ -169,60 +169,69 @@ if not st.session_state["procesado"]:
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state.get("fusion_en_proceso", False):
-    scopus_files = st.session_state["scopus_files"]
-    wos_files = st.session_state["wos_files"]
+    with col1:
+        mensaje_proceso = st.empty()
+        st.session_state["mensaje_proceso"] = mensaje_proceso
 
+    with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+        with col1:
+            mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
-    # --- SCOPUS ---
-    dfsco_list = []
-    for file in scopus_files:
-        df = pd.read_csv(file)
-        dfsco_list.append(df)
-    dfsco = pd.concat(dfsco_list, ignore_index=True)
-    dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
-    dfsco['Source'] = 'scopus'
-
-               
-    # --- WoS ---
-    campos_multiples = ['AU', 'AF', 'CR']
-    todos_registros = []
-    for file in wos_files:
-        registros = []
-        registro_actual = {}
-        ultimo_campo = None
-        lines = file.getvalue().decode('ISO-8859-1').splitlines()
-        for linea in lines:
-            if not linea.strip() or linea.startswith('EF'):
-                if registro_actual:
-                    registros.append(registro_actual)
-                    registro_actual = {}
-                    ultimo_campo = None
-                continue
-            campo = linea[:2].strip()
-            valor = linea[3:].strip()
-            if not campo:
-                if ultimo_campo in campos_multiples:
-                    registro_actual[ultimo_campo] += "; " + valor
+    
+        scopus_files = st.session_state["scopus_files"]
+        wos_files = st.session_state["wos_files"]
+    
+    
+        # --- SCOPUS ---
+        dfsco_list = []
+        for file in scopus_files:
+            df = pd.read_csv(file)
+            dfsco_list.append(df)
+        dfsco = pd.concat(dfsco_list, ignore_index=True)
+        dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
+        dfsco['Source'] = 'scopus'
+    
+                   
+        # --- WoS ---
+        campos_multiples = ['AU', 'AF', 'CR']
+        todos_registros = []
+        for file in wos_files:
+            registros = []
+            registro_actual = {}
+            ultimo_campo = None
+            lines = file.getvalue().decode('ISO-8859-1').splitlines()
+            for linea in lines:
+                if not linea.strip() or linea.startswith('EF'):
+                    if registro_actual:
+                        registros.append(registro_actual)
+                        registro_actual = {}
+                        ultimo_campo = None
+                    continue
+                campo = linea[:2].strip()
+                valor = linea[3:].strip()
+                if not campo:
+                    if ultimo_campo in campos_multiples:
+                        registro_actual[ultimo_campo] += "; " + valor
+                    else:
+                        registro_actual[ultimo_campo] += " " + valor
                 else:
-                    registro_actual[ultimo_campo] += " " + valor
-            else:
-                if campo in campos_multiples:
-                    if campo in registro_actual:
-                        registro_actual[campo] += "; " + valor
+                    if campo in campos_multiples:
+                        if campo in registro_actual:
+                            registro_actual[campo] += "; " + valor
+                        else:
+                            registro_actual[campo] = valor
                     else:
                         registro_actual[campo] = valor
-                else:
-                    registro_actual[campo] = valor
-                ultimo_campo = campo
-        todos_registros.extend(registros)
-
-    dfwos = pd.DataFrame(todos_registros)
-
-    # Guardar en session_state una vez procesados todos los archivos
-    st.session_state["dfsco"] = dfsco
-    st.session_state["dfwos"] = dfwos
-    st.session_state["num_dfsco"] = dfsco.shape[0]
-    st.session_state["num_dfwos"] = dfwos.shape[0]
+                    ultimo_campo = campo
+            todos_registros.extend(registros)
+    
+        dfwos = pd.DataFrame(todos_registros)
+    
+        # Guardar en session_state una vez procesados todos los archivos
+        st.session_state["dfsco"] = dfsco
+        st.session_state["dfwos"] = dfwos
+        st.session_state["num_dfsco"] = dfsco.shape[0]
+        st.session_state["num_dfwos"] = dfwos.shape[0]
                                        
 
 
@@ -240,6 +249,7 @@ if st.session_state.get("fusion_en_proceso", False):
 #         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
 if st.session_state.get("fusion_en_proceso", False):
+
     # mensaje_proceso = st.empty()
     # st.session_state["mensaje_proceso"] = mensaje_proceso
 
