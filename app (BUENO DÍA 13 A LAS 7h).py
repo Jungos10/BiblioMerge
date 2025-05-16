@@ -225,7 +225,7 @@ if st.session_state.get("fusion_en_proceso", False):
     st.session_state["mensaje_proceso"] = mensaje_proceso
 
     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-        mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...*
+        mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
     
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
 
