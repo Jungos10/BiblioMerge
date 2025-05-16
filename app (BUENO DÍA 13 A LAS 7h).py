@@ -143,15 +143,23 @@ if not st.session_state["procesado"]:
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state.get("fusion_en_proceso", False):
-  
+
     with col1:
         mensaje_proceso = st.empty()
-        spinner_placeholder = st.empty()
         st.session_state["mensaje_proceso"] = mensaje_proceso
 
-    with spinner_placeholder.container():
         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
             mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
+
+
+    # with col1:
+    #     mensaje_proceso = st.empty()
+    #     spinner_placeholder = st.empty()
+    #     st.session_state["mensaje_proceso"] = mensaje_proceso
+
+    # with spinner_placeholder.container():
+    #     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+    #         mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
     
         scopus_files = st.session_state["scopus_files"]
