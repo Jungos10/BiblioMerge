@@ -112,37 +112,27 @@ if "estado_fusion" not in st.session_state:
     st.session_state["estado_fusion"] = "inicio"
 
 
-# -------------------- BLOQUE 1: SUBIDA DE ARCHIVOS --------------------
+# BLOQUE 1: Subida de archivos
 if st.session_state["estado_fusion"] == "inicio":
     with col1:
+        st.title("Fusionador Scopus + WoS")
         scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
         wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
-        col_boton, _ = st.columns([1, 1])
-        with col_boton:
-            if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
-                if scopus_files and wos_files:
-                    st.session_state["scopus_files"] = scopus_files
-                    st.session_state["wos_files"] = wos_files
-                    st.session_state["estado_fusion"] = "procesando"
-                    st.rerun()
-                else:
-                    st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
+        if st.button("🔄 Iniciar fusión"):
+            if scopus_files and wos_files:
+                st.session_state["scopus_files"] = scopus_files
+                st.session_state["wos_files"] = wos_files
+                st.session_state["estado_fusion"] = "procesando"
+                st.rerun()
+            else:
+                st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
-    with col2:
-        if scopus_files:
-            st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
-            for f in scopus_files:
-                st.markdown(f"- {f.name}")
-        if wos_files:
-            st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
-            for f in wos_files:
-                st.markdown(f"- {f.name}")
-
-# -------------------- BLOQUE 2: SPINNER Y FUSIÓN REAL --------------------
+# BLOQUE 2: Spinner y procesamiento real
 elif st.session_state["estado_fusion"] == "procesando":
     with col1:
         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
             st.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
+
 
             scopus_files = st.session_state["scopus_files"]
             wos_files = st.session_state["wos_files"]
