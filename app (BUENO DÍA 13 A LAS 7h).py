@@ -130,7 +130,7 @@ if not st.session_state["procesado"]:
                     st.session_state["procesado"] = True
                     st.rerun()
                 else:
-            st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
+                    st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
             
         # if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
         #     if scopus_files and wos_files:
