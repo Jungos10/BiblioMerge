@@ -110,60 +110,6 @@ if "fusion_completada" not in st.session_state:
     #st.session_state["fusion_completada"] = True
 
 
-# # BLOQUE 1 – Subida de archivos y botón de inicio (solo si no se ha procesado)
-# if not st.session_state["procesado"]:
-#     with col1:
-#         scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
-#         wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
-
-#         col_boton, _ = st.columns([1, 1])
-#         with col_boton:
-#             if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
-#                 if scopus_files and wos_files:
-#                     st.session_state["scopus_files"] = scopus_files
-#                     st.session_state["wos_files"] = wos_files
-#                     st.session_state["fusion_en_proceso"] = True
-#                     st.session_state["procesado"] = True
-        
-       
-#                     st.rerun()
-#                 else:
-#                     st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
-
-        
-#     # Mostrar archivos cargados en la columna derecha
-#     with col2:
-#         if scopus_files:
-#             st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
-#             for f in scopus_files:
-#                 st.markdown(f"- {f.name}")
-#         if wos_files:
-#             st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
-#             for f in wos_files:
-#                 st.markdown(f"- {f.name}")
-
-
-# # BLOQUE 2 – Fusión de archivos con spinner y mensajes
-
-# # if st.session_state.get("fusion_en_proceso", False):
-
-# #     with col1:
-# #         mensaje_proceso = st.empty()
-# #         st.session_state["mensaje_proceso"] = mensaje_proceso
-
-# #         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-# #             mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
-# if st.session_state.get("fusion_en_proceso", False):
-#     with col1:
-#         mensaje_proceso = st.empty()
-#         st.session_state["mensaje_proceso"] = mensaje_proceso
-
-#         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-#             mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
-
-if "estado_fusion" not in st.session_state:
-    st.session_state["estado_fusion"] = "inicio"  # valores: "inicio", "procesando", "finalizado"
-
 # -------------------- BLOQUE 1: SUBIDA DE ARCHIVOS --------------------
 if st.session_state["estado_fusion"] == "inicio":
     with col1:
@@ -196,64 +142,60 @@ elif st.session_state["estado_fusion"] == "procesando":
         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
             st.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
-
-
-
-      
-        scopus_files = st.session_state["scopus_files"]
-        wos_files = st.session_state["wos_files"]
-    
-    
-        # --- SCOPUS ---
-        dfsco_list = []
-        for file in scopus_files:
-            df = pd.read_csv(file)
-            dfsco_list.append(df)
-        dfsco = pd.concat(dfsco_list, ignore_index=True)
-        dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
-        dfsco['Source'] = 'scopus'
-    
-                   
-        # --- WoS ---
-        campos_multiples = ['AU', 'AF', 'CR']
-        todos_registros = []
-        for file in wos_files:
-            registros = []
-            registro_actual = {}
-            ultimo_campo = None
-            lines = file.getvalue().decode('ISO-8859-1').splitlines()
-            for linea in lines:
-                if not linea.strip() or linea.startswith('EF'):
-                    if registro_actual:
-                        registros.append(registro_actual)
-                        registro_actual = {}
-                        ultimo_campo = None
-                    continue
-                campo = linea[:2].strip()
-                valor = linea[3:].strip()
-                if not campo:
-                    if ultimo_campo in campos_multiples:
-                        registro_actual[ultimo_campo] += "; " + valor
+            scopus_files = st.session_state["scopus_files"]
+            wos_files = st.session_state["wos_files"]
+        
+        
+            # --- SCOPUS ---
+            dfsco_list = []
+            for file in scopus_files:
+                df = pd.read_csv(file)
+                dfsco_list.append(df)
+            dfsco = pd.concat(dfsco_list, ignore_index=True)
+            dfsco['Author full names'] = dfsco['Author full names'].str.replace(r'\s*\(\d+\)', '', regex=True)
+            dfsco['Source'] = 'scopus'
+        
+                       
+            # --- WoS ---
+            campos_multiples = ['AU', 'AF', 'CR']
+            todos_registros = []
+            for file in wos_files:
+                registros = []
+                registro_actual = {}
+                ultimo_campo = None
+                lines = file.getvalue().decode('ISO-8859-1').splitlines()
+                for linea in lines:
+                    if not linea.strip() or linea.startswith('EF'):
+                        if registro_actual:
+                            registros.append(registro_actual)
+                            registro_actual = {}
+                            ultimo_campo = None
+                        continue
+                    campo = linea[:2].strip()
+                    valor = linea[3:].strip()
+                    if not campo:
+                        if ultimo_campo in campos_multiples:
+                            registro_actual[ultimo_campo] += "; " + valor
+                        else:
+                            registro_actual[ultimo_campo] += " " + valor
                     else:
-                        registro_actual[ultimo_campo] += " " + valor
-                else:
-                    if campo in campos_multiples:
-                        if campo in registro_actual:
-                            registro_actual[campo] += "; " + valor
+                        if campo in campos_multiples:
+                            if campo in registro_actual:
+                                registro_actual[campo] += "; " + valor
+                            else:
+                                registro_actual[campo] = valor
                         else:
                             registro_actual[campo] = valor
-                    else:
-                        registro_actual[campo] = valor
-                    ultimo_campo = campo
-            todos_registros.extend(registros)
-    
-        dfwos = pd.DataFrame(todos_registros)
-    
-        # Guardar en session_state una vez procesados todos los archivos
-        st.session_state["dfsco"] = dfsco
-        st.session_state["dfwos"] = dfwos
-        st.session_state["num_dfsco"] = dfsco.shape[0]
-        st.session_state["num_dfwos"] = dfwos.shape[0]
+                        ultimo_campo = campo
+                todos_registros.extend(registros)
+        
+            dfwos = pd.DataFrame(todos_registros)
+        
+            # Guardar en session_state una vez procesados todos los archivos
+            st.session_state["dfsco"] = dfsco
+            st.session_state["dfwos"] = dfwos
+            st.session_state["num_dfsco"] = dfsco.shape[0]
+            st.session_state["num_dfwos"] = dfwos.shape[0]
                                        
 
 
@@ -554,7 +496,7 @@ if st.session_state.get("fusion_en_proceso", False):
 
          # Guardar para usar luego
         st.session_state["df_final"] = df_final
-        
+               
         # Guardar conteos clave para informes
         st.session_state["num_duplicados_final"] = duplicados_final.shape[0]
         #st.session_state["num_duplicados_sin_doi"] = duplicados_sin_doi_final.shape[0]
@@ -633,7 +575,9 @@ if st.session_state.get("fusion_en_proceso", False):
         st.session_state["output_tablas_bytes"] = output_tablas.getvalue()
 
         # Finalizar estado
-        #mensaje_proceso.empty()
+        st.session_state["estado_fusion"] = "finalizado"
+        st.rerun()
+        
         with col1:
             st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
         st.session_state["fusion_en_proceso"] = False
