@@ -127,7 +127,7 @@ if st.session_state["estado_fusion"] == "inicio":
             else:
                 st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
-# BLOQUE 2: Spinner y procesamiento real
+# BLOQUE 2: Spinner y TODO EL PROCESAMIENTO
 elif st.session_state["estado_fusion"] == "procesando":
     with col1:
         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
