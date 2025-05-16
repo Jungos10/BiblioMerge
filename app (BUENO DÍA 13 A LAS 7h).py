@@ -124,38 +124,12 @@ if not st.session_state["procesado"]:
                     st.session_state["fusion_en_proceso"] = True
                     st.session_state["procesado"] = True
         
-                    # # ✅ Mostrar mensaje y spinner arriba (antes del rerun)
-                    # with col1:
-                    #     st.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
-                    # with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-                    #     time.sleep(1.5)  # pequeño retardo para mostrar spinner real
-        
+       
                     st.rerun()
                 else:
                     st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
         
-        # with col_boton:
-        #     if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
-        #         if scopus_files and wos_files:
-        #             st.session_state["scopus_files"] = scopus_files
-        #             st.session_state["wos_files"] = wos_files
-        #             st.session_state["fusion_en_proceso"] = True
-        #             st.session_state["procesado"] = True
-        #             st.rerun()
-        #         else:
-        #             st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
-            
-        # if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
-        #     if scopus_files and wos_files:
-        #         st.session_state["scopus_files"] = scopus_files
-        #         st.session_state["wos_files"] = wos_files
-        #         st.session_state["fusion_en_proceso"] = True
-        #         st.session_state["procesado"] = True
-        #         st.rerun()
-        #     else:
-        #         st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
-
     # Mostrar archivos cargados en la columna derecha
     with col2:
         if scopus_files:
@@ -169,13 +143,21 @@ if not st.session_state["procesado"]:
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
 if st.session_state.get("fusion_en_proceso", False):
+    # with col1:
+    #     mensaje_proceso = st.empty()
+    #     st.session_state["mensaje_proceso"] = mensaje_proceso
+
+    # with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+    #     with col1:
+    #         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
     with col1:
         mensaje_proceso = st.empty()
+        spinner_placeholder = st.empty()
         st.session_state["mensaje_proceso"] = mensaje_proceso
 
-    with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-        with col1:
-            mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+    with spinner_placeholder.container():
+        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+            mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
     
         scopus_files = st.session_state["scopus_files"]
@@ -240,21 +222,10 @@ if st.session_state.get("fusion_en_proceso", False):
 # -------------------- PARTE 2: FUSIÓN, INFORMES PRELIMINARES Y TABLAS DEPURACIÓN --------------------
 # -------------------- PARTE 2: PROCESAMIENTO Y FUSIÓN --------------------
 # BLOQUE 3 – Proceso de fusión real
-# if st.session_state.get("fusion_en_proceso", False):
-
-#     mensaje_proceso = st.empty()
-#     st.session_state["mensaje_proceso"] = mensaje_proceso
-
-#     with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-#         mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
 if st.session_state.get("fusion_en_proceso", False):
 
-    # mensaje_proceso = st.empty()
-    # st.session_state["mensaje_proceso"] = mensaje_proceso
-
-    # with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-    #     mensaje_proceso.markdown("✅ **Fusión iniciada correctamente. Procesando datos...**")
+ 
     
     # ---------IMPORTAMOS AMBOS ARCHIVOS, MAPEAMOS, Y LOS UNIMOS. ADECUAMOS UN CAMPO DE IDENTIFICACIÓN Y LIMPIAMOS CAMPOS CON 'NaN'-----
 
