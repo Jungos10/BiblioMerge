@@ -590,7 +590,8 @@ if st.session_state.get("fusion_en_proceso", False):
         #mensaje_proceso.empty()
         elapsed_time = int(time.time() - st.session_state["start_time"])
         with col1:
-            st.success("✅ Fusión completada con éxito en {elapsed_time} segundos. Puedes continuar con los informes.")
+            st.success(f"✅ Fusión completada con éxito en {elapsed_time} segundos. Puedes continuar con los informes.")
+            #st.success("✅ Fusión completada con éxito en {elapsed_time} segundos. Puedes continuar con los informes.")
         st.session_state["fusion_en_proceso"] = False
         st.session_state["fusion_completada"] = True
 
