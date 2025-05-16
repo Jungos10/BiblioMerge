@@ -143,22 +143,9 @@ if not st.session_state["procesado"]:
 
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
-# if st.session_state.get("fusion_en_proceso", False):
-#     with col1:
-#         mensaje_proceso = st.empty()
 
-#         # ✅ Muestra spinner + mensaje informativo antes de empezar el trabajo pesado
-#         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-#             mensaje_proceso.info("✅ Fusión iniciada correctamente. Procesando datos...")
-# # if st.session_state.get("fusion_en_proceso", False):
-
-# #     with col1:
-# #         mensaje_proceso = st.empty()
-# #         st.session_state["mensaje_proceso"] = mensaje_proceso
-
-# #         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-# #             mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
 if st.session_state.get("fusion_en_proceso", False):
+    st.session_state["start_time"] = time.time()
     with col1:
         mensaje_proceso = st.empty()
         st.session_state["mensaje_proceso"] = mensaje_proceso
@@ -601,8 +588,9 @@ if st.session_state.get("fusion_en_proceso", False):
 
         # Finalizar estado
         #mensaje_proceso.empty()
+        elapsed_time = int(time.time() - st.session_state["start_time"])
         with col1:
-            st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
+            st.success("✅ Fusión completada con éxito en {elapsed_time} segundos. Puedes continuar con los informes.")
         st.session_state["fusion_en_proceso"] = False
         st.session_state["fusion_completada"] = True
 
