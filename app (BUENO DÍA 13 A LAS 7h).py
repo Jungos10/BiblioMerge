@@ -124,9 +124,8 @@ if not st.session_state["procesado"]:
                     st.session_state["wos_files"] = wos_files
                     st.session_state["fusion_en_proceso"] = True
                     st.session_state["procesado"] = True
-        
        
-                    #st.rerun()
+                    st.rerun()
                 else:
                     st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
 
@@ -144,13 +143,13 @@ if not st.session_state["procesado"]:
 
 
 # BLOQUE 2 – Fusión de archivos con spinner y mensajes
-if st.session_state.get("fusion_en_proceso", False):
-    with col1:
-        mensaje_proceso = st.empty()
+# if st.session_state.get("fusion_en_proceso", False):
+#     with col1:
+#         mensaje_proceso = st.empty()
 
-        # ✅ Muestra spinner + mensaje informativo antes de empezar el trabajo pesado
-        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-            mensaje_proceso.info("✅ Fusión iniciada correctamente. Procesando datos...")
+#         # ✅ Muestra spinner + mensaje informativo antes de empezar el trabajo pesado
+#         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+#             mensaje_proceso.info("✅ Fusión iniciada correctamente. Procesando datos...")
 # # if st.session_state.get("fusion_en_proceso", False):
 
 # #     with col1:
@@ -159,13 +158,13 @@ if st.session_state.get("fusion_en_proceso", False):
 
 # #         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
 # #             mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
-# if st.session_state.get("fusion_en_proceso", False):
-#     with col1:
-#         mensaje_proceso = st.empty()
-#         st.session_state["mensaje_proceso"] = mensaje_proceso
+if st.session_state.get("fusion_en_proceso", False):
+    with col1:
+        mensaje_proceso = st.empty()
+        st.session_state["mensaje_proceso"] = mensaje_proceso
 
-#         with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-#             mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
+        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
+            mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
 
       
         scopus_files = st.session_state["scopus_files"]
