@@ -1018,54 +1018,55 @@ with col2:
         # st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt")
         # st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip")
         
-        col_descarga, col_estructura, col_compat = st.columns([1, 2, 2])  # Ajusta proporciones si lo ves necesario
+        # --- Tabla de descargas con estructura y compatibilidad ---
 
-        # Cabecera de la "tabla"
-        descarga_col, estructura_col, compat_col = st.columns([1, 2, 2])
-        with descarga_col:
+        col_descarga, col_estructura, col_compat = st.columns([1, 2, 2])  # Definir las 3 columnas para toda la tabla
+        
+        # Cabecera
+        with col_descarga:
             st.markdown("**📁 Download**")
-        with estructura_col:
+        with col_estructura:
             st.markdown("**📄 Structure**")
-        with compat_col:
+        with col_compat:
             st.markdown("**🔗 Compatible with**")
-            
-        # Fila 1
+        
+        # Fila 1: Excel (.xlsx) original de Scopus
         with col_descarga:
             st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx")
         with col_estructura:
-            st.markdown("**Scopus data (.xlsx)**")
+            st.markdown("Scopus data (.xlsx)")
         with col_compat:
             st.markdown("Manual use / Excel")
         
-        # Fila 2
+        # Fila 2: CSV compatible
         with col_descarga:
             st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv")
         with col_estructura:
-            st.markdown("**Scopus CSV**")
+            st.markdown("Scopus CSV")
         with col_compat:
             st.markdown("Biblioshiny, VOSviewer, ScientoPy")
         
-        # Fila 3
+        # Fila 3: RIS (Scopus format)
         with col_descarga:
             st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris")
         with col_estructura:
-            st.markdown("**RIS (Scopus)**")
+            st.markdown("RIS (Scopus)")
         with col_compat:
             st.markdown("SciMAT, BibExcel")
         
-        # Fila 4
+        # Fila 4: WoS TXT completo
         with col_descarga:
             st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt")
         with col_estructura:
-            st.markdown("**WoS TXT**")
+            st.markdown("WoS TXT")
         with col_compat:
             st.markdown("SciMAT")
         
-        # Fila 5
+        # Fila 5: WoS TXT por lotes (ZIP)
         with col_descarga:
             st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip")
         with col_estructura:
-            st.markdown("**WoS TXT (lotes de 500)**")
+            st.markdown("WoS TXT (500 records per file)")
         with col_compat:
             st.markdown("BibExcel")
 
