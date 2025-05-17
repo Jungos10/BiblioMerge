@@ -92,13 +92,25 @@ with col_sep:
         unsafe_allow_html=True
     )
     
-with col1:
-    st.markdown("### 📂 Menú de aplicación")
+# with col1:
+#     st.markdown("### 📂 Menú de aplicación")
 
-    # Botón funcional en columna izquierda
-    if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
-        st.session_state.clear()
-        st.rerun()
+#     # Botón funcional en columna izquierda
+#     if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+#         st.session_state.clear()
+#         st.rerun()
+
+with col1:
+    cols_menu = st.columns([5, 1])  # 5: espacio del texto, 1: botón alineado a la derecha
+
+    with cols_menu[0]:
+        st.markdown("### 📂 Menú de aplicación")
+
+    with cols_menu[1]:
+        if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+            st.session_state.clear()
+            st.rerun()
+
 with col2:
     st.markdown("### 📊 Results & Downloads Panel")
         
