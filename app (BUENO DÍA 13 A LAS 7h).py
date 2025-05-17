@@ -867,7 +867,7 @@ def mostrar_boton_finales_bloqueado():
             unsafe_allow_html=True
         )
        
-        st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
+        st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
 
 
 fusion_completada = st.session_state.get("fusion_completada", False)
@@ -890,7 +890,7 @@ with col1:
         if not st.session_state["parte4_generada"]:
             col_boton_finales, _ = st.columns([1, 1])
             with col_boton_finales:
-                if st.button("📁 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
+                if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
                     # --- Generar y guardar outputs como bytes en session_state ---
                     output_excel = io.BytesIO()
                     df_final.to_excel(output_excel, index=False)
