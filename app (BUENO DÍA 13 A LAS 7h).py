@@ -1046,7 +1046,7 @@ with col2:
         with col3: st.markdown("**🔗 Compatible with**")
         
         # Fila 1 (normal)
-        col1, col2, col3 = st.columns([1, 2, 2])
+        col1, col2, col3 = st.columns([2, 1.5, 2])
         with col1:
             st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx", key="dl_xlsx")
         with col2:
