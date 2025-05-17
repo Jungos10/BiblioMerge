@@ -1006,10 +1006,10 @@ with col1:
                     st.session_state["parte4_generada"] = True
                     st.rerun()
 
-  with col1:
-            if st.session_state.get("parte4_generada"):
-                st.success("✅ Files generated successfully.")
-                st.info("🔁 Press 'Reset' to start a new merge process.")                                    
+with col1:
+    if st.session_state.get("parte4_generada"):
+        st.success("✅ Files generated successfully.")
+        st.info("🔁 Press 'Reset' to start a new merge process.")                                    
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 with col2:
