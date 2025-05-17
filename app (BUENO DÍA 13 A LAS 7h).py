@@ -688,11 +688,19 @@ if not st.session_state.get("parte4_generada", False):
                 st.session_state["depuracion_realizada"] = False
         
             # Mostrar checkbox para activar depuración manual
-            st.session_state["depuracion_activada"] = st.checkbox(
-                "🔍 Activar depuración manual",
-                value=st.session_state["depuracion_activada"]
-            )
-    
+            # st.session_state["depuracion_activada"] = st.checkbox(
+            #     "🔍 Activar depuración manual",
+            #     value=st.session_state["depuracion_activada"]
+            # )
+
+            if st.session_state["depuracion_realizada"]:
+                st.checkbox("🔍 Depuración aplicada", value=True, disabled=True)
+            else:
+                st.session_state["depuracion_activada"] = st.checkbox(
+                    "🔍 Activar depuración manual",
+                    value=st.session_state["depuracion_activada"]
+                )
+            
             # Mostrar uploader si la depuración está activada pero aún no realizada
             if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
                 st.markdown("Carga el archivo Excel con las tablas de conversión:")
