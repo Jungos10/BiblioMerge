@@ -866,7 +866,9 @@ def mostrar_boton_finales_bloqueado():
             "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
             unsafe_allow_html=True
         )
-        st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
+        #st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", type="primary", disabled=True, use_container_width=True)
+        st.button("📁 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
+
 
 fusion_completada = st.session_state.get("fusion_completada", False)
 depuracion_realizada = st.session_state.get("depuracion_realizada", False)
