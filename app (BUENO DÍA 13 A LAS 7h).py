@@ -1018,7 +1018,7 @@ with col2:
         # st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt")
         # st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip")
         
-       st.markdown("""
+        st.markdown("""
         <style>
         table {
             width: 100%;
