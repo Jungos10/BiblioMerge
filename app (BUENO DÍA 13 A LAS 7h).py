@@ -1006,11 +1006,7 @@ with col1:
                     st.session_state["parte4_generada"] = True
                     st.rerun()
 
-                    with col1:
-                        if st.session_state.get("parte4_generada"):
-                            st.success("✅ Files generated successfully.")
-                            st.info("🔁 Press 'Reset' to start a new merge process.")
-                    
+                                     
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 with col2:
@@ -1022,15 +1018,7 @@ with col2:
         st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt")
         st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip")
     
-        # Histogramas
-        # def mostrar_top(df, columna, titulo, color):
-        #     top_vals = df[columna].str.split(';').explode().str.strip().value_counts().head(25)
-        #     fig, ax = plt.subplots(figsize=(8, 4))
-        #     top_vals.plot(kind='bar', ax=ax, color=color)
-        #     ax.set_title(titulo)
-        #     plt.xticks(rotation=90)
-        #     st.pyplot(fig)
-    
+
         def mostrar_top(df, columna, titulo, color, max_label_length=40):
             top_vals = (
                 df[columna]
@@ -1073,7 +1061,11 @@ with col2:
         mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
         mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
         mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
-        #st.success("✅ Archivos finales generados correctamente.")
+        
+ with col1:
+    if st.session_state.get("parte4_generada"):
+        st.success("✅ Files generated successfully.")
+        st.info("🔁 Press 'Reset' to start a new merge process.")
 
 # Si la parte 4 no está habilitada pero ya se hizo algo, mostrar el botón gris
 if not habilitar_parte4:
