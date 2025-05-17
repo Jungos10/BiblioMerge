@@ -101,8 +101,7 @@ with col1:
         st.rerun()
 with col2:
     st.markdown("### 📊 Results & Downloads Panel")
-    st.info("📥 Downloads, reports, and final results will appear here.")
-    
+        
 # Inicializar estados
 if "procesado" not in st.session_state:
     st.session_state["procesado"] = False
