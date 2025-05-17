@@ -1020,6 +1020,15 @@ with col2:
         
         col_descarga, col_estructura, col_compat = st.columns([1, 2, 2])  # Ajusta proporciones si lo ves necesario
 
+        # Cabecera de la "tabla"
+        descarga_col, estructura_col, compat_col = st.columns([1, 2, 2])
+        with descarga_col:
+            st.markdown("**📁 Download**")
+        with estructura_col:
+            st.markdown("**📄 Structure**")
+        with compat_col:
+            st.markdown("**🔗 Compatible with**")
+            
         # Fila 1
         with col_descarga:
             st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx")
