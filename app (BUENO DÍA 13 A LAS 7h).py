@@ -1062,7 +1062,7 @@ with col2:
         mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
         mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
         
- with col1:
+with col1:
     if st.session_state.get("parte4_generada"):
         st.success("✅ Files generated successfully.")
         st.info("🔁 Press 'Reset' to start a new merge process.")
