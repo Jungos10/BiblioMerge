@@ -1028,11 +1028,12 @@ with col1:
                             zipf.writestr(f"Scopus+WOS(Dep {inicio+1}-{fin}).txt", texto_lote)
                             inicio = fin
                     st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
-        
+
+                    st.session_state["df_final"] = df_final
                     st.session_state["parte4_generada"] = True
                     #st.rerun()
-                    st.experimental_rerun()  # O, aún mejor:
-                    st.stop()
+                    st.experimental_rerun()
+                    #st.stop()
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 with col2:
