@@ -888,7 +888,8 @@ with col1:
             st.session_state["parte4_generada"] = False
     
         if not st.session_state["parte4_generada"]:
-            if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+            #if st.button("📁 Generar ficheros finales", key="btn_generar_finales", type="primary", use_container_width=True):
+            if st.button("📁 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
                 # --- Generar y guardar outputs como bytes en session_state ---
                 output_excel = io.BytesIO()
                 df_final.to_excel(output_excel, index=False)
