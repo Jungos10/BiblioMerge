@@ -99,7 +99,10 @@ with col1:
     if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
         st.session_state.clear()
         st.rerun()
-
+with col2:
+    st.markdown("### 📊 Results & Downloads Panel")
+    st.info("📥 Downloads, reports, and final results will appear here.")
+    
 # Inicializar estados
 if "procesado" not in st.session_state:
     st.session_state["procesado"] = False
