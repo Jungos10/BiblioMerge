@@ -1051,7 +1051,7 @@ with col2:
         with col1:
             st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx", key="dl_xlsx")
         with col2:
-            st.markdown('<div class="normal">Scopus data (.xlsx)</div>', unsafe_allow_html=True)
+            st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
         with col3:
             st.markdown('<div class="normal">Manual use / Excel</div>', unsafe_allow_html=True)
         
@@ -1060,7 +1060,7 @@ with col2:
         with col1:
             st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv", key="dl_csv")
         with col2:
-            st.markdown('<div class="striped">Scopus CSV</div>', unsafe_allow_html=True)
+            st.markdown('<div class="striped">Scopus</div>', unsafe_allow_html=True)
         with col3:
             st.markdown('<div class="striped">Biblioshiny, VOSviewer, ScientoPy</div>', unsafe_allow_html=True)
         
@@ -1069,7 +1069,7 @@ with col2:
         with col1:
             st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris", key="dl_ris")
         with col2:
-            st.markdown('<div class="normal">RIS (Scopus)</div>', unsafe_allow_html=True)
+            st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
         with col3:
             st.markdown('<div class="normal">SciMAT, BibExcel</div>', unsafe_allow_html=True)
         
@@ -1078,7 +1078,7 @@ with col2:
         with col1:
             st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt", key="dl_txt")
         with col2:
-            st.markdown('<div class="striped">WoS TXT</div>', unsafe_allow_html=True)
+            st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
         with col3:
             st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
         
@@ -1087,7 +1087,7 @@ with col2:
         with col1:
             st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip", key="dl_zip")
         with col2:
-            st.markdown('<div class="normal">WoS TXT (500 records per file)</div>', unsafe_allow_html=True)
+            st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
         with col3:
             st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
         
