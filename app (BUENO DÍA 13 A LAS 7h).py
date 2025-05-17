@@ -1006,7 +1006,10 @@ with col1:
                     st.session_state["parte4_generada"] = True
                     st.rerun()
 
-                                     
+  with col1:
+            if st.session_state.get("parte4_generada"):
+                st.success("✅ Files generated successfully.")
+                st.info("🔁 Press 'Reset' to start a new merge process.")                                    
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 with col2:
@@ -1127,16 +1130,13 @@ with col2:
         st.write(f"**🏷️ Index Keywords:** {num_index_keywords}")
         st.write(f"**📚 Cited References:** {num_references}")
     
-# Gráficos Top existentes
-mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
-mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
-mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
-mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
-
-with col1:
-    if st.session_state.get("parte4_generada"):
-        st.success("✅ Files generated successfully.")
-        st.info("🔁 Press 'Reset' to start a new merge process.")
+        # Gráficos Top existentes
+        mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
+        mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
+        mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
+        mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
+        
+       
 
 # Si la parte 4 no está habilitada pero ya se hizo algo, mostrar el botón gris
 if not habilitar_parte4:
