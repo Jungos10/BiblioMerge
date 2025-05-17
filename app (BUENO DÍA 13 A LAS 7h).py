@@ -1024,8 +1024,7 @@ with col2:
         # Título
         st.markdown("---")
         st.markdown("### 📥 Exported files summary")
-        st.markdown("_Below are the file types and their compatible tools:_")
-        
+                
         # Estilo para filas alternas
         st.markdown("""
             <style>
