@@ -1030,7 +1030,9 @@ with col1:
                     st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
         
                     st.session_state["parte4_generada"] = True
-                    st.rerun()
+                    #st.rerun()
+                    st.experimental_rerun()  # O, aún mejor:
+                    st.stop()
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 with col2:
