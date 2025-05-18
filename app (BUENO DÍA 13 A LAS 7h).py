@@ -865,11 +865,18 @@ if not st.session_state.get("parte4_generada", False):
                         st.session_state["depuracion_realizada"] = True
 
                         # 🔚 Limpiar variables y liberar memoria tras depuración
-                        for key in ["autores", "df_author_keywords", "df_index_keywords", "df_references_info", "output_tablas_bytes", "depuracion_activada"]:
+                        for key in [
+                            "autores",
+                            "df_author_keywords",
+                            "df_index_keywords",
+                            "df_references_info",
+                            "output_tablas_bytes"
+                            # ⚠️ No incluimos "depuracion_activada" aquí
+                        ]:
                             if key in st.session_state:
                                 del st.session_state[key]
                         
-                        gc.collect()  # Forzar limpieza
+                        gc.collect()
                         
                         with col2:
                             st.success("🎉 Todas las depuraciones aplicadas correctamente.")
