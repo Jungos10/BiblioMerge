@@ -864,19 +864,7 @@ if not st.session_state.get("parte4_generada", False):
                         st.session_state["df_final"] = df_final
                         st.session_state["depuracion_realizada"] = True
 
-                        # 🔚 Limpiar variables y liberar memoria tras depuración
-                        for key in [
-                            "autores",
-                            "df_author_keywords",
-                            "df_index_keywords",
-                            "df_references_info",
-                            "output_tablas_bytes"
-                            # ⚠️ No incluimos "depuracion_activada" aquí
-                        ]:
-                            if key in st.session_state:
-                                del st.session_state[key]
-                        
-                        gc.collect()
+                       
                         
                         with col2:
                             st.success("🎉 Todas las depuraciones aplicadas correctamente.")
@@ -913,6 +901,19 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
 with col1:
     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+
+     # 🔚 Limpiar variables y liberar memoria tras depuración
+    for key in [
+        "autores",
+        "df_author_keywords",
+        "df_index_keywords",
+        "df_references_info",
+        "output_tablas_bytes"
+    ]:
+        if key in st.session_state:
+            del st.session_state[key]
+    
+    gc.collect()
     
     df_final = st.session_state.get("df_final")
     habilitar_parte4 = (fusion_completada or depuracion_realizada)
@@ -1151,7 +1152,19 @@ with col2:
         mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
         mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
         
-       
+       # 🔚 Limpieza final de outputs generados (Parte 4)
+        for key in [
+            "df_final",
+            "parte4_excel_bytes",
+            "parte4_csv_bytes",
+            "parte4_ris_bytes",
+            "parte4_txt_bytes",
+            "parte4_zip_bytes"
+        ]:
+            if key in st.session_state:
+                del st.session_state[key]
+        
+        gc.collect()
 
 # Si la parte 4 no está habilitada pero ya se hizo algo, mostrar el botón gris
 if not habilitar_parte4:
