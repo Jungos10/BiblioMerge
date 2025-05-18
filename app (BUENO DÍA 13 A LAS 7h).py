@@ -902,19 +902,7 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 with col1:
     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
 
-     # 🔚 Limpiar variables y liberar memoria tras depuración
-    for key in [
-        "autores",
-        "df_author_keywords",
-        "df_index_keywords",
-        "df_references_info",
-        "output_tablas_bytes"
-    ]:
-        if key in st.session_state:
-            del st.session_state[key]
-    
-    gc.collect()
-    
+      
     df_final = st.session_state.get("df_final")
     habilitar_parte4 = (fusion_completada or depuracion_realizada)
     
@@ -1154,6 +1142,14 @@ with col2:
         
        # 🔚 Limpieza final de outputs generados (Parte 4)
         for key in [
+        # Parte 3
+            "autores",
+            "df_author_keywords",
+            "df_index_keywords",
+            "df_references_info",
+            "output_tablas_bytes",
+        
+            # Parte 4
             "df_final",
             "parte4_excel_bytes",
             "parte4_csv_bytes",
