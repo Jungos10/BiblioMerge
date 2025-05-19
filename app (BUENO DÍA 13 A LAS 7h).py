@@ -92,13 +92,6 @@ with col_sep:
         unsafe_allow_html=True
     )
     
-# with col1:
-#     st.markdown("### 📂 Menú de aplicación")
-
-#     # Botón funcional en columna izquierda
-#     if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
-#         st.session_state.clear()
-#         st.rerun()
 
 with col1:
     cols_menu = st.columns([5, 1])  # 5: espacio del texto, 1: botón alineado a la derecha
@@ -189,7 +182,8 @@ if st.session_state.get("fusion_en_proceso", False):
             registros = []
             registro_actual = {}
             ultimo_campo = None
-            lines = file.getvalue().decode('ISO-8859-1').splitlines()
+            #lines = file.getvalue().decode('ISO-8859-1').splitlines()
+            lines = file.getvalue().decode('utf-8', errors='replace').splitlines()
             for linea in lines:
                 if not linea.strip() or linea.startswith('EF'):
                     if registro_actual:
