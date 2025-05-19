@@ -1155,7 +1155,9 @@ with col2:
         
         gc.collect()
 
-# Si la parte 4 no está habilitada pero ya se hizo algo, mostrar el botón gris
-if not habilitar_parte4:
-    if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
-        mostrar_boton_finales_bloqueado()
+# # Si la parte 4 no está habilitada pero ya se hizo algo, mostrar el botón gris
+# if not habilitar_parte4:
+#     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
+#         mostrar_boton_finales_bloqueado()
+if not habilitar_parte4 and not st.session_state.get("parte4_generada", False):
+    mostrar_boton_finales_bloqueado()
