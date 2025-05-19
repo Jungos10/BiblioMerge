@@ -877,14 +877,14 @@ import zipfile
 import matplotlib.pyplot as plt
 
 # --- Función para mostrar el botón desactivado con estilo gris ---
-def mostrar_boton_finales_bloqueado():
-    with col1:
-        st.markdown(
-            "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
-            unsafe_allow_html=True
-        )
+# def mostrar_boton_finales_bloqueado():
+#     with col1:
+#         st.markdown(
+#             "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
+#             unsafe_allow_html=True
+#         )
        
-        st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
+#         st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
 
 
 fusion_completada = st.session_state.get("fusion_completada", False)
@@ -918,19 +918,21 @@ with col1:
     habilitar_parte4 = fusion_completada or depuracion_realizada
 
     if st.session_state.get("parte4_generada", False):
-        pass  # ya se generó, col2 lo manejará
-    elif habilitar_parte4:
+        pass  # Ya se generó, col2 se encarga de mostrar resultados
+
+    else:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
 
-        if "parte4_generada" not in st.session_state:
-            st.session_state["parte4_generada"] = False
+        if habilitar_parte4:
+            if "parte4_generada" not in st.session_state:
+                st.session_state["parte4_generada"] = False
 
-        if not st.session_state["parte4_generada"]:
-            col_boton_finales, _ = st.columns([1, 1])
-            with col_boton_finales:
-                if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-                    with st.spinner("🔄 Generando archivos..."):
-                        df_final = st.session_state.get("df_final")
+            if not st.session_state["parte4_generada"]:
+                col_boton_finales, _ = st.columns([1, 1])
+                with col_boton_finales:
+                    if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
+                        with st.spinner("🔄 Generando archivos..."):
+                            df_final = st.session_state.get("df_final")
 
 
                     # --- Generar y guardar outputs como bytes en session_state ---
