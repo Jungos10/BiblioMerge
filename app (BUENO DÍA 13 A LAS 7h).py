@@ -1040,6 +1040,7 @@ with col1:
 
 with col2:
     if st.session_state.get("parte4_generada") and all(
+        df_final = st.session_state.get("df_final")
         key in st.session_state for key in [
             "parte4_excel_bytes",
             "parte4_csv_bytes",
