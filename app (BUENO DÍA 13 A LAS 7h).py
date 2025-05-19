@@ -1031,10 +1031,10 @@ with col1:
         )
         st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
 
-with col1:
-    if st.session_state.get("parte4_generada"):
-        st.success("✅ Files generated successfully.")
-        st.info("🔁 Press 'Reset' to start a new merge process.")                                    
+# with col1:
+#     if st.session_state.get("parte4_generada"):
+#         st.success("✅ Files generated successfully.")
+#         st.info("🔁 Press 'Reset' to start a new merge process.")                                    
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 
