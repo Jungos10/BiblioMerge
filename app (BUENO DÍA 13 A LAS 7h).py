@@ -1039,8 +1039,8 @@ with col1:
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 
 with col2:
+    df_final = st.session_state.get("df_final")
     if st.session_state.get("parte4_generada") and all(
-        df_final = st.session_state.get("df_final")
         key in st.session_state for key in [
             "parte4_excel_bytes",
             "parte4_csv_bytes",
