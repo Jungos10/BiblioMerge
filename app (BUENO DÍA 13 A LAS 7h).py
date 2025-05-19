@@ -876,7 +876,7 @@ from datetime import datetime
 import zipfile
 import matplotlib.pyplot as plt
 
---- Función para mostrar el botón desactivado con estilo gris ---
+# --- Función para mostrar el botón desactivado con estilo gris ---
 def mostrar_boton_finales_bloqueado():
     with col1:
         st.markdown(
