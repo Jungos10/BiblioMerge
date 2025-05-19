@@ -1161,6 +1161,4 @@ with col2:
 if not habilitar_parte4:
     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
         mostrar_boton_finales_bloqueado()
-Mostrar solo uno de los dos bloques: activo o bloqueado
-Mostrar solo el botón bloqueado si NO es generable y NO se ha generado aún
 
