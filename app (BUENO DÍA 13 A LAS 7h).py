@@ -1159,5 +1159,10 @@ with col2:
 # if not habilitar_parte4:
 #     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
 #         mostrar_boton_finales_bloqueado()
-if not habilitar_parte4 and not st.session_state.get("parte4_generada", False):
+# Mostrar solo uno de los dos bloques: activo o bloqueado
+if st.session_state.get("parte4_generada", False):
+    pass  # Ya se generó, no mostrar nada aquí
+elif habilitar_parte4:
+    pass  # Se mostrará el bloque activo más arriba
+else:
     mostrar_boton_finales_bloqueado()
