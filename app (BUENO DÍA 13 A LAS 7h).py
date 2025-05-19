@@ -1204,13 +1204,13 @@ with col2:
             "df_references_info",
             "output_tablas_bytes",
         
-            # Parte 4
-            "df_final",
-            "parte4_excel_bytes",
-            "parte4_csv_bytes",
-            "parte4_ris_bytes",
-            "parte4_txt_bytes",
-            "parte4_zip_bytes"
+            # # Parte 4
+            # "df_final",
+            # "parte4_excel_bytes",
+            # "parte4_csv_bytes",
+            # "parte4_ris_bytes",
+            # "parte4_txt_bytes",
+            # "parte4_zip_bytes"
         ]:
             if key in st.session_state:
                 del st.session_state[key]
