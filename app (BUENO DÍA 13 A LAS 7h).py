@@ -1012,20 +1012,91 @@ with col1:
         st.info("🔁 Press 'Reset' to start a new merge process.")                                    
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
-with col2:
-    if st.session_state.get("parte4_generada"):
-        # st.markdown("### 📥 Descarga tus archivos finales:")
-        # st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx")
-        # st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv")
-        # st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris")
-        # st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt")
-        # st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip")
+# with col2:
+#     if st.session_state.get("parte4_generada"):
+     
         
-        # Título
+#         # Título
+#         st.markdown("---")
+#         st.markdown("### 📥 Exported files summary")
+                
+#         # Estilo para filas alternas
+#         st.markdown("""
+#             <style>
+#             .striped {
+#                 background-color: #f5f5f5;
+#                 padding: 0.5em;
+#                 border-radius: 0.25em;
+#             }
+#             .normal {
+#                 padding: 0.5em;
+#             }
+#             </style>
+#         """, unsafe_allow_html=True)
+        
+#         # Cabecera
+#         col1, col2, col3 = st.columns([1.5, 1.5, 2])
+#         with col1: st.markdown("**📁 Download**")
+#         with col2: st.markdown("**📄 Structure**")
+#         with col3: st.markdown("**🔗 Compatible with**")
+        
+#         # Fila 1 (normal)
+#         col1, col2, col3 = st.columns([1.5, 1.5, 2])
+#         with col1:
+#             st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx", key="dl_xlsx")
+#         with col2:
+#             st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
+#         with col3:
+#             st.markdown('<div class="normal">Manual use / Excel</div>', unsafe_allow_html=True)
+        
+#         # Fila 2 (striped)
+#         col1, col2, col3 = st.columns([1.5, 1.5, 2])
+#         with col1:
+#             st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv", key="dl_csv")
+#         with col2:
+#             st.markdown('<div class="striped">Scopus</div>', unsafe_allow_html=True)
+#         with col3:
+#             st.markdown('<div class="striped">Biblioshiny, VOSviewer, ScientoPy</div>', unsafe_allow_html=True)
+        
+#         # Fila 3 (normal)
+#         col1, col2, col3 = st.columns([1.5, 1.5, 2])
+#         with col1:
+#             st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris", key="dl_ris")
+#         with col2:
+#             st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
+#         with col3:
+#             st.markdown('<div class="normal">SciMAT, BibExcel</div>', unsafe_allow_html=True)
+        
+#         # Fila 4 (striped)
+#         col1, col2, col3 = st.columns([1.5, 1.5, 2])
+#         with col1:
+#             st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt", key="dl_txt")
+#         with col2:
+#             st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
+#         with col3:
+#             st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
+        
+#         # Fila 5 (normal)
+#         col1, col2, col3 = st.columns([1.5, 1.5, 2])
+#         with col1:
+#             st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip", key="dl_zip")
+#         with col2:
+#             st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
+#         with col3:
+#             st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
+with col2:
+    if st.session_state.get("parte4_generada") and all(
+        key in st.session_state for key in [
+            "parte4_excel_bytes",
+            "parte4_csv_bytes",
+            "parte4_ris_bytes",
+            "parte4_txt_bytes",
+            "parte4_zip_bytes"
+        ]
+    ):
         st.markdown("---")
         st.markdown("### 📥 Exported files summary")
-                
-        # Estilo para filas alternas
+
         st.markdown("""
             <style>
             .striped {
@@ -1038,58 +1109,47 @@ with col2:
             }
             </style>
         """, unsafe_allow_html=True)
-        
-        # Cabecera
+
         col1, col2, col3 = st.columns([1.5, 1.5, 2])
         with col1: st.markdown("**📁 Download**")
         with col2: st.markdown("**📄 Structure**")
         with col3: st.markdown("**🔗 Compatible with**")
-        
-        # Fila 1 (normal)
+
+        # Fila 1
         col1, col2, col3 = st.columns([1.5, 1.5, 2])
         with col1:
             st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx", key="dl_xlsx")
-        with col2:
-            st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
-        with col3:
-            st.markdown('<div class="normal">Manual use / Excel</div>', unsafe_allow_html=True)
-        
-        # Fila 2 (striped)
+        with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
+        with col3: st.markdown('<div class="normal">Manual use / Excel</div>', unsafe_allow_html=True)
+
+        # Fila 2
         col1, col2, col3 = st.columns([1.5, 1.5, 2])
         with col1:
             st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv", key="dl_csv")
-        with col2:
-            st.markdown('<div class="striped">Scopus</div>', unsafe_allow_html=True)
-        with col3:
-            st.markdown('<div class="striped">Biblioshiny, VOSviewer, ScientoPy</div>', unsafe_allow_html=True)
-        
-        # Fila 3 (normal)
+        with col2: st.markdown('<div class="striped">Scopus</div>', unsafe_allow_html=True)
+        with col3: st.markdown('<div class="striped">Biblioshiny, VOSviewer, ScientoPy</div>', unsafe_allow_html=True)
+
+        # Fila 3
         col1, col2, col3 = st.columns([1.5, 1.5, 2])
         with col1:
             st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris", key="dl_ris")
-        with col2:
-            st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
-        with col3:
-            st.markdown('<div class="normal">SciMAT, BibExcel</div>', unsafe_allow_html=True)
-        
-        # Fila 4 (striped)
+        with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
+        with col3: st.markdown('<div class="normal">SciMAT, BibExcel</div>', unsafe_allow_html=True)
+
+        # Fila 4
         col1, col2, col3 = st.columns([1.5, 1.5, 2])
         with col1:
             st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt", key="dl_txt")
-        with col2:
-            st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
-        with col3:
-            st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
-        
-        # Fila 5 (normal)
+        with col2: st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
+        with col3: st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
+
+        # Fila 5
         col1, col2, col3 = st.columns([1.5, 1.5, 2])
         with col1:
             st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip", key="dl_zip")
-        with col2:
-            st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
-        with col3:
-            st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
-        
+        with col2: st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
+        with col3: st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
+            
         st.markdown("---")
     
         def mostrar_top(df, columna, titulo, color, max_label_length=40):
