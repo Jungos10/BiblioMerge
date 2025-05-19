@@ -182,7 +182,6 @@ if st.session_state.get("fusion_en_proceso", False):
             registros = []
             registro_actual = {}
             ultimo_campo = None
-            #lines = file.getvalue().decode('ISO-8859-1').splitlines()
             lines = file.getvalue().decode('utf-8', errors='replace').splitlines()
             for linea in lines:
                 if not linea.strip() or linea.startswith('EF'):
