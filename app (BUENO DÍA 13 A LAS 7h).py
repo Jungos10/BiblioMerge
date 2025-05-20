@@ -910,19 +910,38 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 #             with col_boton_finales:
 #                 if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
 
+# with col1:
+#     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+
+#     df_final = st.session_state.get("df_final")
+#     fusion_completada = st.session_state.get("fusion_completada", False)
+#     depuracion_realizada = st.session_state.get("depuracion_realizada", False)
+
+#     habilitar_parte4 = fusion_completada or depuracion_realizada
+
+#     if habilitar_parte4 and not st.session_state.get("parte4_generada", False):
+#         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+
+#         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
+
 with col1:
-    st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+    habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
+    parte4_generada = st.session_state.get("parte4_generada", False)
 
-    df_final = st.session_state.get("df_final")
-    fusion_completada = st.session_state.get("fusion_completada", False)
-    depuracion_realizada = st.session_state.get("depuracion_realizada", False)
+    if not habilitar_parte4:
+        # Título y mensaje grisados cuando aún no está habilitada la parte 4
+        st.markdown("""
+        <h2 style='color:grey;'>📁 Parte 4: Generar archivos finales e informes</h2>
+        <p style='color:grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</p>
+        """, unsafe_allow_html=True)
 
-    habilitar_parte4 = fusion_completada or depuracion_realizada
+    else:
+        # Parte habilitada: título normal y botón activo o mensaje final si ya fue generada
+        st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
 
-    if habilitar_parte4 and not st.session_state.get("parte4_generada", False):
-        st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-
-        if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
+        if not parte4_generada:
+            st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+            if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
             
                     # --- Generar y guardar outputs como bytes en session_state ---
                     output_excel = io.BytesIO()
