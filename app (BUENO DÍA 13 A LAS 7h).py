@@ -620,12 +620,12 @@ if (
         st.download_button("📥 Debugging Assistance Tables", st.session_state["output_tablas_bytes"], "Debugging-Tables.xlsx")
     
         # ----------- REPORTING FINAL DE FUSIÓN -----------
-        st.markdown("### 📊 Informe resumen de la fusión")
-        st.write(f"**Registros Scopus:** {st.session_state.get('num_dfsco', 0)}")
-        st.write(f"**Registros WoS:** {st.session_state.get('num_dfwos', 0)}")
-        st.write(f"**Duplicados eliminados:** {st.session_state.get('num_duplicados_final', 0)}")
+        st.markdown("### 📊 Merge Summary Report")
+        st.write(f"**Scopus Records:** {st.session_state.get('num_dfsco', 0)}")
+        st.write(f"**WoS Records:** {st.session_state.get('num_dfwos', 0)}")
+        st.write(f"**Removed Duplicates:** {st.session_state.get('num_duplicados_final', 0)}")
         #st.write(f"**Duplicados sin DOI:** {st.session_state.get('num_duplicados_sin_doi', 0)}")
-        st.write(f"**Registros finales:** {st.session_state.get('num_df_final', 0)}")
+        st.write(f"**Final Records:** {st.session_state.get('num_df_final', 0)}")
         
         # Mostrar histogramas desde session_state
         def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
