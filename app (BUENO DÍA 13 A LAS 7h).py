@@ -120,7 +120,7 @@ if "fusion_completada" not in st.session_state:
 if not st.session_state["procesado"]:
     with col1:
         scopus_files = st.file_uploader("⬆️ Upload Scopus Files (CSV)", type="csv", accept_multiple_files=True)
-        wos_files = st.file_uploader("⬆️ Upload WoS (TXT)", type="txt", accept_multiple_files=True)
+        wos_files = st.file_uploader("⬆️ Upload WoS Files (TXT)", type="txt", accept_multiple_files=True)
 
         col_boton, _ = st.columns([1, 1])
         with col_boton:
@@ -133,17 +133,17 @@ if not st.session_state["procesado"]:
        
                     st.rerun()
                 else:
-                    st.warning("Debes cargar archivos de Scopus y WoS antes de iniciar.")
+                    st.warning("You must upload both Scopus and WoS files before starting")
 
         
     # Mostrar archivos cargados en la columna derecha
     with col2:
         if scopus_files:
-            st.markdown(f"**📄 Archivos Scopus cargados ({len(scopus_files)}):**")
+            st.markdown(f"**📄 Uploaded Scopus Files ({len(scopus_files)}):**")
             for f in scopus_files:
                 st.markdown(f"- {f.name}")
         if wos_files:
-            st.markdown(f"**📄 Archivos WoS cargados ({len(wos_files)}):**")
+            st.markdown(f"**📄 Uploaded WoS Files ({len(wos_files)}):**")
             for f in wos_files:
                 st.markdown(f"- {f.name}")
 
@@ -156,9 +156,8 @@ if st.session_state.get("fusion_en_proceso", False):
         mensaje_proceso = st.empty()
         st.session_state["mensaje_proceso"] = mensaje_proceso
 
-        with st.spinner("🔄 Fusionando archivos y limpiando registros..."):
-            mensaje_proceso.info("✅ **Fusión iniciada correctamente. Procesando datos...**")
-
+        with st.spinner("🔄 Merging files and cleaning records...):
+            mensaje_proceso.info("✅ **Merge started successfully. Processing data...**")
       
         scopus_files = st.session_state["scopus_files"]
         wos_files = st.session_state["wos_files"]
