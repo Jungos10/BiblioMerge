@@ -872,30 +872,52 @@ from datetime import datetime
 import zipfile
 import matplotlib.pyplot as plt
 
-fusion_completada = st.session_state.get("fusion_completada", False)
-depuracion_realizada = st.session_state.get("depuracion_realizada", False)
-depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
+# fusion_completada = st.session_state.get("fusion_completada", False)
+# depuracion_realizada = st.session_state.get("depuracion_realizada", False)
+# depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
 
-with col1:
+# with col1:
     
-    st.markdown(
-        """
-        <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1rem;'>
-            📁 Generation of Final Files and Summary Reports
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+#     st.markdown(
+#         """
+#         <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1rem;'>
+#             📁 Generation of Final Files and Summary Reports
+#         </div>
+#         """,
+#         unsafe_allow_html=True
+#     )
 
-    habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
-    parte4_generada = st.session_state.get("parte4_generada", False)
+#     habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
+#     parte4_generada = st.session_state.get("parte4_generada", False)
 
-    if habilitar_parte4 and not parte4_generada:
-        st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-        col_boton_finales, _ = st.columns([1, 1])
-        with col_boton_finales:
-            if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+#     if habilitar_parte4 and not parte4_generada:
+#         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+#         col_boton_finales, _ = st.columns([1, 1])
+#         with col_boton_finales:
+#             if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+
+habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
+parte4_generada = st.session_state.get("parte4_generada", False)
+
+if not parte4_generada:
+    with col1:
+        st.markdown(
+            """
+            <div style='font-size: 1.4rem; font-weight: 600; margin-top: 2rem;'>
+                📁 Generation of Final Files and Summary Reports
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        if habilitar_parte4:
+            st.markdown("You can now generate the final files based on merged and/or cleaned data.")
+
+            col_btn_final, _ = st.columns([1, 1])
+            with col_btn_final:
+                if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+
                 df_final = st.session_state.get("df_final")
     
                 
