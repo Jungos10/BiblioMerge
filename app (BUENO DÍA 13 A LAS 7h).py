@@ -929,14 +929,12 @@ with col1:
     parte4_generada = st.session_state.get("parte4_generada", False)
 
     if not habilitar_parte4:
-        # Título y mensaje grisados cuando aún no está habilitada la parte 4
         st.markdown("""
         <h2 style='color:grey;'>📁 Parte 4: Generar archivos finales e informes</h2>
         <p style='color:grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</p>
         """, unsafe_allow_html=True)
 
     else:
-        # Parte habilitada: título normal y botón activo o mensaje final si ya fue generada
         st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
 
         if not parte4_generada:
@@ -1042,15 +1040,11 @@ with col1:
 #         st.success("✅ Files generated successfully.")
 #         st.info("🔁 Press 'Reset' to start a new merge process.")
 
-    # elif st.session_state.get("parte4_generada", False):
-    #     st.success("✅ Files generated successfully.")
-    #     st.info("🔁 Press 'Reset' to start a new merge process.")
-
-    else:
+    elif st.session_state.get("parte4_generada", False):
         st.success("✅ Files generated successfully.")
         st.info("🔁 Press 'Reset' to start a new merge process.")
 
-
+    
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 
