@@ -877,14 +877,14 @@ import zipfile
 import matplotlib.pyplot as plt
 
 # --- Función para mostrar el botón desactivado con estilo gris ---
-def mostrar_boton_finales_bloqueado():
-    with col1:
-        st.markdown(
-            "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
-            unsafe_allow_html=True
-        )
+# def mostrar_boton_finales_bloqueado():
+#     with col1:
+#         st.markdown(
+#             "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
+#             unsafe_allow_html=True
+#         )
        
-        st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
+#         st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
 
 
 fusion_completada = st.session_state.get("fusion_completada", False)
