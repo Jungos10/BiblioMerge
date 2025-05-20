@@ -914,11 +914,20 @@ with col1:
     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
 
     df_final = st.session_state.get("df_final")
-    habilitar_parte4 = (fusion_completada or depuracion_realizada)
+    habilitar_parte4 = fusion_completada or depuracion_realizada
+    parte4_generada = st.session_state.get("parte4_generada", False)
 
-    if habilitar_parte4 and not st.session_state.get("parte4_generada", False):
+    if not habilitar_parte4 and not parte4_generada:
+        # ⛔ Mostrar botón gris y mensaje si aún no está habilitado
+        st.markdown(
+            "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
+            unsafe_allow_html=True
+        )
+        st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
+
+    elif not parte4_generada:
+        # ✅ Mostrar botón activo si ya se puede generar
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
             
                     # --- Generar y guardar outputs como bytes en session_state ---
