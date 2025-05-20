@@ -9,7 +9,7 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-st.set_page_config(page_title="Fusionador Scopus + WoS", layout="wide")
+st.set_page_config(page_title="BiblioMerge", layout="wide")
 
 # CABECERA STICKY VISUAL (HTML + CSS)
 st.markdown("""
