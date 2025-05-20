@@ -156,7 +156,7 @@ if st.session_state.get("fusion_en_proceso", False):
         mensaje_proceso = st.empty()
         st.session_state["mensaje_proceso"] = mensaje_proceso
 
-        with st.spinner("🔄 Merging files and cleaning records...):
+        with st.spinner("🔄 Merging files and cleaning records..."):
             mensaje_proceso.info("✅ **Merge started successfully. Processing data...**")
       
         scopus_files = st.session_state["scopus_files"]
