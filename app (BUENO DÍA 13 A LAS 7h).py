@@ -998,138 +998,152 @@ with col1:
 
 with col2:
     
-    if st.session_state.get("parte4_generada") and all(
-        df_final = st.session_state.get("df_final")
-        key in st.session_state for key in [
-            "parte4_excel_bytes",
-            "parte4_csv_bytes",
-            "parte4_ris_bytes",
-            "parte4_txt_bytes",
-            "parte4_zip_bytes"
-        ]
-    ):
-        st.markdown("---")
-        st.markdown("### 📥 Exported files summary")
+    # if st.session_state.get("parte4_generada") and all(
+    #     df_final = st.session_state.get("df_final")
+    #     key in st.session_state for key in [
+    #         "parte4_excel_bytes",
+    #         "parte4_csv_bytes",
+    #         "parte4_ris_bytes",
+    #         "parte4_txt_bytes",
+    #         "parte4_zip_bytes"
+    #     ]
+    # ):
 
-        st.markdown("""
-            <style>
-            .striped {
-                background-color: #f5f5f5;
-                padding: 0.5em;
-                border-radius: 0.25em;
-            }
-            .normal {
-                padding: 0.5em;
-            }
-            </style>
-        """, unsafe_allow_html=True)
+    if st.session_state.get("parte4_generada"):
 
-        col1, col2, col3 = st.columns([1.5, 1.5, 2])
-        with col1: st.markdown("**📁 Download**")
-        with col2: st.markdown("**📄 Structure**")
-        with col3: st.markdown("**🔗 Compatible with**")
+        df_final = st.session_state.get("df_final")  # ✅ Corrección: asignación fuera del all
 
-        # Fila 1
-        col1, col2, col3 = st.columns([1.5, 1.5, 2])
-        with col1:
-            st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx", key="dl_xlsx")
-        with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
-        with col3: st.markdown('<div class="normal">Manual use / Excel</div>', unsafe_allow_html=True)
-
-        # Fila 2
-        col1, col2, col3 = st.columns([1.5, 1.5, 2])
-        with col1:
-            st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv", key="dl_csv")
-        with col2: st.markdown('<div class="striped">Scopus</div>', unsafe_allow_html=True)
-        with col3: st.markdown('<div class="striped">Biblioshiny, VOSviewer, ScientoPy</div>', unsafe_allow_html=True)
-
-        # Fila 3
-        col1, col2, col3 = st.columns([1.5, 1.5, 2])
-        with col1:
-            st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris", key="dl_ris")
-        with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
-        with col3: st.markdown('<div class="normal">SciMAT, BibExcel</div>', unsafe_allow_html=True)
-
-        # Fila 4
-        col1, col2, col3 = st.columns([1.5, 1.5, 2])
-        with col1:
-            st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt", key="dl_txt")
-        with col2: st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
-        with col3: st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
-
-        # Fila 5
-        col1, col2, col3 = st.columns([1.5, 1.5, 2])
-        with col1:
-            st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip", key="dl_zip")
-        with col2: st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
-        with col3: st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
-            
-        st.markdown("---")
-    
-        def mostrar_top(df, columna, titulo, color, max_label_length=40):
-            top_vals = (
-                df[columna]
-                .str.split(';')
-                .explode()
-                .str.strip()
-                .dropna()
-            )
-            top_vals = top_vals[top_vals != '']  # Eliminar vacíos
-            top_vals = top_vals.value_counts().head(25)
-        
-            # Recortar etiquetas largas
-            etiquetas_recortadas = [
-                val if len(val) <= max_label_length else val[:max_label_length] + '...'
-                for val in top_vals.index
+        if all(
+            key in st.session_state for key in [
+                "parte4_excel_bytes",
+                "parte4_csv_bytes",
+                "parte4_ris_bytes",
+                "parte4_txt_bytes",
+                "parte4_zip_bytes"
             ]
-        
-            fig, ax = plt.subplots(figsize=(8, 4))
-            ax.bar(etiquetas_recortadas, top_vals.values, color=color)
-            ax.set_title(titulo)
-            plt.xticks(rotation=90)
-            st.pyplot(fig)
+        ):
+            st.markdown("---")
+            st.markdown("### 📥 Exported files summary")
     
-        st.markdown("### 📊 Informes de resumen final")
-        st.write(f"**Registros finales:** {df_final.shape[0]}")
+            st.markdown("""
+                <style>
+                .striped {
+                    background-color: #f5f5f5;
+                    padding: 0.5em;
+                    border-radius: 0.25em;
+                }
+                .normal {
+                    padding: 0.5em;
+                }
+                </style>
+            """, unsafe_allow_html=True)
     
-        # Contar elementos únicos en cada campo
-        num_autores = len(set(";".join(df_final["Authors"].dropna()).split(";")))
-        num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
-        num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
-        num_references = len(set(";".join(df_final["References"].dropna()).split(";")))
-        
-        st.write(f"**👤 Authors:** {num_autores}")
-        st.write(f"**🔑 Author Keywords:** {num_author_keywords}")
-        st.write(f"**🏷️ Index Keywords:** {num_index_keywords}")
-        st.write(f"**📚 Cited References:** {num_references}")
+            col1, col2, col3 = st.columns([1.5, 1.5, 2])
+            with col1: st.markdown("**📁 Download**")
+            with col2: st.markdown("**📄 Structure**")
+            with col3: st.markdown("**🔗 Compatible with**")
     
-        # Gráficos Top existentes
-        mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
-        mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
-        mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
-        mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
+            # Fila 1
+            col1, col2, col3 = st.columns([1.5, 1.5, 2])
+            with col1:
+                st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx", key="dl_xlsx")
+            with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
+            with col3: st.markdown('<div class="normal">Manual use / Excel</div>', unsafe_allow_html=True)
+    
+            # Fila 2
+            col1, col2, col3 = st.columns([1.5, 1.5, 2])
+            with col1:
+                st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv", key="dl_csv")
+            with col2: st.markdown('<div class="striped">Scopus</div>', unsafe_allow_html=True)
+            with col3: st.markdown('<div class="striped">Biblioshiny, VOSviewer, ScientoPy</div>', unsafe_allow_html=True)
+    
+            # Fila 3
+            col1, col2, col3 = st.columns([1.5, 1.5, 2])
+            with col1:
+                st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris", key="dl_ris")
+            with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
+            with col3: st.markdown('<div class="normal">SciMAT, BibExcel</div>', unsafe_allow_html=True)
+    
+            # Fila 4
+            col1, col2, col3 = st.columns([1.5, 1.5, 2])
+            with col1:
+                st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt", key="dl_txt")
+            with col2: st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
+            with col3: st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
+    
+            # Fila 5
+            col1, col2, col3 = st.columns([1.5, 1.5, 2])
+            with col1:
+                st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip", key="dl_zip")
+            with col2: st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
+            with col3: st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
+                
+            st.markdown("---")
         
-       # 🔚 Limpieza final de outputs generados (Parte 4)
-        for key in [
-        # Parte 3
-            "autores",
-            "df_author_keywords",
-            "df_index_keywords",
-            "df_references_info",
-            "output_tablas_bytes",
+            def mostrar_top(df, columna, titulo, color, max_label_length=40):
+                top_vals = (
+                    df[columna]
+                    .str.split(';')
+                    .explode()
+                    .str.strip()
+                    .dropna()
+                )
+                top_vals = top_vals[top_vals != '']  # Eliminar vacíos
+                top_vals = top_vals.value_counts().head(25)
+            
+                # Recortar etiquetas largas
+                etiquetas_recortadas = [
+                    val if len(val) <= max_label_length else val[:max_label_length] + '...'
+                    for val in top_vals.index
+                ]
+            
+                fig, ax = plt.subplots(figsize=(8, 4))
+                ax.bar(etiquetas_recortadas, top_vals.values, color=color)
+                ax.set_title(titulo)
+                plt.xticks(rotation=90)
+                st.pyplot(fig)
         
-            # # Parte 4
-            # "df_final",
-            # "parte4_excel_bytes",
-            # "parte4_csv_bytes",
-            # "parte4_ris_bytes",
-            # "parte4_txt_bytes",
-            # "parte4_zip_bytes"
-        ]:
-            if key in st.session_state:
-                del st.session_state[key]
+            st.markdown("### 📊 Informes de resumen final")
+            st.write(f"**Registros finales:** {df_final.shape[0]}")
         
-        gc.collect()
+            # Contar elementos únicos en cada campo
+            num_autores = len(set(";".join(df_final["Authors"].dropna()).split(";")))
+            num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
+            num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
+            num_references = len(set(";".join(df_final["References"].dropna()).split(";")))
+            
+            st.write(f"**👤 Authors:** {num_autores}")
+            st.write(f"**🔑 Author Keywords:** {num_author_keywords}")
+            st.write(f"**🏷️ Index Keywords:** {num_index_keywords}")
+            st.write(f"**📚 Cited References:** {num_references}")
+        
+            # Gráficos Top existentes
+            mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
+            mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
+            mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
+            mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
+            
+           # 🔚 Limpieza final de outputs generados (Parte 4)
+            for key in [
+            # Parte 3
+                "autores",
+                "df_author_keywords",
+                "df_index_keywords",
+                "df_references_info",
+                "output_tablas_bytes",
+            
+                # # Parte 4
+                # "df_final",
+                # "parte4_excel_bytes",
+                # "parte4_csv_bytes",
+                # "parte4_ris_bytes",
+                # "parte4_txt_bytes",
+                # "parte4_zip_bytes"
+            ]:
+                if key in st.session_state:
+                    del st.session_state[key]
+            
+            gc.collect()
 
 
 
