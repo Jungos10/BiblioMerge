@@ -65,9 +65,9 @@ st.markdown("""
         <div class="titulo-cabecera">📚 BiblioMerge</div>
         <div class="subtitulo-cabecera">Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy</div>
         <div class="recursos-cabecera">
-            <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
+            <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
             <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
-            <a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a>
+            <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
         </div>
     </div>
 
@@ -96,10 +96,10 @@ with col1:
     cols_menu = st.columns([5, 1])  # 5: espacio del texto, 1: botón alineado a la derecha
 
     with cols_menu[0]:
-        st.markdown("### 📂 Menú de aplicación")
+        st.markdown("### 🎛️ App Control Panel")
 
     with cols_menu[1]:
-        if st.button("🔁 Reiniciar todo", key="btn_reset", type="primary"):
+        if st.button("🔁 Reset All", key="btn_reset", type="primary"):
             st.session_state.clear()
             st.rerun()
 
