@@ -693,12 +693,7 @@ if not st.session_state.get("parte4_generada", False):
             if "depuracion_realizada" not in st.session_state:
                 st.session_state["depuracion_realizada"] = False
         
-            # Mostrar checkbox para activar depuración manual
-            # st.session_state["depuracion_activada"] = st.checkbox(
-            #     "🔍 Activar depuración manual",
-            #     value=st.session_state["depuracion_activada"]
-            # )
-
+        
             if st.session_state["depuracion_realizada"]:
                 st.checkbox("🔍 Depuración aplicada", value=True, disabled=True)
             else:
@@ -893,17 +888,6 @@ with col1:
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
             df_final = st.session_state.get("df_final")
 
-# with col1:
-#     # Usamos un placeholder para evitar ghosting del título
-#     placeholder_parte4 = st.empty()
-#     placeholder_parte4.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-
-#     habilitar_parte4 = fusion_completada or depuracion_realizada
-
-#     if habilitar_parte4 and not parte4_generada:
-#         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-#         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-#             df_final = st.session_state.get("df_final")
             
             # --- Generar y guardar outputs como bytes en session_state ---
             output_excel = io.BytesIO()
