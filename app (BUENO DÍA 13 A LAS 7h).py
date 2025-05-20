@@ -1044,7 +1044,7 @@ if "btn_generar_finales_pulsado" not in st.session_state:
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-# 🔹 BLOQUE 1 – Título y botón: solo visibles hasta que se pulsa el botón
+# 🔹 BLOQUE 1 – Mostrar título y botón solo si aún NO se ha pulsado
 if not st.session_state["btn_generar_finales_pulsado"]:
     with col1:
         st.markdown(
@@ -1065,7 +1065,7 @@ if not st.session_state["btn_generar_finales_pulsado"]:
                     st.session_state["btn_generar_finales_pulsado"] = True
                     st.rerun()
 
-# 🔹 BLOQUE 2 – Generación de archivos: solo tras pulsar el botón
+# 🔹 BLOQUE 2 – Procesamiento: tras el botón, antes de parte4_generada
 elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["parte4_generada"]:
     df_final = st.session_state.get("df_final")
 
@@ -1162,7 +1162,7 @@ elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["p
     st.session_state["parte4_generada"] = True
     st.rerun()
 
-# 🔹 BLOQUE 3 – Mensajes de éxito: solo después de generar
+# 🔹 BLOQUE 3 – Mensajes finales tras generación
 elif st.session_state["parte4_generada"]:
     with col1:
         st.success("✅ Final files have been successfully generated.")
