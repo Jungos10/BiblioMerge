@@ -63,7 +63,7 @@ st.markdown("""
 
     <div class="cabecera-sticky">
         <div class="titulo-cabecera">📚 BiblioMerge</div>
-        <div class="subtitulo-cabecera">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</div>
+        <div class="subtitulo-cabecera">Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy</div>
         <div class="recursos-cabecera">
             <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
             <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
