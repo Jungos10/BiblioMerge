@@ -904,7 +904,7 @@ if not parte4_generada:
     with col1:
         st.markdown(
             """
-            <div style='font-size: 1.4rem; font-weight: 600; margin-top: 2rem;'>
+            <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
                 📁 Generation of Final Files and Summary Reports
             </div>
             """,
