@@ -1039,15 +1039,15 @@ import matplotlib.pyplot as plt
 # Inicializar estados
 if "parte4_generada" not in st.session_state:
     st.session_state["parte4_generada"] = False
-if "esperando_generacion_parte4" not in st.session_state:
-    st.session_state["esperando_generacion_parte4"] = False
+if "parte4_visible" not in st.session_state:
+    st.session_state["parte4_visible"] = True
 if "procesar_generacion_parte4" not in st.session_state:
     st.session_state["procesar_generacion_parte4"] = False
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-# 🔹 FASE 1 – Mostrar título y botón hasta que se pulsa
-if not st.session_state["esperando_generacion_parte4"] and not st.session_state["procesar_generacion_parte4"] and not st.session_state["parte4_generada"]:
+# 🔹 FASE 1 – Mostrar título y botón solo mientras parte4_visible = True
+if st.session_state["parte4_visible"] and not st.session_state["parte4_generada"]:
     with col1:
         st.markdown(
             """
@@ -1064,18 +1064,11 @@ if not st.session_state["esperando_generacion_parte4"] and not st.session_state[
             col_btn_final, _ = st.columns([1, 1])
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
-                    st.session_state["esperando_generacion_parte4"] = True
+                    st.session_state["parte4_visible"] = False
+                    st.session_state["procesar_generacion_parte4"] = True
                     st.rerun()
 
-# 🔹 FASE 2 – Spinner intermedio para redibujar y desaparecer título
-elif st.session_state["esperando_generacion_parte4"] and not st.session_state["procesar_generacion_parte4"]:
-    with st.spinner("⏳ Preparing final file generation..."):
-        time.sleep(0.2)
-    st.session_state["esperando_generacion_parte4"] = False
-    st.session_state["procesar_generacion_parte4"] = True
-    st.rerun()
-
-# 🔹 FASE 3 – Generación de archivos
+# 🔹 FASE 2 – Procesamiento (cuando parte4_visible es False y generación pendiente)
 elif st.session_state["procesar_generacion_parte4"] and not st.session_state["parte4_generada"]:
     df_final = st.session_state.get("df_final")
 
@@ -1173,7 +1166,7 @@ elif st.session_state["procesar_generacion_parte4"] and not st.session_state["pa
     st.session_state["procesar_generacion_parte4"] = False
     st.rerun()
 
-# 🔹 FASE 4 – Mostrar mensajes finales
+# 🔹 FASE 3 – Mostrar mensajes tras generación
 elif st.session_state["parte4_generada"]:
     with col1:
         st.success("✅ Final files have been successfully generated.")
