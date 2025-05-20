@@ -671,7 +671,15 @@ if (
 if not st.session_state.get("parte4_generada", False):
 
    with col1:
-       st.markdown("## 🧪 Debbuging of Authors/Keywords/References (Optional)")
+       #t.markdown("## 🧪 Debbuging of Authors/Keywords/References (Optional)")
+       st.markdown(
+            """
+            <div style='font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem;'>
+                🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
     
    if (
         st.session_state.get("procesado") and 
