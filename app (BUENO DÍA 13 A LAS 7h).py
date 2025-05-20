@@ -1173,7 +1173,7 @@ with col2:
 #     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
 #         mostrar_boton_finales_bloqueado()
 
-else:
-        st.success("✅ Files generated successfully.")
-        st.info("🔁 Press 'Reset' to start a new merge process.")
+# else:
+#         st.success("✅ Files generated successfully.")
+#         st.info("🔁 Press 'Reset' to start a new merge process.")
 
