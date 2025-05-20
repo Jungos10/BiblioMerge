@@ -896,7 +896,7 @@ with col1:
         col_boton_finales, _ = st.columns([1, 1])
         with col_boton_finales:
             if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
-               df_final = st.session_state.get("df_final")
+                df_final = st.session_state.get("df_final")
     
                 
                 # --- Generar y guardar outputs como bytes en session_state ---
