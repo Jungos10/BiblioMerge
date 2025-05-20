@@ -1040,35 +1040,35 @@ with col2:
             # Fila 1
             col1, col2, col3 = st.columns([1.5, 1.5, 2])
             with col1:
-                st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Scopus+WOS(Depurado).xlsx", key="dl_xlsx")
+                st.download_button("📥 Excel", st.session_state["parte4_excel_bytes"], "Final Scopus+WOS.xlsx", key="dl_xlsx")
             with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
             with col3: st.markdown('<div class="normal">Manual use / Excel</div>', unsafe_allow_html=True)
     
             # Fila 2
             col1, col2, col3 = st.columns([1.5, 1.5, 2])
             with col1:
-                st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Scopus+WOS(Depurado).csv", key="dl_csv")
+                st.download_button("📥 CSV", st.session_state["parte4_csv_bytes"], "Final Scopus+WOS.csv", key="dl_csv")
             with col2: st.markdown('<div class="striped">Scopus</div>', unsafe_allow_html=True)
             with col3: st.markdown('<div class="striped">Biblioshiny, VOSviewer, ScientoPy</div>', unsafe_allow_html=True)
     
             # Fila 3
             col1, col2, col3 = st.columns([1.5, 1.5, 2])
             with col1:
-                st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Scopus+WOS(Depurado).ris", key="dl_ris")
+                st.download_button("📥 RIS", st.session_state["parte4_ris_bytes"], "Final Scopus+WOS.ris", key="dl_ris")
             with col2: st.markdown('<div class="normal">Scopus</div>', unsafe_allow_html=True)
             with col3: st.markdown('<div class="normal">SciMAT, BibExcel</div>', unsafe_allow_html=True)
     
             # Fila 4
             col1, col2, col3 = st.columns([1.5, 1.5, 2])
             with col1:
-                st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Scopus+WOS(Depurado).txt", key="dl_txt")
+                st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Final Scopus+WOS.txt", key="dl_txt")
             with col2: st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
             with col3: st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
     
             # Fila 5
             col1, col2, col3 = st.columns([1.5, 1.5, 2])
             with col1:
-                st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Scopus+WOS_lotes.zip", key="dl_zip")
+                st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Final Scopus+WOS_lotes.zip", key="dl_zip")
             with col2: st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
             with col3: st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
                 
@@ -1097,7 +1097,7 @@ with col2:
                 plt.xticks(rotation=90)
                 st.pyplot(fig)
         
-            st.markdown("### 📊 Informes de resumen final")
+            st.markdown("### 📊 Final Summary Report")
             st.write(f"**Registros finales:** {df_final.shape[0]}")
         
             # Contar elementos únicos en cada campo
@@ -1112,7 +1112,7 @@ with col2:
             st.write(f"**📚 Cited References:** {num_references}")
         
             # Gráficos Top existentes
-            mostrar_top(df_final, 'Authors', "👤 Top 25 autores", 'green')
+            mostrar_top(df_final, 'Authors', "👤 Top 25 Authors by articles number", 'green')
             mostrar_top(df_final, 'Author Keywords', "🔑 Top 25 Author Keywords", 'skyblue')
             mostrar_top(df_final, 'Index Keywords', "🏷️ Top 25 Index Keywords", 'salmon')
             mostrar_top(df_final, 'References', "📚 Top 20 Cited References", 'orange')
