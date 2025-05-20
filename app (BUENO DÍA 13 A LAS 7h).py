@@ -1039,15 +1039,15 @@ import matplotlib.pyplot as plt
 # Inicializar estados
 if "parte4_generada" not in st.session_state:
     st.session_state["parte4_generada"] = False
-if "modo_espera_generacion" not in st.session_state:
-    st.session_state["modo_espera_generacion"] = False
-if "btn_generar_finales_pulsado" not in st.session_state:
-    st.session_state["btn_generar_finales_pulsado"] = False
+if "esperando_generacion_parte4" not in st.session_state:
+    st.session_state["esperando_generacion_parte4"] = False
+if "procesar_generacion_parte4" not in st.session_state:
+    st.session_state["procesar_generacion_parte4"] = False
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-# 🔹 FASE 1 – Mostrar título y botón si aún no se ha pulsado nada
-if not st.session_state["modo_espera_generacion"] and not st.session_state["btn_generar_finales_pulsado"]:
+# 🔹 FASE 1 – Mostrar título y botón hasta que se pulsa
+if not st.session_state["esperando_generacion_parte4"] and not st.session_state["procesar_generacion_parte4"] and not st.session_state["parte4_generada"]:
     with col1:
         st.markdown(
             """
@@ -1064,17 +1064,19 @@ if not st.session_state["modo_espera_generacion"] and not st.session_state["btn_
             col_btn_final, _ = st.columns([1, 1])
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
-                    st.session_state["modo_espera_generacion"] = True
+                    st.session_state["esperando_generacion_parte4"] = True
                     st.rerun()
 
-# 🔹 FASE 2 – Ocultar todo y preparar para generar en la próxima recarga
-elif st.session_state["modo_espera_generacion"] and not st.session_state["parte4_generada"]:
-    st.session_state["modo_espera_generacion"] = False
-    st.session_state["btn_generar_finales_pulsado"] = True
+# 🔹 FASE 2 – Spinner intermedio para redibujar y desaparecer título
+elif st.session_state["esperando_generacion_parte4"] and not st.session_state["procesar_generacion_parte4"]:
+    with st.spinner("⏳ Preparing final file generation..."):
+        time.sleep(0.2)
+    st.session_state["esperando_generacion_parte4"] = False
+    st.session_state["procesar_generacion_parte4"] = True
     st.rerun()
 
-# 🔹 FASE 3 – Generación de archivos (una vez pulsado el botón)
-elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["parte4_generada"]:
+# 🔹 FASE 3 – Generación de archivos
+elif st.session_state["procesar_generacion_parte4"] and not st.session_state["parte4_generada"]:
     df_final = st.session_state.get("df_final")
 
     output_excel = io.BytesIO()
@@ -1168,9 +1170,10 @@ elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["p
     st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
 
     st.session_state["parte4_generada"] = True
+    st.session_state["procesar_generacion_parte4"] = False
     st.rerun()
 
-# 🔹 FASE 4 – Mensajes finales tras generación
+# 🔹 FASE 4 – Mostrar mensajes finales
 elif st.session_state["parte4_generada"]:
     with col1:
         st.success("✅ Final files have been successfully generated.")
