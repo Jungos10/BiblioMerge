@@ -878,11 +878,11 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
 
 with col1:
-    #st.markdown("## 📁 Parte 4: Generar archivos finales e informes AAAA")  # El título siempre visible
+    
     st.markdown(
         """
         <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1rem;'>
-            📁 Generate Final Files and Summary Reports
+            📁 Generation of Final Files and Summary Reports
         </div>
         """,
         unsafe_allow_html=True
@@ -895,9 +895,8 @@ with col1:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
         col_boton_finales, _ = st.columns([1, 1])
         with col_boton_finales:
-            if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-        #if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-                df_final = st.session_state.get("df_final")
+            if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+               df_final = st.session_state.get("df_final")
     
                 
                 # --- Generar y guardar outputs como bytes en session_state ---
@@ -1007,8 +1006,7 @@ with col2:
     
    if st.session_state.get("parte4_generada"):
 
-        df_final = st.session_state.get("df_final")  # ✅ Corrección: asignación fuera del all
-
+        df_final = st.session_state.get("df_final")  
         if all(
             key in st.session_state for key in [
                 "parte4_excel_bytes",
