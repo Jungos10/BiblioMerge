@@ -927,6 +927,10 @@ with col1:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
 
+    else:
+    st.success("✅ Files generated successfully.")
+    st.info("🔁 Press 'Reset' to start a new merge process.")
+
 
 
                     # --- Generar y guardar outputs como bytes en session_state ---
