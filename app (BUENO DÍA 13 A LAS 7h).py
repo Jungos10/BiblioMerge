@@ -872,41 +872,179 @@ from datetime import datetime
 import zipfile
 import matplotlib.pyplot as plt
 
-# fusion_completada = st.session_state.get("fusion_completada", False)
-# depuracion_realizada = st.session_state.get("depuracion_realizada", False)
-# depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
+# # fusion_completada = st.session_state.get("fusion_completada", False)
+# # depuracion_realizada = st.session_state.get("depuracion_realizada", False)
+# # depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
 
-# with col1:
+# # with col1:
     
-#     st.markdown(
-#         """
-#         <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1rem;'>
-#             📁 Generation of Final Files and Summary Reports
-#         </div>
-#         """,
-#         unsafe_allow_html=True
-#     )
+# #     st.markdown(
+# #         """
+# #         <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1rem;'>
+# #             📁 Generation of Final Files and Summary Reports
+# #         </div>
+# #         """,
+# #         unsafe_allow_html=True
+# #     )
 
-#     habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
-#     parte4_generada = st.session_state.get("parte4_generada", False)
+# #     habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
+# #     parte4_generada = st.session_state.get("parte4_generada", False)
 
-#     if habilitar_parte4 and not parte4_generada:
-#         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-#         col_boton_finales, _ = st.columns([1, 1])
-#         with col_boton_finales:
-#             if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+# #     if habilitar_parte4 and not parte4_generada:
+# #         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+# #         col_boton_finales, _ = st.columns([1, 1])
+# #         with col_boton_finales:
+# #             if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
 
-# Mostrar bloque solo si aún no se ha pulsado el botón
+# # Mostrar bloque solo si aún no se ha pulsado el botón
+# if "parte4_generada" not in st.session_state:
+#     st.session_state["parte4_generada"] = False
+
+# if "btn_generar_finales_pulsado" not in st.session_state:
+#     st.session_state["btn_generar_finales_pulsado"] = False
+
+# habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
+
+# # Mostrar bloque solo si NO se ha pulsado el botón
+# if not st.session_state["btn_generar_finales_pulsado"]:
+#     with col1:
+#         st.markdown(
+#             """
+#             <div style='font-size: 1.4rem; font-weight: 600; margin-top: 2rem;'>
+#                 📁 Generation of Final Files and Summary Reports
+#             </div>
+#             """,
+#             unsafe_allow_html=True
+#         )
+
+#         if habilitar_parte4:
+#             st.markdown("You can now generate the final files based on merged and/or cleaned data.")
+
+#             col_btn_final, _ = st.columns([1, 1])
+#             with col_btn_final:
+#                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+#                     st.session_state["btn_generar_finales_pulsado"] = True
+#                     st.rerun()
+
+# # BLOQUE DE GENERACIÓN (solo tras pulsar el botón)
+# elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["parte4_generada"]:
+#     df_final = st.session_state.get("df_final")
+        
+                    
+#     # --- Generar y guardar outputs como bytes en session_state ---
+#     output_excel = io.BytesIO()
+#     df_final.to_excel(output_excel, index=False)
+#     st.session_state["parte4_excel_bytes"] = output_excel.getvalue()
+
+#     output_csv = io.StringIO()
+#     df_final.to_csv(output_csv, index=False)
+#     st.session_state["parte4_csv_bytes"] = output_csv.getvalue()
+
+#     def df_to_ris(df):
+#         ris_entries = []
+#         for _, row in df.iterrows():
+#             authors = str(row['Authors']).split(';')
+#             affiliations = str(row['Affiliations']).split(';')
+#             keywords = str(row['Author Keywords']).split(';')
+#             cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
+#             export_date = datetime.today().strftime('%d %B %Y')
+#             entry = "TY  - JOUR\n"
+#             entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
+#             entry += f"TI  - {row['Title']}\n"
+#             entry += f"PY  - {row['Year']}\n"
+#             entry += f"T2  - {row['Source title']}\n"
+#             entry += f"VL  - {row['Volume']}\n"
+#             entry += f"IS  - {row['Issue']}\n"
+#             entry += f"C7  - {row.get('Art. No.', '')}\n"
+#             entry += f"SP  - {row['Page start']}\n"
+#             entry += f"EP  - {row['Page end']}\n"
+#             entry += f"DO  - {row['DOI']}\n"
+#             entry += f"UR  - {row.get('Link', '')}\n"
+#             entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
+#             entry += f"AB  - {row['Abstract']}\n"
+#             entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
+#             entry += f"PB  - {row['Publisher']}\n"
+#             entry += f"SN  - {row['ISSN']}\n"
+#             entry += f"LA  - {row['Language of Original Document']}\n"
+#             entry += f"J2  - {row['Abbreviated Source Title']}\n"
+#             entry += f"M3  - {row['Document Type']}\n"
+#             entry += f"DB  - {row['Source']}\n"
+#             entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
+#             entry += "ER  -\n"
+#             ris_entries.append(entry)
+#         return "\n".join(ris_entries)
+
+#     ris_content = df_to_ris(df_final)
+#     st.session_state["parte4_ris_bytes"] = ris_content
+
+#     def generar_texto(df, campos_seleccionados, mapeo):
+#         texto = "VR 1.0\n"
+#         for _, row in df.iterrows():
+#             texto_registro = "PT J\n"
+#             campos_agregados = False
+#             for campo_df, campo_txt in mapeo.items():
+#                 if campo_df in campos_seleccionados:
+#                     valor = row[campo_df]
+#                     if valor and str(valor).strip():
+#                         if campo_df in ['Authors', 'Author full names', 'References']:
+#                             elementos = str(valor).split('; ')
+#                             texto_registro += f"{campo_txt} {elementos[0]}\n"
+#                             texto_registro += ''.join([f"   {e}\n" for e in elementos[1:] if e.strip()])
+#                         else:
+#                             texto_registro += f"{campo_txt} {str(valor).replace('\n', '\n   ')}\n"
+#                         campos_agregados = True
+#             if campos_agregados:
+#                 texto_registro += "ER\n\n"
+#                 texto += texto_registro
+#         texto += "EF\n"
+#         return texto
+
+#     mapeo_codigos = {
+#         'Authors': 'AU', 'Author full names': 'AF', 'Title': 'TI', 'Source title': 'SO',
+#         'Language of Original Document': 'LA', 'Document Type': 'DT', 'Author Keywords': 'DE',
+#         'Index Keywords': 'ID', 'Abstract': 'AB', 'Correspondence Address': 'C1', 'Affiliations': 'C3',
+#         'References': 'CR', 'Cited by': 'TC', 'Publisher': 'PU', 'ISSN': 'SN',
+#         'Abbreviated Source Title': 'J9', 'Year': 'PY', 'Volume': 'VL', 'Issue': 'IS',
+#         'Page start': 'BP', 'Page end': 'EP', 'DOI': 'DI', 'Page count': 'PG',
+#         'Source': 'UT', 'Funding Texts': 'FX'
+#     }
+
+#     texto_global = generar_texto(df_final, list(mapeo_codigos.keys()), mapeo_codigos)
+#     st.session_state["parte4_txt_bytes"] = texto_global.encode()
+
+#     zip_buffer = io.BytesIO()
+#     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+#         inicio = 0
+#         while inicio < len(df_final):
+#             fin = min(inicio + 500, len(df_final))
+#             texto_lote = generar_texto(df_final.iloc[inicio:fin], list(mapeo_codigos.keys()), mapeo_codigos)
+#             zipf.writestr(f"Final Scopus+WOS(Set {inicio+1}-{fin}).txt", texto_lote)
+#             inicio = fin
+#     st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
+
+#     st.session_state["parte4_generada"] = True
+#     st.rerun()
+   
+
+# # elif parte4_generada:
+# #     st.success("✅ Files generated successfully.")
+# #     st.info("🔁 Press 'Reset' to start a new merge process.")
+# # BLOQUE FINAL - ARCHIVOS YA GENERADOS
+# elif st.session_state["parte4_generada"]:
+#     with col1:
+#         st.success("✅ Final files have been successfully generated.")
+#         st.info("🔁 Use 'Reset All' to start a new process.")
+
+# Inicializar estados
 if "parte4_generada" not in st.session_state:
     st.session_state["parte4_generada"] = False
-
 if "btn_generar_finales_pulsado" not in st.session_state:
     st.session_state["btn_generar_finales_pulsado"] = False
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-# Mostrar bloque solo si NO se ha pulsado el botón
+# 🔹 BLOQUE 1 – Título y botón: solo visibles hasta que se pulsa el botón
 if not st.session_state["btn_generar_finales_pulsado"]:
     with col1:
         st.markdown(
@@ -927,12 +1065,10 @@ if not st.session_state["btn_generar_finales_pulsado"]:
                     st.session_state["btn_generar_finales_pulsado"] = True
                     st.rerun()
 
-# BLOQUE DE GENERACIÓN (solo tras pulsar el botón)
+# 🔹 BLOQUE 2 – Generación de archivos: solo tras pulsar el botón
 elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["parte4_generada"]:
     df_final = st.session_state.get("df_final")
-        
-                    
-    # --- Generar y guardar outputs como bytes en session_state ---
+
     output_excel = io.BytesIO()
     df_final.to_excel(output_excel, index=False)
     st.session_state["parte4_excel_bytes"] = output_excel.getvalue()
@@ -1025,17 +1161,12 @@ elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["p
 
     st.session_state["parte4_generada"] = True
     st.rerun()
-   
 
-# elif parte4_generada:
-#     st.success("✅ Files generated successfully.")
-#     st.info("🔁 Press 'Reset' to start a new merge process.")
-# BLOQUE FINAL - ARCHIVOS YA GENERADOS
+# 🔹 BLOQUE 3 – Mensajes de éxito: solo después de generar
 elif st.session_state["parte4_generada"]:
     with col1:
         st.success("✅ Final files have been successfully generated.")
         st.info("🔁 Use 'Reset All' to start a new process.")
-
     
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
