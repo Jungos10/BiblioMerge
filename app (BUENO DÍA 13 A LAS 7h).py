@@ -644,7 +644,7 @@ if (
         st.subheader("👥 Top 20 Authors by Number of Articles")
         mostrar_histograma_top(
             st.session_state["top_autores"],
-            "Top 20 Autores",
+            "Top 20 Authors",
             "Autores",
             "Número de Artículos"
         )
@@ -674,7 +674,7 @@ if not st.session_state.get("parte4_generada", False):
        #t.markdown("## 🧪 Debbuging of Authors/Keywords/References (Optional)")
        st.markdown(
             """
-            <div style='font-size: 2.0rem; font-weight: 600; margin-top: 1.5rem;'>
+            <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem;'>
                 🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
             </div>
             """,
@@ -696,22 +696,22 @@ if not st.session_state.get("parte4_generada", False):
         
         
             if st.session_state["depuracion_realizada"]:
-                st.checkbox("🔍 Depuración aplicada", value=True, disabled=True)
+                st.checkbox("🔍 Debugging Completed", value=True, disabled=True)
             else:
                 st.session_state["depuracion_activada"] = st.checkbox(
-                    "🔍 Activar depuración manual",
+                    "🔍 Activate Debugging (Optional)",
                     value=st.session_state["depuracion_activada"]
                 )
             
             # Mostrar uploader si la depuración está activada pero aún no realizada
             if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
                 st.markdown("Carga el archivo Excel con las tablas de conversión:")
-                depuracion_file = st.file_uploader("📥 Archivo de depuración", type=["xlsx"], key="uploader_depuracion")
+                depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
     
     
     
                 
-                if depuracion_file and st.button("✅ Aplicar depuración"):
+                if depuracion_file and st.button("✅ Apply Debugging"):
                     try:
                         with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
                             tmp.write(depuracion_file.read())
@@ -732,9 +732,9 @@ if not st.session_state.get("parte4_generada", False):
                                 df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
         
                                 if df_authors_table.empty:
-                                    st.warning(f"❌ Depuración de Authors no ha sido posible porque la hoja está vacía.")
+                                    st.warning(f"❌ Authors debugging could not be applied because the sheet is empty")
                                 elif df_authors_table.loc[0, 'New Author'] == "0-change-0":
-                                    st.warning(f"❌ Depuración de Authors no ha sido posible porque la tabla de conversión en la hoja 'Authors' del fichero Excel no ha sido completada.")
+                                    st.warning(f"❌ Authors debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
                                 else:
                                     reemplazos_authors = 0
                                     for _, fila in df_authors_table.iterrows():
@@ -762,9 +762,9 @@ if not st.session_state.get("parte4_generada", False):
                                 df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
         
                                 if df_ak.empty:
-                                    st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la hoja está vacía.")
+                                    st.warning(f"❌ Author Keywords debugging could not be applied because the sheet is empty")
                                 elif df_ak.loc[0, 'New Keyword'] == "0-change-0":
-                                    st.warning(f"❌ Depuración de Author Keywords no ha sido posible porque la tabla de conversión en la hoja 'Author Keywords' del fichero Excel no ha sido completada.")
+                                    st.warning(f"❌ Author Keywords debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
                                 else:
                                     conteo_reemplazos_ak = 0
                                     for _, fila in df_ak.iterrows():
@@ -792,9 +792,9 @@ if not st.session_state.get("parte4_generada", False):
                                 df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
         
                                 if df_ik.empty:
-                                    st.warning(f"❌ Depuración de Index Keywords no ha sido posible porque la hoja está vacía.")
+                                    st.warning(f"❌ Index Keywords debugging could not be applied because the sheet is empty")
                                 elif df_ik.loc[0, 'New Keyword'] == "0-change-0":
-                                    st.warning(f"❌ Depuración de Index Keywords no ha sido posible porque la tabla de conversión en la hoja 'Index Keywords' del fichero Excel no ha sido completada.")
+                                    st.warning(f"❌ Index Keywords debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
                                 else:
                                     conteo_reemplazos_ik = 0
                                     for _, fila in df_ik.iterrows():
@@ -822,9 +822,9 @@ if not st.session_state.get("parte4_generada", False):
                                 df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
         
                                 if df_refs.empty:
-                                    st.warning(f"❌ Depuración de Referencias no ha sido posible porque la hoja está vacía.")
+                                    st.warning(f"❌ Cited References debugging could not be applied because the sheet is empty")
                                 elif df_refs.loc[0, 'New Reference'] == "0-change-0":
-                                    st.warning(f"❌ Depuración de Referencias no ha sido posible porque la tabla de conversión en la hoja 'Cited References' del fichero Excel no ha sido completada.")
+                                    st.warning(f"❌ Cited References debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
                                 else:
                                     conteo_reemplazos_refs = 0
                                     for _, fila in df_refs.iterrows():
