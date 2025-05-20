@@ -119,12 +119,12 @@ if "fusion_completada" not in st.session_state:
 # BLOQUE 1 – Subida de archivos y botón de inicio (solo si no se ha procesado)
 if not st.session_state["procesado"]:
     with col1:
-        scopus_files = st.file_uploader("Sube archivos Scopus (CSV)", type="csv", accept_multiple_files=True)
-        wos_files = st.file_uploader("Sube archivos WoS (TXT)", type="txt", accept_multiple_files=True)
+        scopus_files = st.file_uploader("⬆️ Upload Scopus Files (CSV)", type="csv", accept_multiple_files=True)
+        wos_files = st.file_uploader("⬆️ Upload WoS (TXT)", type="txt", accept_multiple_files=True)
 
         col_boton, _ = st.columns([1, 1])
         with col_boton:
-            if st.button("🔄 Iniciar fusión", key="btn_iniciar", use_container_width=True):
+            if st.button("🔄 Start Merge", key="btn_iniciar", use_container_width=True):
                 if scopus_files and wos_files:
                     st.session_state["scopus_files"] = scopus_files
                     st.session_state["wos_files"] = wos_files
