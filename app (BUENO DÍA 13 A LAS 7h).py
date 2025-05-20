@@ -1039,13 +1039,15 @@ import matplotlib.pyplot as plt
 # Inicializar estados
 if "parte4_generada" not in st.session_state:
     st.session_state["parte4_generada"] = False
+if "modo_espera_generacion" not in st.session_state:
+    st.session_state["modo_espera_generacion"] = False
 if "btn_generar_finales_pulsado" not in st.session_state:
     st.session_state["btn_generar_finales_pulsado"] = False
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-# 🔹 BLOQUE 1 – Mostrar título y botón solo si aún NO se ha pulsado
-if not st.session_state["btn_generar_finales_pulsado"]:
+# 🔹 FASE 1 – Mostrar título y botón si aún no se ha pulsado nada
+if not st.session_state["modo_espera_generacion"] and not st.session_state["btn_generar_finales_pulsado"]:
     with col1:
         st.markdown(
             """
@@ -1062,10 +1064,16 @@ if not st.session_state["btn_generar_finales_pulsado"]:
             col_btn_final, _ = st.columns([1, 1])
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
-                    st.session_state["btn_generar_finales_pulsado"] = True
+                    st.session_state["modo_espera_generacion"] = True
                     st.rerun()
 
-# 🔹 BLOQUE 2 – Procesamiento: tras el botón, antes de parte4_generada
+# 🔹 FASE 2 – Ocultar todo y preparar para generar en la próxima recarga
+elif st.session_state["modo_espera_generacion"] and not st.session_state["parte4_generada"]:
+    st.session_state["modo_espera_generacion"] = False
+    st.session_state["btn_generar_finales_pulsado"] = True
+    st.rerun()
+
+# 🔹 FASE 3 – Generación de archivos (una vez pulsado el botón)
 elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["parte4_generada"]:
     df_final = st.session_state.get("df_final")
 
@@ -1162,7 +1170,7 @@ elif st.session_state["btn_generar_finales_pulsado"] and not st.session_state["p
     st.session_state["parte4_generada"] = True
     st.rerun()
 
-# 🔹 BLOQUE 3 – Mensajes finales tras generación
+# 🔹 FASE 4 – Mensajes finales tras generación
 elif st.session_state["parte4_generada"]:
     with col1:
         st.success("✅ Final files have been successfully generated.")
