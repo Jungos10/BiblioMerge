@@ -986,9 +986,9 @@ with col1:
                 st.rerun()
        
     
-        elif parte4_generada:
-            st.success("✅ Files generated successfully.")
-            st.info("🔁 Press 'Reset' to start a new merge process.")
+    elif parte4_generada:
+        st.success("✅ Files generated successfully.")
+        st.info("🔁 Press 'Reset' to start a new merge process.")
 
     
 
