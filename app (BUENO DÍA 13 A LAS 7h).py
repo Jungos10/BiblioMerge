@@ -925,19 +925,12 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 #         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
 
 with col1:
+    st.markdown("## 📁 Parte 4: Generar archivos finales e informes")  # El título siempre visible
+
     habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
     parte4_generada = st.session_state.get("parte4_generada", False)
 
-    st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-
-    if not habilitar_parte4:
-        st.markdown(
-            "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
-            unsafe_allow_html=True
-        )
-        st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
-
-    elif not parte4_generada:
+    if habilitar_parte4 and not parte4_generada:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
             
@@ -1040,7 +1033,10 @@ with col1:
 #         st.success("✅ Files generated successfully.")
 #         st.info("🔁 Press 'Reset' to start a new merge process.")
 
-    else:
+    # else:
+    #     st.success("✅ Files generated successfully.")
+    #     st.info("🔁 Press 'Reset' to start a new merge process.")
+    elif parte4_generada:
         st.success("✅ Files generated successfully.")
         st.info("🔁 Press 'Reset' to start a new merge process.")
 
