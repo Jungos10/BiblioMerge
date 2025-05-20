@@ -614,10 +614,10 @@ if (
     and not st.session_state.get("parte4_generada", False)
 ):
     with col2:
-        st.markdown("### 📥 Descarga tus archivos:")
-        st.download_button("📥 Descargar Scopus+WOS.xlsx", st.session_state["output_fusion_bytes"], "Scopus+WOS.xlsx")
-        st.download_button("📥 Descargar duplicados eliminados", st.session_state["output_duplicados_bytes"], "Scopus+WOS(duplicados).xlsx")
-        st.download_button("📥 Descargar Tablas_para_depuraciones.xlsx", st.session_state["output_tablas_bytes"], "Tablas_para_depuraciones.xlsx")
+        st.markdown("### 📥 Download Preliminary Files:")
+        st.download_button("📥 Merge and Deduplicated dataset", st.session_state["output_fusion_bytes"], "Pre-Scopus+WOS.xlsx")
+        st.download_button("📥 Removed Duplicates Records", st.session_state["output_duplicados_bytes"], "Scopus+WOS(deduplicated).xlsx")
+        st.download_button("📥 Debugging Assistance Tables", st.session_state["output_tablas_bytes"], "Debugging-Tables.xlsx")
     
         # ----------- REPORTING FINAL DE FUSIÓN -----------
         st.markdown("### 📊 Informe resumen de la fusión")
