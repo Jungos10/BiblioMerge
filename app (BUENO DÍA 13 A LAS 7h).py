@@ -918,107 +918,107 @@ if not parte4_generada:
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
 
-                df_final = st.session_state.get("df_final")
-    
-                
-                # --- Generar y guardar outputs como bytes en session_state ---
-                output_excel = io.BytesIO()
-                df_final.to_excel(output_excel, index=False)
-                st.session_state["parte4_excel_bytes"] = output_excel.getvalue()
-    
-                output_csv = io.StringIO()
-                df_final.to_csv(output_csv, index=False)
-                st.session_state["parte4_csv_bytes"] = output_csv.getvalue()
-    
-                def df_to_ris(df):
-                    ris_entries = []
-                    for _, row in df.iterrows():
-                        authors = str(row['Authors']).split(';')
-                        affiliations = str(row['Affiliations']).split(';')
-                        keywords = str(row['Author Keywords']).split(';')
-                        cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
-                        export_date = datetime.today().strftime('%d %B %Y')
-                        entry = "TY  - JOUR\n"
-                        entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
-                        entry += f"TI  - {row['Title']}\n"
-                        entry += f"PY  - {row['Year']}\n"
-                        entry += f"T2  - {row['Source title']}\n"
-                        entry += f"VL  - {row['Volume']}\n"
-                        entry += f"IS  - {row['Issue']}\n"
-                        entry += f"C7  - {row.get('Art. No.', '')}\n"
-                        entry += f"SP  - {row['Page start']}\n"
-                        entry += f"EP  - {row['Page end']}\n"
-                        entry += f"DO  - {row['DOI']}\n"
-                        entry += f"UR  - {row.get('Link', '')}\n"
-                        entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
-                        entry += f"AB  - {row['Abstract']}\n"
-                        entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
-                        entry += f"PB  - {row['Publisher']}\n"
-                        entry += f"SN  - {row['ISSN']}\n"
-                        entry += f"LA  - {row['Language of Original Document']}\n"
-                        entry += f"J2  - {row['Abbreviated Source Title']}\n"
-                        entry += f"M3  - {row['Document Type']}\n"
-                        entry += f"DB  - {row['Source']}\n"
-                        entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
-                        entry += "ER  -\n"
-                        ris_entries.append(entry)
-                    return "\n".join(ris_entries)
-    
-                ris_content = df_to_ris(df_final)
-                st.session_state["parte4_ris_bytes"] = ris_content
-    
-                def generar_texto(df, campos_seleccionados, mapeo):
-                    texto = "VR 1.0\n"
-                    for _, row in df.iterrows():
-                        texto_registro = "PT J\n"
-                        campos_agregados = False
-                        for campo_df, campo_txt in mapeo.items():
-                            if campo_df in campos_seleccionados:
-                                valor = row[campo_df]
-                                if valor and str(valor).strip():
-                                    if campo_df in ['Authors', 'Author full names', 'References']:
-                                        elementos = str(valor).split('; ')
-                                        texto_registro += f"{campo_txt} {elementos[0]}\n"
-                                        texto_registro += ''.join([f"   {e}\n" for e in elementos[1:] if e.strip()])
-                                    else:
-                                        texto_registro += f"{campo_txt} {str(valor).replace('\n', '\n   ')}\n"
-                                    campos_agregados = True
-                        if campos_agregados:
-                            texto_registro += "ER\n\n"
-                            texto += texto_registro
-                    texto += "EF\n"
-                    return texto
-    
-                mapeo_codigos = {
-                    'Authors': 'AU', 'Author full names': 'AF', 'Title': 'TI', 'Source title': 'SO',
-                    'Language of Original Document': 'LA', 'Document Type': 'DT', 'Author Keywords': 'DE',
-                    'Index Keywords': 'ID', 'Abstract': 'AB', 'Correspondence Address': 'C1', 'Affiliations': 'C3',
-                    'References': 'CR', 'Cited by': 'TC', 'Publisher': 'PU', 'ISSN': 'SN',
-                    'Abbreviated Source Title': 'J9', 'Year': 'PY', 'Volume': 'VL', 'Issue': 'IS',
-                    'Page start': 'BP', 'Page end': 'EP', 'DOI': 'DI', 'Page count': 'PG',
-                    'Source': 'UT', 'Funding Texts': 'FX'
-                }
-    
-                texto_global = generar_texto(df_final, list(mapeo_codigos.keys()), mapeo_codigos)
-                st.session_state["parte4_txt_bytes"] = texto_global.encode()
-    
-                zip_buffer = io.BytesIO()
-                with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-                    inicio = 0
-                    while inicio < len(df_final):
-                        fin = min(inicio + 500, len(df_final))
-                        texto_lote = generar_texto(df_final.iloc[inicio:fin], list(mapeo_codigos.keys()), mapeo_codigos)
-                        zipf.writestr(f"Final Scopus+WOS(Set {inicio+1}-{fin}).txt", texto_lote)
-                        inicio = fin
-                st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
-    
-                st.session_state["parte4_generada"] = True
-                st.rerun()
-       
-    
-    elif parte4_generada:
-        st.success("✅ Files generated successfully.")
-        st.info("🔁 Press 'Reset' to start a new merge process.")
+                    df_final = st.session_state.get("df_final")
+        
+                    
+                    # --- Generar y guardar outputs como bytes en session_state ---
+                    output_excel = io.BytesIO()
+                    df_final.to_excel(output_excel, index=False)
+                    st.session_state["parte4_excel_bytes"] = output_excel.getvalue()
+        
+                    output_csv = io.StringIO()
+                    df_final.to_csv(output_csv, index=False)
+                    st.session_state["parte4_csv_bytes"] = output_csv.getvalue()
+        
+                    def df_to_ris(df):
+                        ris_entries = []
+                        for _, row in df.iterrows():
+                            authors = str(row['Authors']).split(';')
+                            affiliations = str(row['Affiliations']).split(';')
+                            keywords = str(row['Author Keywords']).split(';')
+                            cited_by = f"Cited By: {row['Cited by']}" if not pd.isnull(row['Cited by']) else ''
+                            export_date = datetime.today().strftime('%d %B %Y')
+                            entry = "TY  - JOUR\n"
+                            entry += ''.join([f"AU  - {a.strip()}\n" for a in authors if a.strip()])
+                            entry += f"TI  - {row['Title']}\n"
+                            entry += f"PY  - {row['Year']}\n"
+                            entry += f"T2  - {row['Source title']}\n"
+                            entry += f"VL  - {row['Volume']}\n"
+                            entry += f"IS  - {row['Issue']}\n"
+                            entry += f"C7  - {row.get('Art. No.', '')}\n"
+                            entry += f"SP  - {row['Page start']}\n"
+                            entry += f"EP  - {row['Page end']}\n"
+                            entry += f"DO  - {row['DOI']}\n"
+                            entry += f"UR  - {row.get('Link', '')}\n"
+                            entry += ''.join([f"AD  - {aff.strip()}\n" for aff in affiliations if aff.strip()])
+                            entry += f"AB  - {row['Abstract']}\n"
+                            entry += ''.join([f"KW  - {kw.strip()}\n" for kw in keywords if kw.strip()])
+                            entry += f"PB  - {row['Publisher']}\n"
+                            entry += f"SN  - {row['ISSN']}\n"
+                            entry += f"LA  - {row['Language of Original Document']}\n"
+                            entry += f"J2  - {row['Abbreviated Source Title']}\n"
+                            entry += f"M3  - {row['Document Type']}\n"
+                            entry += f"DB  - {row['Source']}\n"
+                            entry += f"N1  - Export Date: {export_date}; {cited_by}\n"
+                            entry += "ER  -\n"
+                            ris_entries.append(entry)
+                        return "\n".join(ris_entries)
+        
+                    ris_content = df_to_ris(df_final)
+                    st.session_state["parte4_ris_bytes"] = ris_content
+        
+                    def generar_texto(df, campos_seleccionados, mapeo):
+                        texto = "VR 1.0\n"
+                        for _, row in df.iterrows():
+                            texto_registro = "PT J\n"
+                            campos_agregados = False
+                            for campo_df, campo_txt in mapeo.items():
+                                if campo_df in campos_seleccionados:
+                                    valor = row[campo_df]
+                                    if valor and str(valor).strip():
+                                        if campo_df in ['Authors', 'Author full names', 'References']:
+                                            elementos = str(valor).split('; ')
+                                            texto_registro += f"{campo_txt} {elementos[0]}\n"
+                                            texto_registro += ''.join([f"   {e}\n" for e in elementos[1:] if e.strip()])
+                                        else:
+                                            texto_registro += f"{campo_txt} {str(valor).replace('\n', '\n   ')}\n"
+                                        campos_agregados = True
+                            if campos_agregados:
+                                texto_registro += "ER\n\n"
+                                texto += texto_registro
+                        texto += "EF\n"
+                        return texto
+        
+                    mapeo_codigos = {
+                        'Authors': 'AU', 'Author full names': 'AF', 'Title': 'TI', 'Source title': 'SO',
+                        'Language of Original Document': 'LA', 'Document Type': 'DT', 'Author Keywords': 'DE',
+                        'Index Keywords': 'ID', 'Abstract': 'AB', 'Correspondence Address': 'C1', 'Affiliations': 'C3',
+                        'References': 'CR', 'Cited by': 'TC', 'Publisher': 'PU', 'ISSN': 'SN',
+                        'Abbreviated Source Title': 'J9', 'Year': 'PY', 'Volume': 'VL', 'Issue': 'IS',
+                        'Page start': 'BP', 'Page end': 'EP', 'DOI': 'DI', 'Page count': 'PG',
+                        'Source': 'UT', 'Funding Texts': 'FX'
+                    }
+        
+                    texto_global = generar_texto(df_final, list(mapeo_codigos.keys()), mapeo_codigos)
+                    st.session_state["parte4_txt_bytes"] = texto_global.encode()
+        
+                    zip_buffer = io.BytesIO()
+                    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+                        inicio = 0
+                        while inicio < len(df_final):
+                            fin = min(inicio + 500, len(df_final))
+                            texto_lote = generar_texto(df_final.iloc[inicio:fin], list(mapeo_codigos.keys()), mapeo_codigos)
+                            zipf.writestr(f"Final Scopus+WOS(Set {inicio+1}-{fin}).txt", texto_lote)
+                            inicio = fin
+                    st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
+        
+                    st.session_state["parte4_generada"] = True
+                    st.rerun()
+           
+        
+        elif parte4_generada:
+            st.success("✅ Files generated successfully.")
+            st.info("🔁 Press 'Reset' to start a new merge process.")
 
     
 
