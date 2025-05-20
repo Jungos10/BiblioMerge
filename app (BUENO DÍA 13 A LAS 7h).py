@@ -890,21 +890,13 @@ import matplotlib.pyplot as plt
 fusion_completada = st.session_state.get("fusion_completada", False)
 depuracion_realizada = st.session_state.get("depuracion_realizada", False)
 parte4_generada = st.session_state.get("parte4_generada", False)
+parte4_generando = st.session_state.get("parte4_generando", False)
 df_final = st.session_state.get("df_final")
-
 habilitar_boton = fusion_completada or depuracion_realizada
 
 with col1:
-    # Mostrar título y texto si aún no se generó parte 4
-    if not parte4_generada:
-        st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-        st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-
-        # Mostrar botón solo si está habilitado
-        if habilitar_boton:
-            if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-                with st.spinner("🔄 Generando archivos e informes..."):
-    
+    if parte4_generando:
+        with st.spinner("🔄 Generando archivos e informes..."):
                 
                     # --- Generar y guardar outputs como bytes en session_state ---
                     output_excel = io.BytesIO()
@@ -1001,11 +993,23 @@ with col1:
                     st.rerun()
            
         
+            # elif parte4_generada:
+            #     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+            #     st.success("✅ Files generated successfully.")
+            #     st.info("🔁 Press 'Reset' to start a new merge process.")
+
+            elif not parte4_generada:
+                st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+                st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+                if habilitar_boton:
+                    if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
+                        st.session_state["parte4_generando"] = True
+                        st.rerun()
+        
             elif parte4_generada:
                 st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
                 st.success("✅ Files generated successfully.")
                 st.info("🔁 Press 'Reset' to start a new merge process.")
-
     
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
