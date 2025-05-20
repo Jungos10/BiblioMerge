@@ -1042,9 +1042,16 @@ with col1:
 #         st.success("✅ Files generated successfully.")
 #         st.info("🔁 Press 'Reset' to start a new merge process.")
 
-    elif st.session_state.get("parte4_generada", False):
+    # elif st.session_state.get("parte4_generada", False):
+    #     st.success("✅ Files generated successfully.")
+    #     st.info("🔁 Press 'Reset' to start a new merge process.")
+
+    else:
         st.success("✅ Files generated successfully.")
         st.info("🔁 Press 'Reset' to start a new merge process.")
+
+
+
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 
 with col2:
