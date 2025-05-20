@@ -1036,18 +1036,16 @@ import matplotlib.pyplot as plt
 #         st.success("✅ Final files have been successfully generated.")
 #         st.info("🔁 Use 'Reset All' to start a new process.")
 
-# Inicializar estados
+# Inicialización de estados (idéntico a Parte 1)
 if "parte4_generada" not in st.session_state:
     st.session_state["parte4_generada"] = False
-if "parte4_visible" not in st.session_state:
-    st.session_state["parte4_visible"] = True
-if "procesar_generacion_parte4" not in st.session_state:
-    st.session_state["procesar_generacion_parte4"] = False
+if "parte4_en_proceso" not in st.session_state:
+    st.session_state["parte4_en_proceso"] = False
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-# 🔹 FASE 1 – Mostrar título y botón solo mientras parte4_visible = True
-if st.session_state["parte4_visible"] and not st.session_state["parte4_generada"]:
+# 🔹 FASE 1 – Mostrar bloque de botón SOLO si aún no se ha pulsado
+if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
     with col1:
         st.markdown(
             """
@@ -1064,22 +1062,24 @@ if st.session_state["parte4_visible"] and not st.session_state["parte4_generada"
             col_btn_final, _ = st.columns([1, 1])
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
-                    st.session_state["parte4_visible"] = False
-                    st.session_state["procesar_generacion_parte4"] = True
+                    st.session_state["parte4_en_proceso"] = True
                     st.rerun()
 
-# 🔹 FASE 2 – Procesamiento (cuando parte4_visible es False y generación pendiente)
-elif st.session_state["procesar_generacion_parte4"] and not st.session_state["parte4_generada"]:
+# 🔹 FASE 2 – Ejecutar generación una vez
+if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
     df_final = st.session_state.get("df_final")
 
+    # Generar Excel
     output_excel = io.BytesIO()
     df_final.to_excel(output_excel, index=False)
     st.session_state["parte4_excel_bytes"] = output_excel.getvalue()
 
+    # Generar CSV
     output_csv = io.StringIO()
     df_final.to_csv(output_csv, index=False)
     st.session_state["parte4_csv_bytes"] = output_csv.getvalue()
 
+    # Generar RIS
     def df_to_ris(df):
         ris_entries = []
         for _, row in df.iterrows():
@@ -1117,6 +1117,7 @@ elif st.session_state["procesar_generacion_parte4"] and not st.session_state["pa
     ris_content = df_to_ris(df_final)
     st.session_state["parte4_ris_bytes"] = ris_content
 
+    # Generar TXT + ZIP
     def generar_texto(df, campos_seleccionados, mapeo):
         texto = "VR 1.0\n"
         for _, row in df.iterrows():
@@ -1163,11 +1164,11 @@ elif st.session_state["procesar_generacion_parte4"] and not st.session_state["pa
     st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
 
     st.session_state["parte4_generada"] = True
-    st.session_state["procesar_generacion_parte4"] = False
+    st.session_state["parte4_en_proceso"] = False
     st.rerun()
 
-# 🔹 FASE 3 – Mostrar mensajes tras generación
-elif st.session_state["parte4_generada"]:
+# 🔹 FASE 3 – Mostrar mensajes cuando la generación ha terminado
+if st.session_state["parte4_generada"]:
     with col1:
         st.success("✅ Final files have been successfully generated.")
         st.info("🔁 Use 'Reset All' to start a new process.")
