@@ -888,13 +888,17 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 #         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
 
 with col1:
-    habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
+    habilitar_parte4 = (
+        st.session_state.get("fusion_completada", False)
+        or st.session_state.get("depuracion_realizada", False)
+    )
     parte4_generada = st.session_state.get("parte4_generada", False)
 
+    # ✅ Mostrar Parte 4 SOLO si aún no se ha generado
     if habilitar_parte4 and not parte4_generada:
         st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-
+        
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
             with st.spinner("🔄 Generando archivos e informes..."):
                 df_final = st.session_state.get("df_final")
