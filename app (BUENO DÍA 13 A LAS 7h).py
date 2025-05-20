@@ -933,6 +933,7 @@ with col1:
     if habilitar_parte4 and not parte4_generada:
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
+            df_final = st.session_state.get("df_final")
             
                     # --- Generar y guardar outputs como bytes en session_state ---
                     output_excel = io.BytesIO()
