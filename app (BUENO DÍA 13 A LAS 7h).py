@@ -876,53 +876,11 @@ from datetime import datetime
 import zipfile
 import matplotlib.pyplot as plt
 
-# --- Función para mostrar el botón desactivado con estilo gris ---
-# def mostrar_boton_finales_bloqueado():
-#     with col1:
-#         st.markdown(
-#             "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
-#             unsafe_allow_html=True
-#         )
-       
-#         st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
-
 
 fusion_completada = st.session_state.get("fusion_completada", False)
 depuracion_realizada = st.session_state.get("depuracion_realizada", False)
 depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
-
-# with col1:
-#     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-
-      
-#     df_final = st.session_state.get("df_final")
-#     habilitar_parte4 = (fusion_completada or depuracion_realizada)
-    
-#     if habilitar_parte4:
-#         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-    
-#         if "parte4_generada" not in st.session_state:
-#             st.session_state["parte4_generada"] = False
-    
-#         if not st.session_state["parte4_generada"]:
-#             col_boton_finales, _ = st.columns([1, 1])
-#             with col_boton_finales:
-#                 if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-
-# with col1:
-#     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-
-#     df_final = st.session_state.get("df_final")
-#     fusion_completada = st.session_state.get("fusion_completada", False)
-#     depuracion_realizada = st.session_state.get("depuracion_realizada", False)
-
-#     habilitar_parte4 = fusion_completada or depuracion_realizada
-
-#     if habilitar_parte4 and not st.session_state.get("parte4_generada", False):
-#         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-
-#         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
 
 with col1:
     st.markdown("## 📁 Parte 4: Generar archivos finales e informes")  # El título siempre visible
@@ -1029,14 +987,7 @@ with col1:
             st.session_state["parte4_generada"] = True
             st.rerun()
    
-# with col1:
-#     if st.session_state.get("parte4_generada"):
-#         st.success("✅ Files generated successfully.")
-#         st.info("🔁 Press 'Reset' to start a new merge process.")
 
-    # else:
-    #     st.success("✅ Files generated successfully.")
-    #     st.info("🔁 Press 'Reset' to start a new merge process.")
     elif parte4_generada:
         st.success("✅ Files generated successfully.")
         st.info("🔁 Press 'Reset' to start a new merge process.")
