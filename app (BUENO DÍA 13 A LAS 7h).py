@@ -844,7 +844,7 @@ if not st.session_state.get("parte4_generada", False):
                                                         df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
                                                         conteo_reemplazos_refs += 1
                                     st.success("✅ Cited References debugging completed")
-                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_refs} replacements applied in Cited References.")
+                                    st.info(f"ℹ️ {conteo_reemplazos_refs} replacements applied in Cited References.")
                                     
                             except Exception as e:
                                 st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
@@ -878,7 +878,15 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
 
 with col1:
-    st.markdown("## 📁 Parte 4: Generar archivos finales e informes AAAA")  # El título siempre visible
+    #st.markdown("## 📁 Parte 4: Generar archivos finales e informes AAAA")  # El título siempre visible
+    st.markdown(
+        """
+        <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1rem;'>
+            📁 Generate Final Files and Summary Reports
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
     parte4_generada = st.session_state.get("parte4_generada", False)
