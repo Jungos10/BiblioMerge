@@ -925,13 +925,8 @@ with col1:
 
     elif not st.session_state.get("parte4_generada", False):
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-
-    else:
-        st.success("✅ Files generated successfully.")
-        st.info("🔁 Press 'Reset' to start a new merge process.")
-
-
 
                     # --- Generar y guardar outputs como bytes en session_state ---
                     output_excel = io.BytesIO()
@@ -1030,7 +1025,10 @@ with col1:
 # with col1:
 #     if st.session_state.get("parte4_generada"):
 #         st.success("✅ Files generated successfully.")
-#         st.info("🔁 Press 'Reset' to start a new merge process.")                                    
+#         st.info("🔁 Press 'Reset' to start a new merge process.")
+    else:
+        st.success("✅ Files generated successfully.")
+        st.info("🔁 Press 'Reset' to start a new merge process.")
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 
@@ -1173,7 +1171,5 @@ with col2:
 #     if st.session_state.get("procesado") or st.session_state.get("depuracion_realizada"):
 #         mostrar_boton_finales_bloqueado()
 
-# else:
-#         st.success("✅ Files generated successfully.")
-#         st.info("🔁 Press 'Reset' to start a new merge process.")
+
 
