@@ -878,7 +878,7 @@ depuracion_en_proceso = st.session_state.get("depuracion_en_proceso", False)
 
 
 with col1:
-    st.markdown("## 📁 Parte 4: Generar archivos finales e informes")  # El título siempre visible
+    st.markdown("## 📁 Parte 4: Generar archivos finales e informes AAAA")  # El título siempre visible
 
     habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
     parte4_generada = st.session_state.get("parte4_generada", False)
