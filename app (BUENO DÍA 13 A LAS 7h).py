@@ -641,7 +641,7 @@ if (
             plt.xticks(rotation=90)
             st.pyplot(fig)
     
-        st.subheader("👥 Top 20 autores con más artículos")
+        st.subheader("👥 Top 20 Authors by Number of Articles")
         mostrar_histograma_top(
             st.session_state["top_autores"],
             "Top 20 Autores",
@@ -666,17 +666,12 @@ if (
         )
 
 
-            # mensaje_proceso.empty()  # Oculta el mensaje anterior
-            # st.success("✅ Fusión completada con éxito. Puedes continuar con los informes.")
-            # st.session_state["fusion_en_proceso"] = False
-            # st.session_state["fusion_completada"] = True
-
-                
+                         
 # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
 if not st.session_state.get("parte4_generada", False):
 
    with col1:
-       st.markdown("## 🧪 Parte 3: Depuración manual de autores/keywords/referencias")
+       st.markdown("## 🧪 Debbuging of Authors/Keywords/References (Optional)")
     
    if (
         st.session_state.get("procesado") and 
