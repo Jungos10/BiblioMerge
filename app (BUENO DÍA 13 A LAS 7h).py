@@ -928,8 +928,8 @@ with col1:
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
 
     else:
-    st.success("✅ Files generated successfully.")
-    st.info("🔁 Press 'Reset' to start a new merge process.")
+        st.success("✅ Files generated successfully.")
+        st.info("🔁 Press 'Reset' to start a new merge process.")
 
 
 
