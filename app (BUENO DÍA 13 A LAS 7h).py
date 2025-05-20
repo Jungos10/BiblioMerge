@@ -9,91 +9,9 @@ import time  # <- necesario para el spinner
 import tempfile
 import gc
 
-# st.set_page_config(page_title="BiblioMerge", layout="wide")
-
-# # CABECERA STICKY VISUAL (HTML + CSS)
-# st.markdown("""
-#     <style>
-#     .cabecera-sticky {
-#         position: fixed;
-#         top: 0;
-#         width: 100%;
-#         background-color: white;
-#         z-index: 100;
-#         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-#         padding: 3.5rem 2rem 0.8rem 2rem;
-#         font-family: sans-serif;
-        
-#     }
-
-#     .titulo-cabecera {
-#         font-size: 1.6rem;
-#         font-weight: bold;
-#         margin-bottom: 0.3rem;
-#         margin-left: 30rem; 
-#         text-align: left;
-#     }
-
-#     .subtitulo-cabecera {
-#         font-size: 1rem;
-#         margin-bottom: 0.5rem;
-#         margin-left: 30rem; 
-#         text-align: left;
-#     }
-
-#     .recursos-cabecera {
-#         position: absolute;
-#         top: 4.0rem;
-#         right: 15rem;
-#         text-align: left;
-#         font-size: 0.95rem;
-#     }
-
-#     .recursos-cabecera a {
-#         display: block;
-#         color: #0066cc;
-#         text-decoration: none;
-#         margin-bottom: 0.2rem;
-#     }
-
-#     .espaciador-cabecera {
-#         height: 70px;
-#     }
-#     </style>
-
-#     <div class="cabecera-sticky">
-#         <div class="titulo-cabecera">📚 BiblioMerge</div>
-#         <div class="subtitulo-cabecera">Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy</div>
-#         <div class="recursos-cabecera">
-#             <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
-#             <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
-#             <a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a>
-#         </div>
-#     </div>
-
-#     <div class="espaciador-cabecera"></div>
-# """, unsafe_allow_html=True)
-
-# # Dividir en columna izquierda (menú), separador visual, y columna derecha (informes)
-# col1, col_sep, col2 = st.columns([1, 0.1, 1])  # Puedes ajustar proporciones
-
-# # Separador visual con altura relativa grande para que recorra la pantalla
-# with col_sep:
-#     st.markdown(
-#         """
-#         <div style='
-#             background-color: #f0f2f6;
-#             height: 100vh;
-#             min-height: 600px;
-#             width: 100%;
-#             border-radius: 0.5rem;
-#         '></div>
-#         """,
-#         unsafe_allow_html=True
-#     )
 st.set_page_config(page_title="BiblioMerge", layout="wide")
 
-# STICKY HEADER (HTML + CSS)
+# CABECERA STICKY VISUAL (HTML + CSS)
 st.markdown("""
     <style>
     .cabecera-sticky {
@@ -105,20 +23,21 @@ st.markdown("""
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         padding: 3.5rem 2rem 0.8rem 2rem;
         font-family: sans-serif;
+        
     }
 
     .titulo-cabecera {
         font-size: 1.6rem;
         font-weight: bold;
         margin-bottom: 0.3rem;
-        margin-left: 30rem;
+        margin-left: 30rem; 
         text-align: left;
     }
 
     .subtitulo-cabecera {
         font-size: 1rem;
         margin-bottom: 0.5rem;
-        margin-left: 30rem;
+        margin-left: 30rem; 
         text-align: left;
     }
 
@@ -146,18 +65,19 @@ st.markdown("""
         <div class="titulo-cabecera">📚 BiblioMerge</div>
         <div class="subtitulo-cabecera">Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy</div>
         <div class="recursos-cabecera">
-            <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
-            <a href="https://youtube.com" target="_blank">🎬 Demo Video</a>
-            <a href="https://example.com/pruebas.zip" target="_blank">📁 Sample Files</a>
+            <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
+            <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
+            <a href="https://example.com/pruebas.zip" target="_blank">📁 Archivos de prueba</a>
         </div>
     </div>
 
     <div class="espaciador-cabecera"></div>
 """, unsafe_allow_html=True)
 
-# Layout with menu column, separator, and main panel
-col1, col_sep, col2 = st.columns([1, 0.1, 1])
+# Dividir en columna izquierda (menú), separador visual, y columna derecha (informes)
+col1, col_sep, col2 = st.columns([1, 0.1, 1])  # Puedes ajustar proporciones
 
+# Separador visual con altura relativa grande para que recorra la pantalla
 with col_sep:
     st.markdown(
         """
@@ -171,8 +91,6 @@ with col_sep:
         """,
         unsafe_allow_html=True
     )
-
-
 
 with col1:
     cols_menu = st.columns([5, 1])  # 5: espacio del texto, 1: botón alineado a la derecha
