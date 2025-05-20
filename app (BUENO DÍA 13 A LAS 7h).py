@@ -1005,14 +1005,7 @@ with col1:
 
                     st.session_state["parte4_generada"] = True
                     st.rerun()
-    # # Esto es nuevo
-    # else:
-    #     st.markdown(
-    #         "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
-    #         unsafe_allow_html=True
-    #     )
-    #     st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
-
+   
 with col1:
     if st.session_state.get("parte4_generada"):
         st.success("✅ Files generated successfully.")
