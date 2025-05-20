@@ -928,18 +928,18 @@ with col1:
     habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
     parte4_generada = st.session_state.get("parte4_generada", False)
 
+    st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
+
     if not habilitar_parte4:
-        st.markdown("""
-        <h2 style='color:grey;'>📁 Parte 4: Generar archivos finales e informes</h2>
-        <p style='color:grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</p>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
+            unsafe_allow_html=True
+        )
+        st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
 
-    else:
-        st.markdown("## 📁 Parte 4: Generar archivos finales e informes")
-
-        if not parte4_generada:
-            st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
-            if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
+    elif not parte4_generada:
+        st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
+        if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
             
                     # --- Generar y guardar outputs como bytes en session_state ---
                     output_excel = io.BytesIO()
@@ -1040,7 +1040,7 @@ with col1:
 #         st.success("✅ Files generated successfully.")
 #         st.info("🔁 Press 'Reset' to start a new merge process.")
 
-    elif st.session_state.get("parte4_generada", False):
+    else:
         st.success("✅ Files generated successfully.")
         st.info("🔁 Press 'Reset' to start a new merge process.")
 
