@@ -62,7 +62,7 @@ st.markdown("""
     </style>
 
     <div class="cabecera-sticky">
-        <div class="titulo-cabecera">📚 Fusionador Scopus + WoS</div>
+        <div class="titulo-cabecera">📚 BiblioMerge</div>
         <div class="subtitulo-cabecera">Sube tus archivos CSV de Scopus y TXT de WoS para fusionarlos y generar informes.</div>
         <div class="recursos-cabecera">
             <a href="https://example.com/guia.pdf" target="_blank">📘 Guía de usuario</a>
