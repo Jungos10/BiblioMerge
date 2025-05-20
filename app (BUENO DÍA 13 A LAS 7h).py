@@ -751,8 +751,8 @@ if not st.session_state.get("parte4_generada", False):
                                                         autores_actuales[pos] = new_author
                                                         df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
                                                         reemplazos_authors += 1
-                                    st.success("✅ Depuración de autores completada.")
-                                    st.info(f"ℹ️ Se han realizado {reemplazos_authors} reemplazos en Authors.")
+                                    st.success("✅ Authors debugging completed")
+                                    st.info(f"ℹ️ {reemplazos_authors} replacements applied in Authors")
                             
                             except Exception as e:
                                 st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
@@ -781,8 +781,8 @@ if not st.session_state.get("parte4_generada", False):
                                                         kws[pos] = new_kw
                                                         df_final.at[idx, "Author Keywords"] = "; ".join(kws)
                                                         conteo_reemplazos_ak += 1
-                                    st.success("✅ Depuración de Author Keywords completada.")
-                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ak} reemplazos en la columna Author Keywords.")
+                                    st.success("✅ Author Keywords debugging completed")
+                                    st.info(f"ℹ️ {conteo_reemplazos_ak} replacements applied in Authors Keywords.")
                                     
                             except Exception as e:
                                 st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
@@ -811,8 +811,8 @@ if not st.session_state.get("parte4_generada", False):
                                                         kws[pos] = new_kw
                                                         df_final.at[idx, "Index Keywords"] = "; ".join(kws)
                                                         conteo_reemplazos_ik += 1
-                                    st.success("✅ Depuración de Index Keywords completada.")
-                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_ik} reemplazos en la columna Index Keywords.")
+                                    st.success("✅ Index Keywords debugging completed")
+                                    st.info(f"ℹ️ {conteo_reemplazos_ik} replacements applied in Index Keywords.")
                                     
                             except Exception as e:
                                 st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
@@ -843,8 +843,8 @@ if not st.session_state.get("parte4_generada", False):
                                                         refs[pos] = "" if pd.isna(new_ref) else new_ref
                                                         df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
                                                         conteo_reemplazos_refs += 1
-                                    st.success("✅ Depuración de Referencias completada.")
-                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_refs} reemplazos en la columna References.")
+                                    st.success("✅ Cited References debugging completed")
+                                    st.info(f"ℹ️ Se han realizado {conteo_reemplazos_refs} replacements applied in Cited References.")
                                     
                             except Exception as e:
                                 st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
@@ -856,11 +856,11 @@ if not st.session_state.get("parte4_generada", False):
                        
                         
                         with col2:
-                            st.success("🎉 Todas las depuraciones aplicadas correctamente.")
+                            st.success("🎉 All debugging operations applied successfully")
         
                     except Exception as e:
                         with col2:
-                            st.error(f"❌ Error general al procesar la depuración: {str(e)}")
+                            st.error(f"❌ General error while processing debugging: {str(e)}")
                     
 
     
