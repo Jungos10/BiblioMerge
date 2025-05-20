@@ -674,7 +674,7 @@ if not st.session_state.get("parte4_generada", False):
        #t.markdown("## 🧪 Debbuging of Authors/Keywords/References (Optional)")
        st.markdown(
             """
-            <div style='font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem;'>
+            <div style='font-size: 1.5rem; font-weight: 600; margin-top: 1.5rem;'>
                 🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
             </div>
             """,
