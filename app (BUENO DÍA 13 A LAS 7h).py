@@ -986,7 +986,7 @@ with col1:
                     while inicio < len(df_final):
                         fin = min(inicio + 500, len(df_final))
                         texto_lote = generar_texto(df_final.iloc[inicio:fin], list(mapeo_codigos.keys()), mapeo_codigos)
-                        zipf.writestr(f"Scopus+WOS(Dep {inicio+1}-{fin}).txt", texto_lote)
+                        zipf.writestr(f"Final Scopus+WOS(Set {inicio+1}-{fin}).txt", texto_lote)
                         inicio = fin
                 st.session_state["parte4_zip_bytes"] = zip_buffer.getvalue()
     
