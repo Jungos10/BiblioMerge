@@ -916,18 +916,11 @@ with col1:
     df_final = st.session_state.get("df_final")
     habilitar_parte4 = (fusion_completada or depuracion_realizada)
 
-    # if not habilitar_parte4:
-    #     st.markdown(
-    #         "<span style='color: grey;'>Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.</span>",
-    #         unsafe_allow_html=True
-    #     )
-    #     st.button("📦 Generar ficheros finales", key="btn_generar_finales_disabled", disabled=True, use_container_width=True)
-
-    elif not st.session_state.get("parte4_generada", False):
+    if habilitar_parte4 and not st.session_state.get("parte4_generada", False):
         st.markdown("Puedes generar los ficheros finales a partir del resultado de la fusión y/o la depuración.")
 
         if st.button("📦 Generar ficheros finales", key="btn_generar_finales", use_container_width=True):
-
+            
                     # --- Generar y guardar outputs como bytes en session_state ---
                     output_excel = io.BytesIO()
                     df_final.to_excel(output_excel, index=False)
@@ -1026,10 +1019,10 @@ with col1:
 #     if st.session_state.get("parte4_generada"):
 #         st.success("✅ Files generated successfully.")
 #         st.info("🔁 Press 'Reset' to start a new merge process.")
-    else:
+
+    elif st.session_state.get("parte4_generada", False):
         st.success("✅ Files generated successfully.")
         st.info("🔁 Press 'Reset' to start a new merge process.")
-
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 
 with col2:
