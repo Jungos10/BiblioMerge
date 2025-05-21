@@ -60,7 +60,7 @@ body {
 }
 
 .espaciador-cabecera {
-    height: 50px;
+    height: 10px;
 }
 
 .autores-cabecera {
