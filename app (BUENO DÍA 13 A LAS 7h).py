@@ -756,7 +756,8 @@ if not st.session_state["parte4_generada"]:
 
         if st.session_state["depuracion_realizada"]:
             with col1:
-                st.success("🔍 Debugging has already been completed.")
+                st.success("🔍 Debugging completed! Check out the details in the Results & Downloads Panel")
+                st.info("👉 What's next? You can now 📦 generate the final files and summary report.")
         else:
             with col1:
                 st.session_state["depuracion_activada"] = st.checkbox(
@@ -922,7 +923,7 @@ if not st.session_state["parte4_generada"]:
                                     st.info("👉 What's next? You can now 📦 generate the final files and summary report.")
                 
                             except Exception as e:
-                                with col2:
+                                with col1:
                                     st.error(f"❌ General error while processing debugging: {str(e)}")
                     
 
