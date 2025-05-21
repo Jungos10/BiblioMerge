@@ -60,20 +60,41 @@ st.markdown("""
     .espaciador-cabecera {
         height: 80px;
     }
+
+    .autores-cabecera {
+    position: absolute;
+    top: 0.5rem;
+    left: 2rem;
+    font-size: 0.9rem;
+    color: #555;
+}
     </style>
 
+    # <div class="cabecera-sticky">
+    #     <div style="position: relative; top: 0.5rem; left: 1rem; font-size: 0.9rem; color: #555;">
+    #         👤 Diez-Junguitu & Peña-Cerezo
+    #     </div>
+    #     <div class="titulo-cabecera">📚 BiblioMerge</div>
+    #     <div class="subtitulo-cabecera">Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy</div>
+    #     <div class="recursos-cabecera">
+    #         <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
+    #         <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
+    #         <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
+    #     </div>
+    # </div>
+
     <div class="cabecera-sticky">
-        <div style="position: relative; top: 0.5rem; left: 1rem; font-size: 0.9rem; color: #555;">
-            👤 Diez-Junguitu & Peña-Cerezo
-        </div>
-        <div class="titulo-cabecera">📚 BiblioMerge</div>
-        <div class="subtitulo-cabecera">Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy</div>
-        <div class="recursos-cabecera">
-            <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
-            <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
-            <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
-        </div>
+    <div class="autores-cabecera">👤 Diez-Junguitu & Peña-Cerezo</div>
+    <div class="titulo-cabecera">📚 BiblioMerge</div>
+    <div class="subtitulo-cabecera">
+        Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy
     </div>
+    <div class="recursos-cabecera">
+        <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
+        <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
+        <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
+    </div>
+</div>
 
     <div class="espaciador-cabecera"></div>
 """, unsafe_allow_html=True)
