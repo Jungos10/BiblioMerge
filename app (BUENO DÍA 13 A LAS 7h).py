@@ -57,7 +57,7 @@ st.markdown("""
     }
 
     .espaciador-cabecera {
-        height: 100px;
+        height: 80px;
     }
     </style>
 
