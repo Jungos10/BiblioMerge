@@ -727,46 +727,22 @@ if (
 #                         # Mostrar mensajes en col2
 #                         with col2:
 
-if not st.session_state.get("parte4_generada", False):
-    
+if st.session_state["depuracion_realizada"]:
     with col1:
-        st.markdown(
-            """
-            <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem;'>
-                🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.success("🔍 Debugging has already been completed.")
+else:
+    with col1:
+        st.session_state["depuracion_activada"] = st.checkbox(
+            "🔍 Activate Debugging (Optional)",
+            value=st.session_state.get("depuracion_activada", False)
         )
 
-    if (
-        st.session_state.get("procesado") and 
-        not st.session_state.get("fusion_en_proceso", True) and 
-        not st.session_state.get("parte4_generada", False)
-    ):
+        if st.session_state["depuracion_activada"]:
+            st.markdown("Carga el archivo Excel con las tablas de conversión:")
+            depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
 
-        # Inicializar flags si no existen
-        if "depuracion_activada" not in st.session_state:
-            st.session_state["depuracion_activada"] = False
-        if "depuracion_realizada" not in st.session_state:
-            st.session_state["depuracion_realizada"] = False
-
-        if st.session_state["depuracion_realizada"]:
-            with col1:
-                st.success("🔍 Debugging has already been completed.")
-        else:
-            with col1:
-                st.session_state["depuracion_activada"] = st.checkbox(
-                    "🔍 Activate Debugging (Optional)",
-                    value=st.session_state["depuracion_activada"]
-                )
-
-            if st.session_state["depuracion_activada"]:
-                with col1:
-                    st.markdown("Carga el archivo Excel con las tablas de conversión:")
-                    depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
-
-                if depuracion_file and st.button("✅ Apply Debugging"):
+            if depuracion_file:
+                if st.button("✅ Apply Debugging"):
                     try:
                         with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
                             tmp.write(depuracion_file.read())
