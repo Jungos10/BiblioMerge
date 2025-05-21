@@ -26,7 +26,7 @@ body {
     background-color: white;
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 1.0rem 2rem 0.8rem 2rem;
+    padding: 0.1rem 2rem 0.8rem 2rem;
     font-family: sans-serif;
     position: relative;
 }
@@ -60,7 +60,7 @@ body {
 }
 
 .espaciador-cabecera {
-    height: 10px;
+    height: 50px;
 }
 
 .autores-cabecera {
