@@ -97,6 +97,7 @@ with col1:
 
     with cols_menu[0]:
         st.markdown("### 🎛️ App Control Panel")
+        st.markdown("<div style='margin-bottom: 1.5rem;'></div>", unsafe_allow_html=True)
 
     with cols_menu[1]:
         if st.button("🔁 Reset All", key="btn_reset", type="primary"):
