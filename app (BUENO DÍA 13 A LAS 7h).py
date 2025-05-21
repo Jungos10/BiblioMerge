@@ -30,15 +30,15 @@ st.markdown("""
         font-size: 2.0rem;
         font-weight: bold;
         margin-bottom: 0.3rem;
-        margin-left: 40rem; 
-        text-align: left;
+        #margin-left: 40rem; 
+        text-align: center;
     }
 
     .subtitulo-cabecera {
         font-size: 1rem;
         margin-bottom: 0.5rem;
-        margin-left: 20rem; 
-        text-align: left;
+        #margin-left: 20rem; 
+        text-align: center;
     }
 
     .recursos-cabecera {
