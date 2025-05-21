@@ -668,11 +668,69 @@ if (
 
                          
 # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
-if not st.session_state.get("parte4_generada", False):
+# if not st.session_state.get("parte4_generada", False):
 
-   with col1:
-       #t.markdown("## 🧪 Debbuging of Authors/Keywords/References (Optional)")
-       st.markdown(
+#    with col1:
+#        #t.markdown("## 🧪 Debbuging of Authors/Keywords/References (Optional)")
+#        st.markdown(
+#             """
+#             <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem;'>
+#                 🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
+#             </div>
+#             """,
+#             unsafe_allow_html=True
+#         )
+    
+#    if (
+#         st.session_state.get("procesado") and 
+#         not st.session_state.get("fusion_en_proceso", True) and 
+#         not st.session_state.get("parte4_generada", False)
+#     ):
+    
+#         with col1:    
+#             # Inicializar flags si no existen
+#             if "depuracion_activada" not in st.session_state:
+#                 st.session_state["depuracion_activada"] = False
+#             if "depuracion_realizada" not in st.session_state:
+#                 st.session_state["depuracion_realizada"] = False
+        
+        
+#             if st.session_state["depuracion_realizada"]:
+#                 st.checkbox("🔍 Debugging Completed", value=True, disabled=True)
+#             else:
+#                 st.session_state["depuracion_activada"] = st.checkbox(
+#                     "🔍 Activate Debugging (Optional)",
+#                     value=st.session_state["depuracion_activada"]
+#                 )
+            
+#             # Mostrar uploader si la depuración está activada pero aún no realizada
+#             if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
+#                 st.markdown("Carga el archivo Excel con las tablas de conversión:")
+#                 depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
+    
+    
+    
+                
+#                 if depuracion_file and st.button("✅ Apply Debugging"):
+#                     try:
+#                         with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+#                             tmp.write(depuracion_file.read())
+#                             tmp_path = tmp.name
+        
+#                         # Recuperar DataFrames de session_state
+#                         df_final = st.session_state.get("df_final")
+#                         autores = st.session_state.get("autores")
+#                         df_author_keywords = st.session_state.get("df_author_keywords")
+#                         df_index_keywords = st.session_state.get("df_index_keywords")
+#                         df_references_info = st.session_state.get("df_references_info")
+
+#                         # Mostrar mensajes en col2
+#                         with col2:
+
+if not st.session_state.get("parte4_generada", False):
+    
+    with col1:
+        st.markdown(
             """
             <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem;'>
                 🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
@@ -680,43 +738,40 @@ if not st.session_state.get("parte4_generada", False):
             """,
             unsafe_allow_html=True
         )
-    
-   if (
+
+    if (
         st.session_state.get("procesado") and 
         not st.session_state.get("fusion_en_proceso", True) and 
         not st.session_state.get("parte4_generada", False)
     ):
-    
-        with col1:    
-            # Inicializar flags si no existen
-            if "depuracion_activada" not in st.session_state:
-                st.session_state["depuracion_activada"] = False
-            if "depuracion_realizada" not in st.session_state:
-                st.session_state["depuracion_realizada"] = False
-        
-        
-            if st.session_state["depuracion_realizada"]:
-                st.checkbox("🔍 Debugging Completed", value=True, disabled=True)
-            else:
+
+        # Inicializar flags si no existen
+        if "depuracion_activada" not in st.session_state:
+            st.session_state["depuracion_activada"] = False
+        if "depuracion_realizada" not in st.session_state:
+            st.session_state["depuracion_realizada"] = False
+
+        if st.session_state["depuracion_realizada"]:
+            with col1:
+                st.success("🔍 Debugging has already been completed.")
+        else:
+            with col1:
                 st.session_state["depuracion_activada"] = st.checkbox(
                     "🔍 Activate Debugging (Optional)",
                     value=st.session_state["depuracion_activada"]
                 )
-            
-            # Mostrar uploader si la depuración está activada pero aún no realizada
-            if st.session_state["depuracion_activada"] and not st.session_state["depuracion_realizada"]:
-                st.markdown("Carga el archivo Excel con las tablas de conversión:")
-                depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
-    
-    
-    
-                
+
+            if st.session_state["depuracion_activada"]:
+                with col1:
+                    st.markdown("Carga el archivo Excel con las tablas de conversión:")
+                    depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
+
                 if depuracion_file and st.button("✅ Apply Debugging"):
                     try:
                         with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
                             tmp.write(depuracion_file.read())
                             tmp_path = tmp.name
-        
+
                         # Recuperar DataFrames de session_state
                         df_final = st.session_state.get("df_final")
                         autores = st.session_state.get("autores")
@@ -724,8 +779,8 @@ if not st.session_state.get("parte4_generada", False):
                         df_index_keywords = st.session_state.get("df_index_keywords")
                         df_references_info = st.session_state.get("df_references_info")
 
-                        # Mostrar mensajes en col2
                         with col2:
+
                                 
                             # ---- DEPURACIÓN: Authors ----
                             try:
