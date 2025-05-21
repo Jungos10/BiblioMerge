@@ -669,9 +669,23 @@ if (
                          
 # -------------------- PARTE 3: DEPURACIÓN OPCIONAL ------------------------------
 
-# Inicialización segura de variables clave
+# # Inicialización segura de variables clave
+# if "parte4_generada" not in st.session_state:
+#     st.session_state["parte4_generada"] = False
+# if "procesado" not in st.session_state:
+#     st.session_state["procesado"] = False
+# if "fusion_en_proceso" not in st.session_state:
+#     st.session_state["fusion_en_proceso"] = True
+# if "depuracion_realizada" not in st.session_state:
+#     st.session_state["depuracion_realizada"] = False
+# if "depuracion_activada" not in st.session_state:
+#     st.session_state["depuracion_activada"] = False
+
+# -------------------- ESTADOS NECESARIOS PARA DEPURACIÓN --------------------
 if "parte4_generada" not in st.session_state:
     st.session_state["parte4_generada"] = False
+if "parte4_en_proceso" not in st.session_state:
+    st.session_state["parte4_en_proceso"] = False
 if "procesado" not in st.session_state:
     st.session_state["procesado"] = False
 if "fusion_en_proceso" not in st.session_state:
@@ -680,6 +694,8 @@ if "depuracion_realizada" not in st.session_state:
     st.session_state["depuracion_realizada"] = False
 if "depuracion_activada" not in st.session_state:
     st.session_state["depuracion_activada"] = False
+if "depuracion_mensajes" not in st.session_state:
+    st.session_state["depuracion_mensajes"] = []  # Lista de tuplas: (tipo, mensaje, bloque)
 
 # Mostrar solo si aún no se han generado los ficheros finales
 #if not st.session_state["parte4_generada"]:
@@ -757,8 +773,10 @@ if not st.session_state.get("parte4_generada", False) and not st.session_state.g
                                                                 autores_actuales[pos] = new_author
                                                                 df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
                                                                 reemplazos_authors += 1
-                                            st.success("✅ Authors debugging completed")
-                                            st.info(f"ℹ️ {reemplazos_authors} replacements applied in Authors")
+                                            #st.success("✅ Authors debugging completed")
+                                            #st.info(f"ℹ️ {reemplazos_authors} replacements applied in Authors")
+                                            st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
+                                            st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos} replacements applied in Authors", "Authors"))
                                     
                                     except Exception as e:
                                         st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
