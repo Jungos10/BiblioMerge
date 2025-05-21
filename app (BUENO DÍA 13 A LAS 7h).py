@@ -52,7 +52,7 @@ header, .block-container {
 
 .recursos-cabecera {
     position: absolute;
-    top: 1.0rem;
+    top: 4.0rem;
     right: 15rem;
     text-align: left;
     font-size: 0.95rem;
@@ -71,7 +71,7 @@ header, .block-container {
 
 .autores-cabecera {
     position: absolute;
-    top: 1.5rem;
+    top: 3.5rem;
     left: 2rem;
     font-size: 0.9rem;
     color: #555;
