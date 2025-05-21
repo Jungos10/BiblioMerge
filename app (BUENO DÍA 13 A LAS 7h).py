@@ -95,7 +95,7 @@ st.markdown("""
     background-color: white;
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 1.5rem 2rem 0.8rem 2rem;
+    padding: 2.0rem 2rem 0.8rem 2rem;
     font-family: sans-serif;
     position: relative;
 }
@@ -115,7 +115,7 @@ st.markdown("""
 
 .recursos-cabecera {
     position: absolute;
-    top: 4.0rem;
+    top: 3.0rem;
     right: 15rem;
     text-align: left;
     font-size: 0.95rem;
