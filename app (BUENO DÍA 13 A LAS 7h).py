@@ -12,65 +12,136 @@ import gc
 st.set_page_config(page_title="BiblioMerge", layout="wide")
 
 # CABECERA STICKY VISUAL (HTML + CSS)
-st.markdown("""
-    <style>
-    .cabecera-sticky {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background-color: white;
-        z-index: 100;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        padding: 3.5rem 2rem 0.8rem 2rem;
-        font-family: sans-serif;
-        position: relative;
+# st.markdown("""
+#     <style>
+#     .cabecera-sticky {
+#         position: fixed;
+#         top: 0;
+#         width: 100%;
+#         background-color: white;
+#         z-index: 100;
+#         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+#         padding: 3.5rem 2rem 0.8rem 2rem;
+#         font-family: sans-serif;
+#         position: relative;
         
-    }
+#     }
 
-    .titulo-cabecera {
-        font-size: 2.0rem;
-        font-weight: bold;
-        margin-bottom: 0.3rem;
-        #margin-left: 40rem; 
-        text-align: center;
-    }
+#     .titulo-cabecera {
+#         font-size: 2.0rem;
+#         font-weight: bold;
+#         margin-bottom: 0.3rem;
+#         #margin-left: 40rem; 
+#         text-align: center;
+#     }
 
-    .subtitulo-cabecera {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-        #margin-left: 20rem; 
-        text-align: center;
-    }
+#     .subtitulo-cabecera {
+#         font-size: 1rem;
+#         margin-bottom: 0.5rem;
+#         #margin-left: 20rem; 
+#         text-align: center;
+#     }
 
-    .recursos-cabecera {
-        position: absolute;
-        top: 4.0rem;
-        right: 15rem;
-        text-align: left;
-        font-size: 0.95rem;
-    }
+#     .recursos-cabecera {
+#         position: absolute;
+#         top: 4.0rem;
+#         right: 15rem;
+#         text-align: left;
+#         font-size: 0.95rem;
+#     }
 
-    .recursos-cabecera a {
-        display: block;
-        color: #0066cc;
-        text-decoration: none;
-        margin-bottom: 0.2rem;
-    }
+#     .recursos-cabecera a {
+#         display: block;
+#         color: #0066cc;
+#         text-decoration: none;
+#         margin-bottom: 0.2rem;
+#     }
 
-    .espaciador-cabecera {
-        height: 100px;
-    }
+#     .espaciador-cabecera {
+#         height: 100px;
+#     }
 
-    .autores-cabecera {
+#     .autores-cabecera {
+#     position: absolute;
+#     top: 0.5rem;
+#     left: 2rem;
+#     font-size: 0.9rem;
+#     color: #555;
+# }
+#     </style>
+
+#     <div class="cabecera-sticky">
+#     <div class="autores-cabecera">👤 Diez-Junguitu & Peña-Cerezo</div>
+#     <div class="titulo-cabecera">📚 BiblioMerge</div>
+#     <div class="subtitulo-cabecera">
+#         Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy
+#     </div>
+#     <div class="recursos-cabecera">
+#         <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
+#         <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
+#         <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
+#     </div>
+# </div>
+    
+#     <div class="espaciador-cabecera"></div>
+# """, unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+.cabecera-sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 3.5rem 2rem 0.8rem 2rem;
+    font-family: sans-serif;
+    position: relative;
+}
+
+.titulo-cabecera {
+    font-size: 2.0rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    text-align: center;
+}
+
+.subtitulo-cabecera {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.recursos-cabecera {
+    position: absolute;
+    top: 4.0rem;
+    right: 15rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.recursos-cabecera a {
+    display: block;
+    color: #0066cc;
+    text-decoration: none;
+    margin-bottom: 0.2rem;
+}
+
+.espaciador-cabecera {
+    height: 100px;
+}
+
+.autores-cabecera {
     position: absolute;
     top: 0.5rem;
     left: 2rem;
     font-size: 0.9rem;
     color: #555;
 }
-    </style>
+</style>
 
-    <div class="cabecera-sticky">
+<div class="cabecera-sticky">
     <div class="autores-cabecera">👤 Diez-Junguitu & Peña-Cerezo</div>
     <div class="titulo-cabecera">📚 BiblioMerge</div>
     <div class="subtitulo-cabecera">
@@ -82,8 +153,8 @@ st.markdown("""
         <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
     </div>
 </div>
-    
-    <div class="espaciador-cabecera"></div>
+
+<div class="espaciador-cabecera"></div>
 """, unsafe_allow_html=True)
 
 # Dividir en columna izquierda (menú), separador visual, y columna derecha (informes)
