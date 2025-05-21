@@ -596,7 +596,7 @@ if st.session_state.get("fusion_en_proceso", False):
         elapsed_time = int(time.time() - st.session_state["start_time"])
         with col1:
             st.success(f"✅ Preliminary merge completed successfully in {elapsed_time} seconds.")
-            st.info("What’s next? 🧪 Perform the debugging process using an external file, or 📦 generate the final files and report.")
+            st.info("👉 What’s next? 🧪 Perform the debugging process using an external file, or 📦 generate the final files and report.")
 
         st.session_state["fusion_en_proceso"] = False
         st.session_state["fusion_completada"] = True
@@ -918,7 +918,8 @@ if not st.session_state["parte4_generada"]:
                                
                                 
                                 with col1:
-                                    st.success("🎉 All debugging operations applied successfully")
+                                    st.success("🎉 Debugging completed! Check out the details in the Results & Downloads Panel")
+                                    st.info("👉 What's next? You can now 📦 generate the final files and summary report.")
                 
                             except Exception as e:
                                 with col2:
