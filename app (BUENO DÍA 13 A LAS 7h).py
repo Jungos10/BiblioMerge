@@ -58,7 +58,7 @@ st.markdown("""
     }
 
     .espaciador-cabecera {
-        height: 80px;
+        height: 100px;
     }
 
     .autores-cabecera {
