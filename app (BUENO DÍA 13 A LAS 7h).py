@@ -913,7 +913,8 @@ if not st.session_state["parte4_generada"]:
                                 # Guardar el nuevo df_final actualizado
                                 st.session_state["df_final"] = df_final
                                 st.session_state["depuracion_realizada"] = True
-        
+
+                                st.rerun()
                                
                                 
                                 with col1:
