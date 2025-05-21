@@ -973,6 +973,93 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                                             reemplazos_authors += 1
                                         st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
                                         st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
+
+                                # ---------- AUTHOR KEYWORDS ----------
+                                try:
+                                    df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
+                                    if df_ak.empty:
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Author Keywords debugging could not be applied because the sheet is empty", "Author Keywords"))
+                                    elif df_ak.loc[0, 'New Keyword'] == "0-change-0":
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Author Keywords debugging could not be applied because the conversion table is not filled in", "Author Keywords"))
+                                    else:
+                                        conteo_reemplazos_ak = 0
+                                        for _, fila in df_ak.iterrows():
+                                            if fila["New Keyword"] != "0-change-0":
+                                                old_kw = fila["Author Keyword"]
+                                                new_kw = fila["New Keyword"]
+                                                fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
+                                                if not fila_encontrada.empty:
+                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                    for idx, pos in zip(indices, posiciones):
+                                                        kws = df_final.at[idx, "Author Keywords"].split(";")
+                                                        if pos < len(kws):
+                                                            kws[pos] = new_kw
+                                                            df_final.at[idx, "Author Keywords"] = "; ".join(kws)
+                                                            conteo_reemplazos_ak += 1
+                                        st.session_state["depuracion_mensajes"].append(("success", "✅ Author Keywords debugging completed", "Author Keywords"))
+                                        st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {conteo_reemplazos_ak} replacements applied in Author Keywords", "Author Keywords"))
+                                except Exception as e:
+                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Author Keywords debugging: {str(e)}", "Author Keywords"))
+
+
+                                                                # ---------- INDEX KEYWORDS ----------
+                                try:
+                                    df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
+                                    if df_ik.empty:
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Index Keywords debugging could not be applied because the sheet is empty", "Index Keywords"))
+                                    elif df_ik.loc[0, 'New Keyword'] == "0-change-0":
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Index Keywords debugging could not be applied because the conversion table is not filled in", "Index Keywords"))
+                                    else:
+                                        conteo_reemplazos_ik = 0
+                                        for _, fila in df_ik.iterrows():
+                                            if fila["New Keyword"] != "0-change-0":
+                                                old_kw = fila["Index Keywords"]
+                                                new_kw = fila["New Keyword"]
+                                                fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
+                                                if not fila_encontrada.empty:
+                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                    for idx, pos in zip(indices, posiciones):
+                                                        kws = df_final.at[idx, "Index Keywords"].split(";")
+                                                        if pos < len(kws):
+                                                            kws[pos] = new_kw
+                                                            df_final.at[idx, "Index Keywords"] = "; ".join(kws)
+                                                            conteo_reemplazos_ik += 1
+                                        st.session_state["depuracion_mensajes"].append(("success", "✅ Index Keywords debugging completed", "Index Keywords"))
+                                        st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {conteo_reemplazos_ik} replacements applied in Index Keywords", "Index Keywords"))
+                                except Exception as e:
+                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Index Keywords debugging: {str(e)}", "Index Keywords"))
+
+                                # ---------- CITED REFERENCES ----------
+                                try:
+                                    df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
+                                    if df_refs.empty:
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Cited References debugging could not be applied because the sheet is empty", "Cited References"))
+                                    elif df_refs.loc[0, 'New Reference'] == "0-change-0":
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Cited References debugging could not be applied because the conversion table is not filled in", "Cited References"))
+                                    else:
+                                        conteo_reemplazos_refs = 0
+                                        for _, fila in df_refs.iterrows():
+                                            old_ref = fila["References"]
+                                            new_ref = fila["New Reference"]
+                                            if new_ref != "0-change-0":
+                                                fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
+                                                if not fila_encontrada.empty:
+                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                    for idx, pos in zip(indices, posiciones):
+                                                        refs = df_final.at[idx, "References"].split(";")
+                                                        if pos < len(refs):
+                                                            refs[pos] = "" if pd.isna(new_ref) else new_ref
+                                                            df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
+                                                            conteo_reemplazos_refs += 1
+                                        st.session_state["depuracion_mensajes"].append(("success", "✅ Cited References debugging completed", "Cited References"))
+                                        st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {conteo_reemplazos_refs} replacements applied in Cited References", "Cited References"))
+                                except Exception as e:
+                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Cited References debugging: {str(e)}", "Cited References"))
+
+                                
                                 except Exception as e:
                                     st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Authors debugging: {str(e)}", "Authors"))
 
@@ -1003,9 +1090,9 @@ if st.session_state.get("depuracion_realizada", False):
             elif tipo == "error":
                 st.error(mensaje)
 
-    with col1:
-        st.success("🎉 Debugging completed! Check out the details in the Results & Downloads Panel")
-        st.info("👉 What's next? You can now 📦 generate the final files and summary report")
+    # with col1:
+    #     st.success("🎉 Debugging completed! Check out the details in the Results & Downloads Panel")
+    #     st.info("👉 What's next? You can now 📦 generate the final files and summary report")
                     
 
     
