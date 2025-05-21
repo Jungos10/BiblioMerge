@@ -32,7 +32,7 @@ header, .block-container {
     background-color: white;
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 5.0rem 2rem 0.8rem 2rem;
+    padding: 1.2rem 2rem 0.8rem 2rem;
     font-family: sans-serif;
     position: relative;
 }
@@ -52,7 +52,7 @@ header, .block-container {
 
 .recursos-cabecera {
     position: absolute;
-    top: 5.0rem;
+    top: 1.0rem;
     right: 15rem;
     text-align: left;
     font-size: 0.95rem;
@@ -71,7 +71,7 @@ header, .block-container {
 
 .autores-cabecera {
     position: absolute;
-    top: 5.0rem;
+    top: 0.5rem;
     left: 2rem;
     font-size: 0.9rem;
     color: #555;
