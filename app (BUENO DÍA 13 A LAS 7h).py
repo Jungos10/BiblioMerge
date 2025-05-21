@@ -46,7 +46,7 @@ body {
 
 .recursos-cabecera {
     position: absolute;
-    top: 3.0rem;
+    top: 1.0rem;
     right: 15rem;
     text-align: left;
     font-size: 0.95rem;
