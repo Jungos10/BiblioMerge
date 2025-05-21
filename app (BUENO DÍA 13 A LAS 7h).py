@@ -66,7 +66,7 @@ header, .block-container {
 }
 
 .espaciador-cabecera {
-    height: 50px;
+    height: 30px;
 }
 
 .autores-cabecera {
@@ -82,7 +82,7 @@ header, .block-container {
     <div class="autores-cabecera">👤 Diez-Junguitu, D.<br>👤 Peña-Cerezo, M.A.</div>
     <div class="titulo-cabecera">📚 BiblioMerge</div>
     <div class="subtitulo-cabecera">
-        Tool for merging Scopus and WoS bibliographic data, compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy
+        Merges Scopus and WoS bibliographic data into formats compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy
     </div>
     <div class="recursos-cabecera">
         <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
