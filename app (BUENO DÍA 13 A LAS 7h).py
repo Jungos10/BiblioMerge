@@ -63,7 +63,7 @@ st.markdown("""
     </style>
 
     <div class="cabecera-sticky">
-        <div style="position: absolute; top: 0.5rem; left: 1rem; font-size: 0.9rem; color: #555;">
+        <div style="position: relative; top: 0.5rem; left: 1rem; font-size: 0.9rem; color: #555;">
             👤 Diez-Junguitu & Peña-Cerezo
         </div>
         <div class="titulo-cabecera">📚 BiblioMerge</div>
