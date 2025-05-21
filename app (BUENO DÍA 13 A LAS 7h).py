@@ -776,7 +776,7 @@ if not st.session_state.get("parte4_generada", False) and not st.session_state.g
                                             #st.success("✅ Authors debugging completed")
                                             #st.info(f"ℹ️ {reemplazos_authors} replacements applied in Authors")
                                             st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
-                                            st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos} replacements applied in Authors", "Authors"))
+                                            st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
                                     
                                     except Exception as e:
                                         st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
