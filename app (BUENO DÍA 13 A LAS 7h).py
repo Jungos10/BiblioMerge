@@ -19,7 +19,12 @@ html, body, .main {
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
+
+header, .block-container {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
 }
+
 .cabecera-sticky {
     position: fixed;
     top: 0;
