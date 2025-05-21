@@ -681,7 +681,215 @@ if (
 # if "depuracion_activada" not in st.session_state:
 #     st.session_state["depuracion_activada"] = False
 
-# -------------------- ESTADOS NECESARIOS PARA DEPURACIÓN --------------------
+# # -------------------- ESTADOS NECESARIOS PARA DEPURACIÓN --------------------
+# if "parte4_generada" not in st.session_state:
+#     st.session_state["parte4_generada"] = False
+# if "parte4_en_proceso" not in st.session_state:
+#     st.session_state["parte4_en_proceso"] = False
+# if "procesado" not in st.session_state:
+#     st.session_state["procesado"] = False
+# if "fusion_en_proceso" not in st.session_state:
+#     st.session_state["fusion_en_proceso"] = True
+# if "depuracion_realizada" not in st.session_state:
+#     st.session_state["depuracion_realizada"] = False
+# if "depuracion_activada" not in st.session_state:
+#     st.session_state["depuracion_activada"] = False
+# if "depuracion_mensajes" not in st.session_state:
+#     st.session_state["depuracion_mensajes"] = []  # Lista de tuplas: (tipo, mensaje, bloque)
+
+# # Mostrar solo si aún no se han generado los ficheros finales
+# #if not st.session_state["parte4_generada"]:
+# if not st.session_state.get("parte4_generada", False) and not st.session_state.get("parte4_en_proceso", False):
+
+#     with col1:
+#         st.markdown(
+#             """
+#             <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem;'>
+#                 🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
+#             </div>
+#             """,
+#             unsafe_allow_html=True
+#         )
+
+#     # Mostrar si ya se procesó y no está en medio de la fusión
+#     if st.session_state["procesado"] and not st.session_state["fusion_en_proceso"]:
+
+#         if st.session_state["depuracion_realizada"]:
+#             with col1:
+#                 st.success("🔍 Debugging completed! Check out the details in the Results & Downloads Panel")
+#                 st.info("👉 What's next? You can now 📦 generate the final files and summary report")
+#         else:
+#             with col1:
+#                 st.session_state["depuracion_activada"] = st.checkbox(
+#                     "🔍 Activate Debugging (Optional)",
+#                     value=st.session_state["depuracion_activada"]
+#                 )
+
+#                 if st.session_state["depuracion_activada"]:
+#                     st.markdown("Carga el archivo Excel con las tablas de conversión:")
+#                     depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
+
+#                     if depuracion_file:
+#                         if st.button("✅ Apply Debugging"):
+#                             try:
+#                                 import tempfile
+#                                 import pandas as pd
+
+#                                 with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+#                                     tmp.write(depuracion_file.read())
+#                                     tmp_path = tmp.name
+
+#                                 # Recuperar DataFrames
+#                                 df_final = st.session_state.get("df_final")
+#                                 autores = st.session_state.get("autores")
+#                                 df_author_keywords = st.session_state.get("df_author_keywords")
+#                                 df_index_keywords = st.session_state.get("df_index_keywords")
+#                                 df_references_info = st.session_state.get("df_references_info")
+
+#                                 with col2:
+
+                                
+#                                     # ---- DEPURACIÓN: Authors ----
+#                                     try:
+#                                         df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
+                
+#                                         if df_authors_table.empty:
+#                                             st.warning(f"❌ Authors debugging could not be applied because the sheet is empty")
+#                                         elif df_authors_table.loc[0, 'New Author'] == "0-change-0":
+#                                             st.warning(f"❌ Authors debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
+#                                         else:
+#                                             reemplazos_authors = 0
+#                                             for _, fila in df_authors_table.iterrows():
+#                                                 if fila["New Author"] != "0-change-0":
+#                                                     author = fila["Authors"]
+#                                                     new_author = fila["New Author"]
+#                                                     fila_encontrada = autores[autores["Authors"] == author]
+#                                                     if not fila_encontrada.empty:
+#                                                         indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+#                                                         posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+#                                                         for idx, pos in zip(indices, posiciones):
+#                                                             autores_actuales = df_final.at[idx, "Authors"].split(";")
+#                                                             if pos < len(autores_actuales):
+#                                                                 autores_actuales[pos] = new_author
+#                                                                 df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+#                                                                 reemplazos_authors += 1
+#                                             #st.success("✅ Authors debugging completed")
+#                                             #st.info(f"ℹ️ {reemplazos_authors} replacements applied in Authors")
+#                                             st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
+#                                             st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
+                                    
+#                                     except Exception as e:
+#                                         st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
+                    
+#                                     # ---- DEPURACIÓN: Author Keywords ----
+#                                     try:
+#                                         df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
+                
+#                                         if df_ak.empty:
+#                                             st.warning(f"❌ Author Keywords debugging could not be applied because the sheet is empty")
+#                                         elif df_ak.loc[0, 'New Keyword'] == "0-change-0":
+#                                             st.warning(f"❌ Author Keywords debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
+#                                         else:
+#                                             conteo_reemplazos_ak = 0
+#                                             for _, fila in df_ak.iterrows():
+#                                                 if fila["New Keyword"] != "0-change-0":
+#                                                     old_kw = fila["Author Keyword"]
+#                                                     new_kw = fila["New Keyword"]
+#                                                     fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
+#                                                     if not fila_encontrada.empty:
+#                                                         indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+#                                                         posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+#                                                         for idx, pos in zip(indices, posiciones):
+#                                                             kws = df_final.at[idx, "Author Keywords"].split(";")
+#                                                             if pos < len(kws):
+#                                                                 kws[pos] = new_kw
+#                                                                 df_final.at[idx, "Author Keywords"] = "; ".join(kws)
+#                                                                 conteo_reemplazos_ak += 1
+#                                             st.success("✅ Author Keywords debugging completed")
+#                                             st.info(f"ℹ️ {conteo_reemplazos_ak} replacements applied in Authors Keywords")
+                                            
+#                                     except Exception as e:
+#                                         st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
+                    
+#                                     # ---- DEPURACIÓN: Index Keywords ----
+#                                     try:
+#                                         df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
+                
+#                                         if df_ik.empty:
+#                                             st.warning(f"❌ Index Keywords debugging could not be applied because the sheet is empty")
+#                                         elif df_ik.loc[0, 'New Keyword'] == "0-change-0":
+#                                             st.warning(f"❌ Index Keywords debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
+#                                         else:
+#                                             conteo_reemplazos_ik = 0
+#                                             for _, fila in df_ik.iterrows():
+#                                                 if fila["New Keyword"] != "0-change-0":
+#                                                     old_kw = fila["Index Keywords"]
+#                                                     new_kw = fila["New Keyword"]
+#                                                     fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
+#                                                     if not fila_encontrada.empty:
+#                                                         indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+#                                                         posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+#                                                         for idx, pos in zip(indices, posiciones):
+#                                                             kws = df_final.at[idx, "Index Keywords"].split(";")
+#                                                             if pos < len(kws):
+#                                                                 kws[pos] = new_kw
+#                                                                 df_final.at[idx, "Index Keywords"] = "; ".join(kws)
+#                                                                 conteo_reemplazos_ik += 1
+#                                             st.success("✅ Index Keywords debugging completed")
+#                                             st.info(f"ℹ️ {conteo_reemplazos_ik} replacements applied in Index Keywords")
+                                            
+#                                     except Exception as e:
+#                                         st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
+                    
+#                                     # ---- DEPURACIÓN: References ----
+#                                     try:
+#                                         df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
+                
+#                                         if df_refs.empty:
+#                                             st.warning(f"❌ Cited References debugging could not be applied because the sheet is empty")
+#                                         elif df_refs.loc[0, 'New Reference'] == "0-change-0":
+#                                             st.warning(f"❌ Cited References debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
+#                                         else:
+#                                             conteo_reemplazos_refs = 0
+#                                             for _, fila in df_refs.iterrows():
+#                                                 old_ref = fila["References"]
+#                                                 new_ref = fila["New Reference"]
+                                            
+#                                                 # Aceptar tanto valores no nulos como NaN explícitamente (para borrar)
+#                                                 if new_ref != "0-change-0":
+#                                                     fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
+#                                                     if not fila_encontrada.empty:
+#                                                         indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+#                                                         posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+#                                                         for idx, pos in zip(indices, posiciones):
+#                                                             refs = df_final.at[idx, "References"].split(";")
+#                                                             if pos < len(refs):
+#                                                                 refs[pos] = "" if pd.isna(new_ref) else new_ref
+#                                                                 df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
+#                                                                 conteo_reemplazos_refs += 1
+#                                             st.success("✅ Cited References debugging completed")
+#                                             st.info(f"ℹ️ {conteo_reemplazos_refs} replacements applied in Cited References")
+                                            
+#                                     except Exception as e:
+#                                         st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
+                    
+#                                 # Guardar el nuevo df_final actualizado
+#                                 st.session_state["df_final"] = df_final
+#                                 st.session_state["depuracion_realizada"] = True
+
+#                                 st.rerun()
+                                
+                               
+#                                 with col1:
+#                                     st.success("🎉 Debugging completed! Check out the details in the Results & Downloads Panel")
+#                                     st.info("👉 What's next? You can now 📦 generate the final files and summary report")
+
+                                               
+#                             except Exception as e:
+#                                 with col1:
+#                                     st.error(f"❌ General error while processing debugging: {str(e)}")
+
+# Estados necesarios
 if "parte4_generada" not in st.session_state:
     st.session_state["parte4_generada"] = False
 if "parte4_en_proceso" not in st.session_state:
@@ -695,23 +903,18 @@ if "depuracion_realizada" not in st.session_state:
 if "depuracion_activada" not in st.session_state:
     st.session_state["depuracion_activada"] = False
 if "depuracion_mensajes" not in st.session_state:
-    st.session_state["depuracion_mensajes"] = []  # Lista de tuplas: (tipo, mensaje, bloque)
+    st.session_state["depuracion_mensajes"] = []
 
-# Mostrar solo si aún no se han generado los ficheros finales
-#if not st.session_state["parte4_generada"]:
-if not st.session_state.get("parte4_generada", False) and not st.session_state.get("parte4_en_proceso", False):
+# Mostrar bloque de depuracion si no se ha generado parte 4
+if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_proceso"]:
 
     with col1:
-        st.markdown(
-            """
-            <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem;'>
-                🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        st.markdown("""
+        <div style='font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem;'>
+            🧪 Debugging of Authors/Keywords/References <span style='color: grey;'>(Optional)</span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    # Mostrar si ya se procesó y no está en medio de la fusión
     if st.session_state["procesado"] and not st.session_state["fusion_en_proceso"]:
 
         if st.session_state["depuracion_realizada"]:
@@ -727,183 +930,82 @@ if not st.session_state.get("parte4_generada", False) and not st.session_state.g
 
                 if st.session_state["depuracion_activada"]:
                     st.markdown("Carga el archivo Excel con las tablas de conversión:")
-                    depuracion_file = st.file_uploader("📥 Debugging File", type=["xlsx"], key="uploader_depuracion")
+                    depuracion_file = st.file_uploader("📅 Debugging File", type=["xlsx"], key="uploader_depuracion")
 
                     if depuracion_file:
                         if st.button("✅ Apply Debugging"):
+                            import tempfile
+                            import pandas as pd
+
+                            with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+                                tmp.write(depuracion_file.read())
+                                tmp_path = tmp.name
+
+                            df_final = st.session_state.get("df_final")
+                            autores = st.session_state.get("autores")
+                            df_author_keywords = st.session_state.get("df_author_keywords")
+                            df_index_keywords = st.session_state.get("df_index_keywords")
+                            df_references_info = st.session_state.get("df_references_info")
+
                             try:
-                                import tempfile
-                                import pandas as pd
+                                # ---------- AUTHORS ----------
+                                try:
+                                    df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
+                                    if df_authors_table.empty:
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Authors debugging could not be applied because the sheet is empty", "Authors"))
+                                    elif df_authors_table.loc[0, 'New Author'] == "0-change-0":
+                                        st.session_state["depuracion_mensajes"].append(("warning", "❌ Authors debugging could not be applied because the conversion table in 'Authors' is not filled in", "Authors"))
+                                    else:
+                                        reemplazos_authors = 0
+                                        for _, fila in df_authors_table.iterrows():
+                                            if fila["New Author"] != "0-change-0":
+                                                author = fila["Authors"]
+                                                new_author = fila["New Author"]
+                                                fila_encontrada = autores[autores["Authors"] == author]
+                                                if not fila_encontrada.empty:
+                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
+                                                    for idx, pos in zip(indices, posiciones):
+                                                        autores_actuales = df_final.at[idx, "Authors"].split(";")
+                                                        if pos < len(autores_actuales):
+                                                            autores_actuales[pos] = new_author
+                                                            df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+                                                            reemplazos_authors += 1
+                                        st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
+                                        st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
+                                except Exception as e:
+                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Authors debugging: {str(e)}", "Authors"))
 
-                                with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
-                                    tmp.write(depuracion_file.read())
-                                    tmp_path = tmp.name
-
-                                # Recuperar DataFrames
-                                df_final = st.session_state.get("df_final")
-                                autores = st.session_state.get("autores")
-                                df_author_keywords = st.session_state.get("df_author_keywords")
-                                df_index_keywords = st.session_state.get("df_index_keywords")
-                                df_references_info = st.session_state.get("df_references_info")
-
-                                with col2:
-
-                                
-                                    # ---- DEPURACIÓN: Authors ----
-                                    try:
-                                        df_authors_table = pd.read_excel(tmp_path, sheet_name="Authors")
-                
-                                        if df_authors_table.empty:
-                                            st.warning(f"❌ Authors debugging could not be applied because the sheet is empty")
-                                        elif df_authors_table.loc[0, 'New Author'] == "0-change-0":
-                                            st.warning(f"❌ Authors debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
-                                        else:
-                                            reemplazos_authors = 0
-                                            for _, fila in df_authors_table.iterrows():
-                                                if fila["New Author"] != "0-change-0":
-                                                    author = fila["Authors"]
-                                                    new_author = fila["New Author"]
-                                                    fila_encontrada = autores[autores["Authors"] == author]
-                                                    if not fila_encontrada.empty:
-                                                        indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                                        posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                                        for idx, pos in zip(indices, posiciones):
-                                                            autores_actuales = df_final.at[idx, "Authors"].split(";")
-                                                            if pos < len(autores_actuales):
-                                                                autores_actuales[pos] = new_author
-                                                                df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
-                                                                reemplazos_authors += 1
-                                            #st.success("✅ Authors debugging completed")
-                                            #st.info(f"ℹ️ {reemplazos_authors} replacements applied in Authors")
-                                            st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
-                                            st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
-                                    
-                                    except Exception as e:
-                                        st.warning(f"No se pudo aplicar depuración en Authors: {str(e)}")
-                    
-                                    # ---- DEPURACIÓN: Author Keywords ----
-                                    try:
-                                        df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
-                
-                                        if df_ak.empty:
-                                            st.warning(f"❌ Author Keywords debugging could not be applied because the sheet is empty")
-                                        elif df_ak.loc[0, 'New Keyword'] == "0-change-0":
-                                            st.warning(f"❌ Author Keywords debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
-                                        else:
-                                            conteo_reemplazos_ak = 0
-                                            for _, fila in df_ak.iterrows():
-                                                if fila["New Keyword"] != "0-change-0":
-                                                    old_kw = fila["Author Keyword"]
-                                                    new_kw = fila["New Keyword"]
-                                                    fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
-                                                    if not fila_encontrada.empty:
-                                                        indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                                        posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                                        for idx, pos in zip(indices, posiciones):
-                                                            kws = df_final.at[idx, "Author Keywords"].split(";")
-                                                            if pos < len(kws):
-                                                                kws[pos] = new_kw
-                                                                df_final.at[idx, "Author Keywords"] = "; ".join(kws)
-                                                                conteo_reemplazos_ak += 1
-                                            st.success("✅ Author Keywords debugging completed")
-                                            st.info(f"ℹ️ {conteo_reemplazos_ak} replacements applied in Authors Keywords")
-                                            
-                                    except Exception as e:
-                                        st.warning(f"No se pudo aplicar depuración en Author Keywords: {str(e)}")
-                    
-                                    # ---- DEPURACIÓN: Index Keywords ----
-                                    try:
-                                        df_ik = pd.read_excel(tmp_path, sheet_name="Index Keywords")
-                
-                                        if df_ik.empty:
-                                            st.warning(f"❌ Index Keywords debugging could not be applied because the sheet is empty")
-                                        elif df_ik.loc[0, 'New Keyword'] == "0-change-0":
-                                            st.warning(f"❌ Index Keywords debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
-                                        else:
-                                            conteo_reemplazos_ik = 0
-                                            for _, fila in df_ik.iterrows():
-                                                if fila["New Keyword"] != "0-change-0":
-                                                    old_kw = fila["Index Keywords"]
-                                                    new_kw = fila["New Keyword"]
-                                                    fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
-                                                    if not fila_encontrada.empty:
-                                                        indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                                        posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                                        for idx, pos in zip(indices, posiciones):
-                                                            kws = df_final.at[idx, "Index Keywords"].split(";")
-                                                            if pos < len(kws):
-                                                                kws[pos] = new_kw
-                                                                df_final.at[idx, "Index Keywords"] = "; ".join(kws)
-                                                                conteo_reemplazos_ik += 1
-                                            st.success("✅ Index Keywords debugging completed")
-                                            st.info(f"ℹ️ {conteo_reemplazos_ik} replacements applied in Index Keywords")
-                                            
-                                    except Exception as e:
-                                        st.warning(f"No se pudo aplicar depuración en Index Keywords: {str(e)}")
-                    
-                                    # ---- DEPURACIÓN: References ----
-                                    try:
-                                        df_refs = pd.read_excel(tmp_path, sheet_name="Cited References")
-                
-                                        if df_refs.empty:
-                                            st.warning(f"❌ Cited References debugging could not be applied because the sheet is empty")
-                                        elif df_refs.loc[0, 'New Reference'] == "0-change-0":
-                                            st.warning(f"❌ Cited References debugging could not be applied because the conversion table in the 'Authors' sheet of the Excel file has not been filled in")
-                                        else:
-                                            conteo_reemplazos_refs = 0
-                                            for _, fila in df_refs.iterrows():
-                                                old_ref = fila["References"]
-                                                new_ref = fila["New Reference"]
-                                            
-                                                # Aceptar tanto valores no nulos como NaN explícitamente (para borrar)
-                                                if new_ref != "0-change-0":
-                                                    fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
-                                                    if not fila_encontrada.empty:
-                                                        indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
-                                                        posiciones = [int(p) for p in fila_encontrada["Posiciones"].iloc[0].split(';')]
-                                                        for idx, pos in zip(indices, posiciones):
-                                                            refs = df_final.at[idx, "References"].split(";")
-                                                            if pos < len(refs):
-                                                                refs[pos] = "" if pd.isna(new_ref) else new_ref
-                                                                df_final.at[idx, "References"] = "; ".join(ref.strip() for ref in refs)
-                                                                conteo_reemplazos_refs += 1
-                                            st.success("✅ Cited References debugging completed")
-                                            st.info(f"ℹ️ {conteo_reemplazos_refs} replacements applied in Cited References")
-                                            
-                                    except Exception as e:
-                                        st.warning(f"No se pudo aplicar depuración en Referencias: {str(e)}")
-                    
-                                # Guardar el nuevo df_final actualizado
                                 st.session_state["df_final"] = df_final
                                 st.session_state["depuracion_realizada"] = True
-
                                 st.rerun()
-                               
-                                
-                                with col1:
-                                    st.success("🎉 Debugging completed! Check out the details in the Results & Downloads Panel")
-                                    st.info("👉 What's next? You can now 📦 generate the final files and summary report")
 
-                                if st.session_state.get("depuracion_realizada", False):
-                                    with col2:
-                                        bloques_ya_mostrados = set()
-                                        for tipo, mensaje, bloque in st.session_state.get("depuracion_mensajes", []):
-                                            if bloque not in bloques_ya_mostrados:
-                                                st.markdown(f"**🧩 Debugging Block: {bloque}**")
-                                                bloques_ya_mostrados.add(bloque)
-                                
-                                            if tipo == "success":
-                                                st.success(mensaje)
-                                            elif tipo == "info":
-                                                st.info(mensaje)
-                                            elif tipo == "warning":
-                                                st.warning(mensaje)
-                                            elif tipo == "error":
-                                                st.error(mensaje)
-                
                             except Exception as e:
                                 with col1:
                                     st.error(f"❌ General error while processing debugging: {str(e)}")
+
+
+# -------------------- MOSTRAR RESULTADOS PERSISTENTES --------------------
+if st.session_state.get("depuracion_realizada", False):
+    with col2:
+        bloques_ya_mostrados = set()
+        for tipo, mensaje, bloque in st.session_state.get("depuracion_mensajes", []):
+            if bloque not in bloques_ya_mostrados:
+                st.markdown(f"**🧩 Debugging Block: {bloque}**")
+                bloques_ya_mostrados.add(bloque)
+
+            if tipo == "success":
+                st.success(mensaje)
+            elif tipo == "info":
+                st.info(mensaje)
+            elif tipo == "warning":
+                st.warning(mensaje)
+            elif tipo == "error":
+                st.error(mensaje)
+
+    with col1:
+        st.success("🎉 Debugging completed! Check out the details in the Results & Downloads Panel")
+        st.info("👉 What's next? You can now 📦 generate the final files and summary report")
                     
 
     
