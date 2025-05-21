@@ -726,6 +726,17 @@ if (
 
 #                         # Mostrar mensajes en col2
 #                         with col2:
+# Inicialización segura de variables clave
+if "parte4_generada" not in st.session_state:
+    st.session_state["parte4_generada"] = False
+if "procesado" not in st.session_state:
+    st.session_state["procesado"] = False
+if "fusion_en_proceso" not in st.session_state:
+    st.session_state["fusion_en_proceso"] = True
+if "depuracion_realizada" not in st.session_state:
+    st.session_state["depuracion_realizada"] = False
+if "depuracion_activada" not in st.session_state:
+    st.session_state["depuracion_activada"] = False
 
 # Mostrar solo si aún no se han generado los ficheros finales
 if not st.session_state["parte4_generada"]:
