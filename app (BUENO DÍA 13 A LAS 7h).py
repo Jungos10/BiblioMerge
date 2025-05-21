@@ -27,7 +27,7 @@ st.markdown("""
     }
 
     .titulo-cabecera {
-        font-size: 2.5rem;
+        font-size: 2.0rem;
         font-weight: bold;
         margin-bottom: 0.3rem;
         margin-left: 40rem; 
@@ -57,7 +57,7 @@ st.markdown("""
     }
 
     .espaciador-cabecera {
-        height: 70px;
+        height: 100px;
     }
     </style>
 
