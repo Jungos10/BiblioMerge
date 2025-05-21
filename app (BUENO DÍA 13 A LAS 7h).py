@@ -855,7 +855,7 @@ if not st.session_state.get("parte4_generada", False):
 
                        
                         
-                        with col2:
+                        with col1:
                             st.success("🎉 All debugging operations applied successfully")
         
                     except Exception as e:
