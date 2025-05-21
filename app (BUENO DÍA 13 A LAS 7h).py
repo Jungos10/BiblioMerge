@@ -134,7 +134,7 @@ st.markdown("""
 
 .autores-cabecera {
     position: absolute;
-    top: 2.5rem;
+    top: 4.5rem;
     left: 2rem;
     font-size: 0.9rem;
     color: #555;
