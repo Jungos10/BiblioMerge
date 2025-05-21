@@ -883,6 +883,23 @@ if not st.session_state.get("parte4_generada", False) and not st.session_state.g
                                 with col1:
                                     st.success("🎉 Debugging completed! Check out the details in the Results & Downloads Panel")
                                     st.info("👉 What's next? You can now 📦 generate the final files and summary report")
+
+                                if st.session_state.get("depuracion_realizada", False):
+                                    with col2:
+                                        bloques_ya_mostrados = set()
+                                        for tipo, mensaje, bloque in st.session_state.get("depuracion_mensajes", []):
+                                            if bloque not in bloques_ya_mostrados:
+                                                st.markdown(f"**🧩 Debugging Block: {bloque}**")
+                                                bloques_ya_mostrados.add(bloque)
+                                
+                                            if tipo == "success":
+                                                st.success(mensaje)
+                                            elif tipo == "info":
+                                                st.info(mensaje)
+                                            elif tipo == "warning":
+                                                st.warning(mensaje)
+                                            elif tipo == "error":
+                                                st.error(mensaje)
                 
                             except Exception as e:
                                 with col1:
