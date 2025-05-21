@@ -27,7 +27,7 @@ st.markdown("""
     }
 
     .titulo-cabecera {
-        font-size: 1.6rem;
+        font-size: 2.5rem;
         font-weight: bold;
         margin-bottom: 0.3rem;
         margin-left: 40rem; 
