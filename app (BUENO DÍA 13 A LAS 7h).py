@@ -65,7 +65,7 @@ body {
 
 .autores-cabecera {
     position: absolute;
-    top: 4.5rem;
+    top: 1.5rem;
     left: 2rem;
     font-size: 0.9rem;
     color: #555;
