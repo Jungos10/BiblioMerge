@@ -911,6 +911,7 @@ if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_ge
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
                     st.session_state["parte4_en_proceso"] = True
+                    st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
                     st.rerun()
 
 # 🔹 FASE 2 – Ejecutar generación una vez
