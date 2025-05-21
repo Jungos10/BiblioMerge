@@ -15,6 +15,10 @@ st.set_page_config(page_title="BiblioMerge", layout="wide")
 
 st.markdown("""
 <style>
+body {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
 .cabecera-sticky {
     position: fixed;
     top: 0;
