@@ -682,7 +682,8 @@ if "depuracion_activada" not in st.session_state:
     st.session_state["depuracion_activada"] = False
 
 # Mostrar solo si aún no se han generado los ficheros finales
-if not st.session_state["parte4_generada"]:
+#if not st.session_state["parte4_generada"]:
+if not st.session_state.get("parte4_generada", False) and not st.session_state.get("parte4_en_proceso", False):
 
     with col1:
         st.markdown(
