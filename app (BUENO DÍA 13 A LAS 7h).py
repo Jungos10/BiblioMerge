@@ -95,7 +95,7 @@ st.markdown("""
     background-color: white;
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 3.5rem 2rem 0.8rem 2rem;
+    padding: 1.5rem 2rem 0.8rem 2rem;
     font-family: sans-serif;
     position: relative;
 }
