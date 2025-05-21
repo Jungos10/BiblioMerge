@@ -974,6 +974,10 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                         st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
                                         st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
 
+                                 except Exception as e:
+                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Authors debugging: {str(e)}", "Authors"))
+
+
                                 # ---------- AUTHOR KEYWORDS ----------
                                 try:
                                     df_ak = pd.read_excel(tmp_path, sheet_name="Author Keywords")
@@ -999,9 +1003,10 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                                             conteo_reemplazos_ak += 1
                                         st.session_state["depuracion_mensajes"].append(("success", "✅ Author Keywords debugging completed", "Author Keywords"))
                                         st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {conteo_reemplazos_ak} replacements applied in Author Keywords", "Author Keywords"))
-                                except Exception as e:
-                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Author Keywords debugging: {str(e)}", "Author Keywords"))
 
+                                except Exception as e:
+                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Authors debugging: {str(e)}", "Authors"))
+                                
 
                                                                 # ---------- INDEX KEYWORDS ----------
                                 try:
@@ -1060,9 +1065,7 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                     st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Cited References debugging: {str(e)}", "Cited References"))
 
                                 
-                                except Exception as e:
-                                    st.session_state["depuracion_mensajes"].append(("error", f"❌ Error in Authors debugging: {str(e)}", "Authors"))
-
+                               
                                 st.session_state["df_final"] = df_final
                                 st.session_state["depuracion_realizada"] = True
                                 st.rerun()
