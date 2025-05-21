@@ -1119,6 +1119,9 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
 
                     if depuracion_file:
                         if st.button("✅ Apply Debugging"):
+                            # Limpiar mensajes anteriores antes de comenzar nueva depuración
+                            st.session_state["depuracion_mensajes"] = []
+
                             import tempfile
                             import pandas as pd
 
