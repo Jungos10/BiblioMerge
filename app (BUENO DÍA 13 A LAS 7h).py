@@ -938,6 +938,7 @@ habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.sessio
 if (
     not st.session_state.get("parte4_en_proceso", False)
     and not st.session_state.get("parte4_generada", False)
+    and not st.session_state.get("parte4_mostrado", False)
 ):
     if not st.session_state.get("parte4_generada", False):  # ✅ Evita mostrar título si ya está generado
         with col1:
