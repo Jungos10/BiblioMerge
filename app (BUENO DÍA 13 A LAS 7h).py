@@ -941,9 +941,10 @@ if (
     and not st.session_state.get("parte4_generada", False)
     and not st.session_state.get("parte4_mostrado", False)
 ):
-    st.session_state["parte4_mostrado"] = True  # ⛔ Evita que se dibuje otra vez tras rerun
+      
 
     if habilitar_parte4:
+        st.session_state["parte4_mostrado"] = True
         with col1:
             st.markdown(
                 """
