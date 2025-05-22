@@ -932,6 +932,12 @@ habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.sessio
 #                     st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
 #                     st.rerun()
 
+st.write("ESTADO DEBUG:", {
+    "parte4_en_proceso": st.session_state.get("parte4_en_proceso"),
+    "parte4_generada": st.session_state.get("parte4_generada"),
+    "df_final": "✅" if "df_final" in st.session_state else "❌",
+})
+
 # Inicialización de control visual
 if "parte4_mostrado" not in st.session_state:
     st.session_state["parte4_mostrado"] = False
@@ -969,6 +975,8 @@ if (
 # 🔹 FASE 2 – Ejecutar generación una vez
 if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
     df_final = st.session_state.get("df_final")
+
+    st.success("ENTRANDO EN FASE 2 ✅")
 
     # Generar Excel
     output_excel = io.BytesIO()
