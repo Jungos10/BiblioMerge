@@ -910,28 +910,61 @@ if "parte4_en_proceso" not in st.session_state:
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-#🔹 FASE 1 – Mostrar bloque de botón SOLO si aún no se ha pulsado
-if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
-    with col1:
-        st.markdown(
-            """
-            <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
-                📁 Generation of Final Files and Summary Reports
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+# #🔹 FASE 1 – Mostrar bloque de botón SOLO si aún no se ha pulsado
+# if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
+#     with col1:
+#         st.markdown(
+#             """
+#             <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
+#                 📁 Generation of Final Files and Summary Reports
+#             </div>
+#             """,
+#             unsafe_allow_html=True
+#         )
 
-        if habilitar_parte4:
+#         if habilitar_parte4:
+#             st.markdown("You can now generate the final files based on merged and/or cleaned data.")
+
+#             col_btn_final, _ = st.columns([1, 1])
+#             with col_btn_final:
+#                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+#                     st.session_state["parte4_en_proceso"] = True
+#                     st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
+#                     st.rerun()
+
+# Inicialización de control visual
+if "parte4_mostrado" not in st.session_state:
+    st.session_state["parte4_mostrado"] = False
+
+# Mostrar siempre el título (📁), en col1
+with col1:
+    st.markdown(
+        """
+        <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
+            📁 Generation of Final Files and Summary Reports
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Solo mostrar el botón si aún no se ha generado ni está en proceso ni se ha mostrado
+if (
+    not st.session_state["parte4_generada"]
+    and not st.session_state["parte4_en_proceso"]
+    and not st.session_state["parte4_mostrado"]
+):
+    if st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False):
+        st.session_state["parte4_mostrado"] = True  # 🔒 evita que se muestre de nuevo tras rerun
+
+        with col1:
             st.markdown("You can now generate the final files based on merged and/or cleaned data.")
 
             col_btn_final, _ = st.columns([1, 1])
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
                     st.session_state["parte4_en_proceso"] = True
-                    st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
+                    st.session_state["depuracion_mensajes"] = []
                     st.rerun()
-
 
 # 🔹 FASE 2 – Ejecutar generación una vez
 if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
