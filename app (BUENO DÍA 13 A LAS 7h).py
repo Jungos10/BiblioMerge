@@ -910,7 +910,7 @@ if "parte4_en_proceso" not in st.session_state:
 
 habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-🔹 FASE 1 – Mostrar bloque de botón SOLO si aún no se ha pulsado
+#🔹 FASE 1 – Mostrar bloque de botón SOLO si aún no se ha pulsado
 if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
     with col1:
         st.markdown(
