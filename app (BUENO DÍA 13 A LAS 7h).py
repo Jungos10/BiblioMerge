@@ -935,12 +935,15 @@ habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.sessio
 #                     st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
 #                     st.rerun()
 
+# 🔹 FASE 1 – Mostrar bloque de botón SOLO si aún no se ha pulsado
 if (
     not st.session_state.get("parte4_en_proceso", False)
     and not st.session_state.get("parte4_generada", False)
     and not st.session_state.get("parte4_mostrado", False)
 ):
-    if not st.session_state.get("parte4_generada", False):  # ✅ Evita mostrar título si ya está generado
+    st.session_state["parte4_mostrado"] = True  # ⛔ Evita que se dibuje otra vez tras rerun
+
+    if habilitar_parte4:
         with col1:
             st.markdown(
                 """
@@ -950,17 +953,15 @@ if (
                 """,
                 unsafe_allow_html=True
             )
-
-    if habilitar_parte4:
-        with col1:
             st.markdown("You can now generate the final files based on merged and/or cleaned data.")
 
             col_btn_final, _ = st.columns([1, 1])
             with col_btn_final:
                 if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
                     st.session_state["parte4_en_proceso"] = True
-                    st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
+                    st.session_state["depuracion_mensajes"] = []
                     st.rerun()
+
 
 # 🔹 FASE 2 – Ejecutar generación una vez
 if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
