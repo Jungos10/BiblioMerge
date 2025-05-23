@@ -926,11 +926,11 @@ with col1:
     parte4_en_proceso = st.session_state.get("parte4_en_proceso", False)
     parte4_generada = st.session_state.get("parte4_generada", False)
 
-    # Mostrar siempre el título y la sección
+    # Mostrar siempre el título
     with placeholder_parte4.container():
         st.markdown(
             """
-            <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
+            <div style='font-size: 1.5rem; font-weight: 600; margin-top: 2rem;'>
                 📁 Generation of Final Files and Summary Reports
             </div>
             """,
@@ -1091,9 +1091,8 @@ with col1:
                     st.rerun()
 
         else:
-            st.info("⚠️ You must first complete the merge or debugging steps before generating final files.")
-            st.button("📦 Generate Final Files", key="btn_generar_finales_disabled", use_container_width=True, disabled=True)
-
+            # No mostrar botón ni mensaje en pantalla inicial
+            pass
 
 
 # # 🔹 FASE 3 – Mostrar mensajes cuando la generación ha terminado
