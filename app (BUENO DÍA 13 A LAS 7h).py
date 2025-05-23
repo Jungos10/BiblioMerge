@@ -1040,7 +1040,7 @@ if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_genera
 if st.session_state["parte4_generada"]:
     with col1:
         st.markdown(
-            "<div style='font-size: 3rem; text-align: center; margin-top: 1rem; margin-bottom: 1rem;'>🎯</div>",
+            "<div style='font-size: 3rem; text-align: center; margin-top: 1rem; margin-bottom: 1rem;'>🔚</div>",
             unsafe_allow_html=True
         )
         st.success("✅ Final files have been successfully generated.")
