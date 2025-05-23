@@ -920,27 +920,55 @@ habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.sessio
 
 #🔹 FASE 1 – Mostrar bloque de botón SOLO si aún no se ha pulsado
 if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
+    # with col1:
+    #     st.markdown(
+    #         """
+    #         <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
+    #             📁 Generation of Final Files and Summary Reports
+    #         </div>
+    #         """,
+    #         unsafe_allow_html=True
+    #     )
+
+    #     if habilitar_parte4:
+    #         st.markdown("You can now generate the final files based on merged and/or cleaned data.")
+
+    #         col_btn_final, _ = st.columns([1, 1])
+    #         with col_btn_final:
+    #             if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+    #                 st.session_state["parte4_en_proceso"] = True
+    #                 st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
+    #                 st.rerun()
+
+
     with col1:
-        st.markdown(
-            """
-            <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
-                📁 Generation of Final Files and Summary Reports
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        placeholder_parte4 = st.empty()  # Crea el espacio reservado para toda la sección
+    
+        # Solo muestra el bloque si corresponde
+        habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
+    
+        if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
+            with placeholder_parte4.container():
+                st.markdown(
+                    """
+                    <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
+                        📁 Generation of Final Files and Summary Reports
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+                if habilitar_parte4:
+                    st.markdown("You can now generate the final files based on merged and/or cleaned data.")
+                    col_btn_final, _ = st.columns([1, 1])
+                    with col_btn_final:
+                        if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
+                            st.session_state["parte4_en_proceso"] = True
+                            st.session_state["depuracion_mensajes"] = []
+                            st.rerun()
 
-        if habilitar_parte4:
-            st.markdown("You can now generate the final files based on merged and/or cleaned data.")
-
-            col_btn_final, _ = st.columns([1, 1])
-            with col_btn_final:
-                if st.button("📦 Generate Final Files", key="btn_generar_finales", use_container_width=True):
-                    st.session_state["parte4_en_proceso"] = True
-                    st.session_state["depuracion_mensajes"] = []  # 💥 Esto limpia los mensajes
-                    st.rerun()
-
-
+        elif st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
+                with placeholder_parte4:
+                    with st.spinner("Generating final files..."):
 
 # 🔹 FASE 2 – Ejecutar generación una vez
 if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
@@ -1044,15 +1072,19 @@ if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_genera
     st.session_state["parte4_en_proceso"] = False
     st.rerun()
 
-# 🔹 FASE 3 – Mostrar mensajes cuando la generación ha terminado
-if st.session_state["parte4_generada"]:
-    with col1:
-        st.markdown(
-            "<div style='font-size: 4rem; text-align: center; margin-top: 1rem; margin-bottom: 1rem;'>🔚</div>",
-            unsafe_allow_html=True
-        )
-        st.success("✅ Final files have been successfully generated.")
-        st.info("🔁 Use 'Reset All' to start a new process.")
+elif st.session_state["parte4_generada"]:
+        with placeholder_parte4.container():
+            st.success("✅ Final files generated successfully.")
+
+# # 🔹 FASE 3 – Mostrar mensajes cuando la generación ha terminado
+# if st.session_state["parte4_generada"]:
+#     with col1:
+#         st.markdown(
+#             "<div style='font-size: 4rem; text-align: center; margin-top: 1rem; margin-bottom: 1rem;'>🔚</div>",
+#             unsafe_allow_html=True
+#         )
+#         st.success("✅ Final files have been successfully generated.")
+#         st.info("🔁 Use 'Reset All' to start a new process.")
     
 
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
