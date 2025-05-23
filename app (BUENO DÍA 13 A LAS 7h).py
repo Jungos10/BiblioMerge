@@ -616,6 +616,10 @@ if st.session_state.get("fusion_en_proceso", False):
         #mensaje_proceso.empty()
         elapsed_time = int(time.time() - st.session_state["start_time"])
         with col1:
+            st.markdown(
+                "<div style='font-size: 3rem; text-align: center; margin: 1rem 0;'>✔️</div>",
+                unsafe_allow_html=True
+            )
             st.success(f"✅ Preliminary merge completed successfully in {elapsed_time} seconds")
             st.info("👉 What’s next? 🧪 Perform the debugging process using an external file, or 📦 generate the final files and report")
 
@@ -720,6 +724,10 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
 
         if st.session_state["depuracion_realizada"]:
             with col1:
+                st.markdown(
+                    "<div style='font-size: 3rem; text-align: center; margin: 1rem 0;'>✔️</div>",
+                    unsafe_allow_html=True
+                )
                 st.success("🔍 Debugging completed! Check out the details in the Results & Downloads Panel")
                 st.info("👉 What's next? You can now 📦 generate the final files and summary report")
         else:
@@ -1040,7 +1048,7 @@ if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_genera
 if st.session_state["parte4_generada"]:
     with col1:
         st.markdown(
-            "<div style='font-size: 3rem; text-align: center; margin-top: 1rem; margin-bottom: 1rem;'>🔚</div>",
+            "<div style='font-size: 4rem; text-align: center; margin-top: 1rem; margin-bottom: 1rem;'>🔚</div>",
             unsafe_allow_html=True
         )
         st.success("✅ Final files have been successfully generated.")
