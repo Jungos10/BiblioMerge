@@ -1073,22 +1073,29 @@ if "parte4_en_proceso" not in st.session_state:
 #     elif st.session_state["parte4_generada"]:
 #             with placeholder_parte4.container():
 #                 st.success("✅ Final files generated successfully.")
+
 with col1:
     placeholder_parte4 = st.empty()
-    habilitar_parte4 = st.session_state.get("fusion_completada", False) or st.session_state.get("depuracion_realizada", False)
 
-    # FASE 1: Mostrar botón si aún no se ha pulsado
-    if not st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
-        with placeholder_parte4.container():
-            st.markdown(
-                """
-                <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
-                    📁 Generation of Final Files and Summary Reports
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-            if habilitar_parte4:
+    fusion_completada = st.session_state.get("fusion_completada", False)
+    depuracion_realizada = st.session_state.get("depuracion_realizada", False)
+    parte4_en_proceso = st.session_state.get("parte4_en_proceso", False)
+    parte4_generada = st.session_state.get("parte4_generada", False)
+
+    # Control unificado para mostrar la sección solo una vez
+    mostrar_generacion = (fusion_completada and not depuracion_realizada) or depuracion_realizada
+
+    if mostrar_generacion:
+        if not parte4_en_proceso and not parte4_generada:
+            with placeholder_parte4.container():
+                st.markdown(
+                    """
+                    <div style='font-size: 1.75rem; font-weight: 600; margin-top: 2rem;'>
+                        📁 Generation of Final Files and Summary Reports
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
                 st.markdown("You can now generate the final files based on merged and/or cleaned data.")
                 col_btn_final, _ = st.columns([1, 1])
                 with col_btn_final:
@@ -1097,12 +1104,12 @@ with col1:
                         st.session_state["depuracion_mensajes"] = []
                         st.rerun()
 
-    # FASE 2: Procesamiento pesado y spinner
-    elif st.session_state["parte4_en_proceso"] and not st.session_state["parte4_generada"]:
-        with placeholder_parte4:
-            with st.spinner("Generating final files..."):
-                df_final = st.session_state.get("df_final")
-                if df_final is not None and not df_final.empty:
+        elif parte4_en_proceso and not parte4_generada:
+            with placeholder_parte4:
+                with st.spinner("Generating final files..."):
+                    df_final = st.session_state.get("df_final")
+                    if df_final is not None and not df_final.empty:
+                        
                     # --- Generar Excel ---
                     output_excel = io.BytesIO()
                     df_final.to_excel(output_excel, index=False)
