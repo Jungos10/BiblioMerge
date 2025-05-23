@@ -1039,6 +1039,10 @@ if st.session_state["parte4_en_proceso"] and not st.session_state["parte4_genera
 # 🔹 FASE 3 – Mostrar mensajes cuando la generación ha terminado
 if st.session_state["parte4_generada"]:
     with col1:
+        st.markdown(
+            "<div style='font-size: 3rem; text-align: center; margin-top: 1rem; margin-bottom: 1rem;'>🎯</div>",
+            unsafe_allow_html=True
+        )
         st.success("✅ Final files have been successfully generated.")
         st.info("🔁 Use 'Reset All' to start a new process.")
     
