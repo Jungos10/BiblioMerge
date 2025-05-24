@@ -1173,7 +1173,7 @@ with col2:
                 .str.strip()
             )
 
-            # num_autores = autores_limpios.nunique()
+            num_autores = autores_limpios.nunique()
 
             num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
             num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
