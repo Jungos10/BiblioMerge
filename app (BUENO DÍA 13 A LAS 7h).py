@@ -1175,9 +1175,39 @@ with col2:
 
             num_autores = autores_limpios.nunique()
 
-            num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
-            num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
-            num_references = len(set(";".join(df_final["References"].dropna()).split(";")))
+            # 🔍 Limpieza y conteo exacto de Author Keywords
+            author_keywords_limpios = (
+                df_final["Author Keywords"]
+                .dropna()
+                .str.split(";")
+                .explode()
+                .str.strip()
+            )
+            num_author_keywords = author_keywords_limpios.nunique()
+            
+            # 🔍 Limpieza y conteo exacto de Index Keywords
+            index_keywords_limpios = (
+                df_final["Index Keywords"]
+                .dropna()
+                .str.split(";")
+                .explode()
+                .str.strip()
+            )
+            num_index_keywords = index_keywords_limpios.nunique()
+            
+            # 🔍 Limpieza y conteo exacto de Referencias citadas
+            references_limpias = (
+                df_final["References"]
+                .dropna()
+                .str.split(";")
+                .explode()
+                .str.strip()
+            )
+            num_references = references_limpias.nunique()
+
+            # num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
+            # num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
+            # num_references = len(set(";".join(df_final["References"].dropna()).split(";")))
             
             st.write(f"**👤 Authors:** {num_autores}")
             st.write(f"**🔑 Author Keywords:** {num_author_keywords}")
