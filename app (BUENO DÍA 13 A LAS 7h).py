@@ -53,7 +53,7 @@ header, .block-container {
 .recursos-cabecera {
     position: absolute;
     top: 4.0rem;
-    right: 10rem;
+    right: 5rem;
     text-align: left;
     font-size: 0.95rem;
 }
