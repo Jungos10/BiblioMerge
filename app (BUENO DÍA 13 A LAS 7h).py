@@ -748,15 +748,8 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                     if depuracion_file:
                         if st.button("✅ Apply Debugging"):
                             # Limpiar mensajes anteriores antes de comenzar nueva depuración
-                            #st.session_state["depuracion_mensajes"] = []
+                            st.session_state["depuracion_mensajes"] = []
 
-                            st.session_state["depuracion_en_proceso"] = True
-                            st.session_state["depuracion_activada"] = False  # Oculta checkbox tras clic
-                            st.rerun()
-
-                        if st.session_state.get("depuracion_en_proceso"):
-                            st.session_state["depuracion_en_proceso"] = False  # Reset del trigger
-                        
                             st.markdown("⏳ Applying debugging...")
                             
                             import tempfile
