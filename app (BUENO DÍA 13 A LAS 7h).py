@@ -435,9 +435,9 @@ if st.session_state.get("fusion_en_proceso", False):
         autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
         autores['New Author'] = '0-change-0'
 
-        # 🧾 Contar autores únicos en Parte 2 (después de aplicar reglas de unificación)
-        num_autores_parte2 = autores['Authors'].nunique()
-        st.session_state["num_autores_parte2"] = num_autores_parte2
+        # # 🧾 Contar autores únicos en Parte 2 (después de aplicar reglas de unificación)
+        # num_autores_parte2 = autores['Authors'].nunique()
+        # st.session_state["num_autores_parte2"] = num_autores_parte2
 
     
     
@@ -657,9 +657,9 @@ if (
         #st.write(f"**Duplicados sin DOI:** {st.session_state.get('num_duplicados_sin_doi', 0)}")
         st.write(f"**Final Records:** {st.session_state.get('num_df_final', 0)}")
 
-        # Mostrar en el informe de depuración
-        st.markdown("### 🔍 Author Summary (Part 2)")
-        st.write(f"**👥 Unique authors identified after disambiguation:** {num_autores_parte2}")
+        # # Mostrar en el informe de depuración
+        # st.markdown("### 🔍 Author Summary (Part 2)")
+        # st.write(f"**👥 Unique authors identified after disambiguation:** {num_autores_parte2}")
 
         # Mostrar histogramas desde session_state
         def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
