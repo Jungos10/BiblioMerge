@@ -1163,17 +1163,17 @@ with col2:
             st.write(f"**Registros finales:** {df_final.shape[0]}")
         
             # Contar elementos únicos en cada campo
-            #num_autores = len(set(";".join(df_final["Authors"].dropna()).split(";")))
+            num_autores = len(set(";".join(df_final["Authors"].dropna()).split(";")))
 
-            autores_limpios = (
-                df_final["Authors"]
-                .dropna()
-                .str.split(";")
-                .explode()
-                .str.strip()
-            )
+            # autores_limpios = (
+            #     df_final["Authors"]
+            #     .dropna()
+            #     .str.split(";")
+            #     .explode()
+            #     .str.strip()
+            # )
 
-            num_autores = autores_limpios.nunique()
+            # num_autores = autores_limpios.nunique()
 
             num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
             num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
