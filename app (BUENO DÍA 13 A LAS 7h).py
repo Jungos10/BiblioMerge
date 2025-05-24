@@ -654,12 +654,7 @@ if (
         st.write(f"**Scopus Records:** {st.session_state.get('num_dfsco', 0)}")
         st.write(f"**WoS Records:** {st.session_state.get('num_dfwos', 0)}")
         st.write(f"**Removed Duplicates:** {st.session_state.get('num_duplicados_final', 0)}")
-        #st.write(f"**Duplicados sin DOI:** {st.session_state.get('num_duplicados_sin_doi', 0)}")
         st.write(f"**Final Records:** {st.session_state.get('num_df_final', 0)}")
-
-        # # Mostrar en el informe de depuración
-        # st.markdown("### 🔍 Author Summary (Part 2)")
-        # st.write(f"**👥 Unique authors identified after disambiguation:** {num_autores_parte2}")
 
         # Mostrar histogramas desde session_state
         def mostrar_histograma_top(lista_datos, titulo, xlabel, ylabel):
@@ -753,13 +748,7 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                     if depuracion_file:
                         if st.button("✅ Apply Debugging"):
                             # Limpiar mensajes anteriores antes de comenzar nueva depuración
-                            #st.session_state["depuracion_mensajes"] = []
-
-                            # 🔐 Marcar inmediatamente que ya se activó depuración
-                            st.session_state["depuracion_realizada"] = True
                             st.session_state["depuracion_mensajes"] = []
-                            st.rerun()  # 🔄 Redibujar UI para ocultar el checkbox y uploader
-
 
                             import tempfile
                             import pandas as pd
@@ -1169,8 +1158,7 @@ with col2:
             st.write(f"**Registros finales:** {df_final.shape[0]}")
         
             # Contar elementos únicos en cada campo
-            #num_autores = len(set(";".join(df_final["Authors"].dropna()).split(";")))
-
+           
             autores_limpios = (
                 df_final["Authors"]
                 .dropna()
@@ -1210,10 +1198,6 @@ with col2:
                 .str.strip()
             )
             num_references = references_limpias.nunique()
-
-            # num_author_keywords = len(set(";".join(df_final["Author Keywords"].dropna()).split(";")))
-            # num_index_keywords = len(set(";".join(df_final["Index Keywords"].dropna()).split(";")))
-            # num_references = len(set(";".join(df_final["References"].dropna()).split(";")))
             
             st.write(f"**👤 Authors:** {num_autores}")
             st.write(f"**🔑 Author Keywords:** {num_author_keywords}")
