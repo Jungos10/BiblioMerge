@@ -1120,14 +1120,14 @@ with col2:
             # Fila 4
             col1, col2, col3 = st.columns([1.5, 1.5, 2])
             with col1:
-                st.download_button("📥 TXT completo", st.session_state["parte4_txt_bytes"], "Final Scopus+WOS.txt", key="dl_txt")
+                st.download_button("📥 Full TXT", st.session_state["parte4_txt_bytes"], "Final Scopus+WOS.txt", key="dl_txt")
             with col2: st.markdown('<div class="striped">WoS</div>', unsafe_allow_html=True)
             with col3: st.markdown('<div class="striped">SciMAT</div>', unsafe_allow_html=True)
     
             # Fila 5
             col1, col2, col3 = st.columns([1.5, 1.5, 2])
             with col1:
-                st.download_button("📥 TXT por lotes (ZIP)", st.session_state["parte4_zip_bytes"], "Final Scopus+WOS_lotes.zip", key="dl_zip")
+                st.download_button("📥 Batch TXT (ZIP)", st.session_state["parte4_zip_bytes"], "Final Scopus+WOS_lotes.zip", key="dl_zip")
             with col2: st.markdown('<div class="normal">WoS (500 records per file)</div>', unsafe_allow_html=True)
             with col3: st.markdown('<div class="normal">BibExcel</div>', unsafe_allow_html=True)
                 
@@ -1157,7 +1157,7 @@ with col2:
                 st.pyplot(fig)
         
             st.markdown("### 📊 Final Summary Report")
-            st.write(f"**Registros finales:** {df_final.shape[0]}")
+            st.write(f"**Final Records:** {df_final.shape[0]}")
         
             # Contar elementos únicos en cada campo
            
