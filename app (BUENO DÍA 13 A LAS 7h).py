@@ -86,8 +86,8 @@ header, .block-container {
     </div>
     <div class="recursos-cabecera">
         <a href="https://drive.google.com/file/d/14fs-k1rZwg-cs9La7scHAsq8bTejab9J/view?usp=sharing" target="_blank">📘 User Guide</a>
-        <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
-        <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
+        <a href="https://drive.google.com/file/d/1IiwnztCM6smdVu6_GSV36R0SdMXGmR5x/view?usp=sharing" target="_blank">🎬 Video demo</a>
+        <a href="https://drive.google.com/drive/folders/1g3nKWgMOz_s6ccvkY8h4PboDyj3JKZEc?usp=sharing" target="_blank">📁 Training Files</a>
     </div>
 </div>
 
