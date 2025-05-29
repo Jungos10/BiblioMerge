@@ -85,7 +85,7 @@ header, .block-container {
         Merges Scopus and WoS bibliographic data into formats compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy
     </div>
     <div class="recursos-cabecera">
-        <a href="https://example.com/guia.pdf" target="_blank">📘 User Guide</a>
+        <a href="https://drive.google.com/file/d/14fs-k1rZwg-cs9La7scHAsq8bTejab9J/view?usp=sharing" target="_blank">📘 User Guide</a>
         <a href="https://youtube.com" target="_blank">🎬 Video demo</a>
         <a href="https://example.com/pruebas.zip" target="_blank">📁 Training Files</a>
     </div>
