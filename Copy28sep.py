@@ -683,7 +683,7 @@ if (
             st.session_state["top_authkw"],
             "Top 25 Author Keywords",
             "Author Keywords",
-            "Frecuencia"
+            "Frecuency"
         )
     
         st.subheader("🔍 Top 25 Index Keywords")
@@ -691,7 +691,7 @@ if (
             st.session_state["top_indexkw"],
             "Top 25 Index Keywords",
             "Index Keywords",
-            "Frecuencia"
+            "Frecuency"
         )
 
 
