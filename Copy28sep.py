@@ -742,7 +742,7 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                 )
 
                 if st.session_state["depuracion_activada"]:
-                    st.markdown("Carga el archivo Excel con las tablas de conversión:")
+                    st.markdown("Upload the Excel file with the conversion tables:")
                     depuracion_file = st.file_uploader("📅 Debugging File", type=["xlsx"], key="uploader_depuracion")
 
                     if depuracion_file:
