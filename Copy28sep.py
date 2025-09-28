@@ -389,8 +389,8 @@ if st.session_state.get("fusion_en_proceso", False):
                     'Author(s) ID': codigo,
                     'Authors': data_codigos['autor'],
                     'Author full names': data_codigos['nombre_largo'],
-                    'Indices': reg_str,
-                    'Posiciones': pos_str,
+                    'Indexes': reg_str,
+                    'Positions': pos_str,
                     'Articles': data_codigos['articles']
                 })
     
@@ -399,8 +399,8 @@ if st.session_state.get("fusion_en_proceso", False):
         def realizar_reemplazos(df, df_conversion):
             total_reemplazos = 0
             for _, row in df_conversion.iterrows():
-                registros = [int(reg) for reg in row['Indices'].split(';')]
-                posiciones = [int(pos) for pos in row['Posiciones'].split(';')]
+                registros = [int(reg) for reg in row['Indexes'].split(';')]
+                posiciones = [int(pos) for pos in row['Positions'].split(';')]
                 nuevo_autor = row['Authors']
     
                 for registro, posicion in zip(registros, posiciones):
@@ -416,21 +416,21 @@ if st.session_state.get("fusion_en_proceso", False):
         df_concatenated_sin_duplicados, total_reemplazos = realizar_reemplazos(df_concatenated_sin_duplicados, df_conversion)
     
         df_autores_sin_cod = df_concatenated_sin_duplicados[df_concatenated_sin_duplicados['Author(s) ID'].apply(lambda x: str(x).strip()) == ''].copy()
-        df_autores_sin_cod['Indices'] = df_autores_sin_cod.index
+        df_autores_sin_cod['Indexes'] = df_autores_sin_cod.index
     
         df_autores_sin_cod = df_autores_sin_cod.assign(Authors=df_autores_sin_cod['Authors'].str.split(';'),
                                                        Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
         df_autores_sin_cod = df_autores_sin_cod.explode(['Authors', 'Author_full_names'])
         df_autores_sin_cod['Authors'] = df_autores_sin_cod['Authors'].str.strip()
         df_autores_sin_cod['Author_full_names'] = df_autores_sin_cod['Author_full_names'].str.strip()
-        df_autores_sin_cod['Posiciones'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).cumcount()
+        df_autores_sin_cod['Positions'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).cumcount()
         df_autores_sin_cod['Articles'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names'])['Authors'].transform('count')
     
         df_autores_sin_cod = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).agg(
-            {'Indices': lambda x: '; '.join(map(str, x)), 'Posiciones': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
+            {'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
         ).reset_index()
     
-        autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indices', 'Posiciones', 'Articles']].copy()
+        autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indexes', 'Positions', 'Articles']].copy()
         autores['Authors'] = autores['Authors'].str.strip()
         autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
         autores['New Author'] = '0-change-0'
@@ -467,8 +467,8 @@ if st.session_state.get("fusion_en_proceso", False):
     
         df_author_keywords = pd.DataFrame({
             'Author Keyword': author_keywords_list,
-            'Indices': author_indices_list,
-            'Posiciones': author_posiciones_list,
+            'Indexes': author_indices_list,
+            'Positions': author_posiciones_list,
             'Conteo': author_conteo_list
         })
         df_author_keywords['New Keyword'] = '0-change-0'
@@ -495,8 +495,8 @@ if st.session_state.get("fusion_en_proceso", False):
     
         df_index_keywords = pd.DataFrame({
             'Index Keywords': index_keywords_list,
-            'Indices': index_indices_list,
-            'Posiciones': index_posiciones_list,
+            'Indexes': index_indices_list,
+            'Positions': index_posiciones_list,
             'Conteo': index_conteo_list
         })
         df_index_keywords['New Keyword'] = '0-change-0'
@@ -523,8 +523,8 @@ if st.session_state.get("fusion_en_proceso", False):
     
         df_references_info = pd.DataFrame({
             'References': reference_list,
-            'Indices': indices_list,
-            'Posiciones': positions_list,
+            'Indexes': indices_list,
+            'Positions': positions_list,
             'Count': count_list
         })
         df_references_info['New Reference'] = '0-change-0'
