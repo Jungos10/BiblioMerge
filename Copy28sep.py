@@ -555,7 +555,7 @@ if st.session_state.get("fusion_en_proceso", False):
 
         # Guardar top valores para histogramas (no guardar los DataFrames enteros)
         st.session_state["top_autores"] = autores.nlargest(20, 'Articles')[['Authors', 'Articles']].values.tolist()
-        st.session_state["top_authkw"] = df_author_keywords.nlargest(25, )[['Author Keyword', 'Count']].values.tolist()
+        st.session_state["top_authkw"] = df_author_keywords.nlargest(25, 'Count')[['Author Keyword', 'Count']].values.tolist()
         st.session_state["top_indexkw"] = df_index_keywords.nlargest(25, 'Count')[['Index Keywords', 'Count']].values.tolist()
 
         # ---- Liberar memoria innecesaria tras guardar en session_state ----
