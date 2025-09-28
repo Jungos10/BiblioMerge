@@ -469,7 +469,7 @@ if st.session_state.get("fusion_en_proceso", False):
             'Author Keyword': author_keywords_list,
             'Indexes': author_indices_list,
             'Positions': author_posiciones_list,
-            'Conteo': author_conteo_list
+            'Count': author_conteo_list
         })
         df_author_keywords['New Keyword'] = '0-change-0'
     
@@ -497,7 +497,7 @@ if st.session_state.get("fusion_en_proceso", False):
             'Index Keywords': index_keywords_list,
             'Indexes': index_indices_list,
             'Positions': index_posiciones_list,
-            'Conteo': index_conteo_list
+            'Count': index_conteo_list
         })
         df_index_keywords['New Keyword'] = '0-change-0'
     
@@ -555,8 +555,8 @@ if st.session_state.get("fusion_en_proceso", False):
 
         # Guardar top valores para histogramas (no guardar los DataFrames enteros)
         st.session_state["top_autores"] = autores.nlargest(20, 'Articles')[['Authors', 'Articles']].values.tolist()
-        st.session_state["top_authkw"] = df_author_keywords.nlargest(25, 'Conteo')[['Author Keyword', 'Conteo']].values.tolist()
-        st.session_state["top_indexkw"] = df_index_keywords.nlargest(25, 'Conteo')[['Index Keywords', 'Conteo']].values.tolist()
+        st.session_state["top_authkw"] = df_author_keywords.nlargest(25, 'Count')[['Author Keyword', 'Count']].values.tolist()
+        st.session_state["top_indexkw"] = df_index_keywords.nlargest(25, 'Count')[['Index Keywords', 'Count']].values.tolist()
 
         # ---- Liberar memoria innecesaria tras guardar en session_state ----
         del dfsco_list
