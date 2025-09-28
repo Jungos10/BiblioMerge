@@ -675,7 +675,7 @@ if (
             st.session_state["top_autores"],
             "Top 20 Authors",
             "Autores",
-            "Número de Artículos"
+            "Number of Articles"
         )
     
         st.subheader("🔑 Top 25 Author Keywords")
