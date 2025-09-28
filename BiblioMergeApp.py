@@ -781,7 +781,7 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                                 new_author = fila["New Author"]
                                                 fila_encontrada = autores[autores["Authors"] == author]
                                                 if not fila_encontrada.empty:
-                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
                                                     posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
                                                     for idx, pos in zip(indices, posiciones):
                                                         autores_actuales = df_final.at[idx, "Authors"].split(";")
@@ -809,7 +809,7 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                                 new_kw = fila["New Keyword"]
                                                 fila_encontrada = df_author_keywords[df_author_keywords["Author Keyword"] == old_kw]
                                                 if not fila_encontrada.empty:
-                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
                                                     posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
                                                     for idx, pos in zip(indices, posiciones):
                                                         kws = df_final.at[idx, "Author Keywords"].split(";")
@@ -837,7 +837,7 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                                 new_kw = fila["New Keyword"]
                                                 fila_encontrada = df_index_keywords[df_index_keywords["Index Keywords"] == old_kw]
                                                 if not fila_encontrada.empty:
-                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
                                                     posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
                                                     for idx, pos in zip(indices, posiciones):
                                                         kws = df_final.at[idx, "Index Keywords"].split(";")
@@ -865,7 +865,7 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                             if new_ref != "0-change-0":
                                                 fila_encontrada = df_references_info[df_references_info["References"] == old_ref]
                                                 if not fila_encontrada.empty:
-                                                    indices = [int(i) for i in fila_encontrada["Indices"].iloc[0].split(';')]
+                                                    indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
                                                     posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
                                                     for idx, pos in zip(indices, posiciones):
                                                         refs = df_final.at[idx, "References"].split(";")
