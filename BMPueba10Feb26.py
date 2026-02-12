@@ -1065,13 +1065,21 @@ if st.session_state["parte4_generada"]:
          # 📌 Enfoque más orientado a citación
         st.warning("📌 Please cite the article that documents this application:")
 
-        st.code(
+        st.text_area(
+            "Citation (APA 7):",
             "Diez-Junguitu, D., & Peña-Cerezo, M. Á. (2026). "
             "BiblioMerge: A Python-based automated tool to merge WoS and Scopus bibliographic data, "
             "compatible with Biblioshiny, BibExcel, VOSviewer, SciMAT, and ScientoPy. "
             "Journal of Informetrics. https://doi.org/10.1016/j.joi.2026.101770",
-            language="text"
-        )
+            height=110
+)
+        #st.code(
+            #"Diez-Junguitu, D., & Peña-Cerezo, M. Á. (2026). "
+            #"BiblioMerge: A Python-based automated tool to merge WoS and Scopus bibliographic data, "
+            #"compatible with Biblioshiny, BibExcel, VOSviewer, SciMAT, and ScientoPy. "
+            #"Journal of Informetrics. https://doi.org/10.1016/j.joi.2026.101770",
+            #language="text"
+        #)
 
         st.link_button(
             "📄 Open article (DOI)",
