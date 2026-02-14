@@ -1074,7 +1074,7 @@ if st.session_state["parte4_generada"]:
             height=110
 )
         st.link_button(
-            "📄 Open Article",
+            "🧾 Open Article",
             "https://doi.org/10.1016/j.joi.2026.101770"
         )
 
