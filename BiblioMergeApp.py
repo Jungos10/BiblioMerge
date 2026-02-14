@@ -1062,7 +1062,21 @@ if st.session_state["parte4_generada"]:
         st.success("✅ Final files have been successfully generated.")
         st.info("🔁 Use 'Reset All' to start a new process.")
     
+         # 📌 Enfoque más orientado a citación
+        st.warning("📌 Please cite the Article that documents this Application:")
 
+        st.text_area(
+            "Citation (APA 7):",
+            "Diez-Junguitu, D. & Peña-Cerezo, M. Á. (2026). "
+            "BiblioMerge: A Python-based automated tool to merge WoS and Scopus bibliographic data, "
+            "compatible with Biblioshiny, BibExcel, VOSviewer, SciMAT, and ScientoPy. "
+            "Journal of Informetrics, 20 (1), 1-21, 101770. https://doi.org/10.1016/j.joi.2026.101770",
+            height=110
+)
+        st.link_button(
+            "🧾 Open Article",
+            "https://doi.org/10.1016/j.joi.2026.101770"
+        )
 # ----------- DESCARGABLES, REPORTING E HISTOGRAMAS - (muestra mientras parte4_generada == True) -----------
 
 with col2:
