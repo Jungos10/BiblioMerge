@@ -79,12 +79,11 @@ header, .block-container {
 </style>
 
 <div class="cabecera-sticky">
-    <div class="autores-cabecera">👤 Diez-Junguitu, D.<br>👤 Peña-Cerezo, M.A.</div>
-
-
-
-
-    
+    <div class="autores-cabecera">👤 Diez-Junguitu, D.<br>👤 Peña-Cerezo, M.A.
+                                <div class="article-link">
+                                  <a href="https://doi.org/10.1016/j.joi.2026.101770" target="_blank">🧾 App description Article</a>
+                                </div>
+                              </div>    
     <div class="titulo-cabecera">📚 BiblioMerge</div>
     <div class="subtitulo-cabecera">
         Merges Scopus and WoS bibliographic data into formats compatible with Biblioshiny, Bibexcel, VOSviewer, SciMAT, and ScientoPy
