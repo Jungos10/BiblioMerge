@@ -1067,10 +1067,10 @@ if st.session_state["parte4_generada"]:
 
         st.text_area(
             "Citation (APA 7):",
-            "Diez-Junguitu, D., & Peña-Cerezo, M. Á. (2026). "
+            "Diez-Junguitu, D. & Peña-Cerezo, M. Á. (2026). "
             "BiblioMerge: A Python-based automated tool to merge WoS and Scopus bibliographic data, "
             "compatible with Biblioshiny, BibExcel, VOSviewer, SciMAT, and ScientoPy. "
-            "Journal of Informetrics. https://doi.org/10.1016/j.joi.2026.101770",
+            "Journal of Informetrics, 20 (1), 1-21, 101770. https://doi.org/10.1016/j.joi.2026.101770",
             height=110
 )
         #st.code(
