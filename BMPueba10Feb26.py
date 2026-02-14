@@ -1063,7 +1063,7 @@ if st.session_state["parte4_generada"]:
         st.info("🔁 Use 'Reset All' to start a new process.")
 
          # 📌 Enfoque más orientado a citación
-        st.warning("📌 Please cite the article that documents this application:")
+        st.warning("📌 Please cite the Article that documents this Application:")
 
         st.text_area(
             "Citation (APA 7):",
