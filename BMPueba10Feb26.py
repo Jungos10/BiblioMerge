@@ -423,7 +423,7 @@ if st.session_state.get("fusion_en_proceso", False):
         #df_autores_sin_cod['Indexes'] = df_autores_sin_cod.index
     
         #df_autores_sin_cod = df_autores_sin_cod.assign(Authors=df_autores_sin_cod['Authors'].str.split(';'),
-                                                       Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
+        #Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
         #df_autores_sin_cod = df_autores_sin_cod.explode(['Authors', 'Author_full_names'])
         #df_autores_sin_cod['Authors'] = df_autores_sin_cod['Authors'].str.strip()
         #df_autores_sin_cod['Author_full_names'] = df_autores_sin_cod['Author_full_names'].str.strip()
@@ -431,8 +431,8 @@ if st.session_state.get("fusion_en_proceso", False):
         #df_autores_sin_cod['Articles'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names'])['Authors'].transform('count')
     
         #df_autores_sin_cod = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).agg(
-            {'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
-        ).reset_index()
+            #{'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
+        #).reset_index()
 
         def split_semicolon(s):
             return [x.strip() for x in str(s).split(';') if x.strip()]
