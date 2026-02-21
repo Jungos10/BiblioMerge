@@ -419,21 +419,23 @@ if st.session_state.get("fusion_en_proceso", False):
         df_conversion = crear_df_conversion(df_concatenated_sin_duplicados)
         df_concatenated_sin_duplicados, total_reemplazos = realizar_reemplazos(df_concatenated_sin_duplicados, df_conversion)
     
-        df_autores_sin_cod = df_concatenated_sin_duplicados[df_concatenated_sin_duplicados['Author(s) ID'].apply(lambda x: str(x).strip()) == ''].copy()
-        df_autores_sin_cod['Indexes'] = df_autores_sin_cod.index
+        # df_autores_sin_cod = df_concatenated_sin_duplicados[df_concatenated_sin_duplicados['Author(s) ID'].apply(lambda x: str(x).strip()) == ''].copy()
+        # df_autores_sin_cod['Indexes'] = df_autores_sin_cod.index
     
-        df_autores_sin_cod = df_autores_sin_cod.assign(Authors=df_autores_sin_cod['Authors'].str.split(';'),
-                                                       Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
-        df_autores_sin_cod = df_autores_sin_cod.explode(['Authors', 'Author_full_names'])
-        df_autores_sin_cod['Authors'] = df_autores_sin_cod['Authors'].str.strip()
-        df_autores_sin_cod['Author_full_names'] = df_autores_sin_cod['Author_full_names'].str.strip()
-        df_autores_sin_cod['Positions'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).cumcount()
-        df_autores_sin_cod['Articles'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names'])['Authors'].transform('count')
+        # df_autores_sin_cod = df_autores_sin_cod.assign(Authors=df_autores_sin_cod['Authors'].str.split(';'),
+        #                                                Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
+        # df_autores_sin_cod = df_autores_sin_cod.explode(['Authors', 'Author_full_names'])
+        # df_autores_sin_cod['Authors'] = df_autores_sin_cod['Authors'].str.strip()
+        # df_autores_sin_cod['Author_full_names'] = df_autores_sin_cod['Author_full_names'].str.strip()
+        # df_autores_sin_cod['Positions'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).cumcount()
+        # df_autores_sin_cod['Articles'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names'])['Authors'].transform('count')
     
-        df_autores_sin_cod = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).agg(
-            {'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
-        ).reset_index()
-    
+        # df_autores_sin_cod = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).agg(
+        #     {'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
+        # ).reset_index()
+
+        
+        
         autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indexes', 'Positions', 'Articles']].copy()
         autores['Authors'] = autores['Authors'].str.strip()
         autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
