@@ -434,7 +434,41 @@ if st.session_state.get("fusion_en_proceso", False):
         #     {'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
         # ).reset_index()
 
+         def split_semicolon(s):
+            return [x.strip() for x in str(s).split(';') if x.strip()]
         
+        rows = []
+        df_autores_sin_cod = df_concatenated_sin_duplicados[
+            df_concatenated_sin_duplicados['Author(s) ID'].astype(str).str.strip() == ''
+        ].copy()
+        
+        for idx, row in df_autores_sin_cod.iterrows():
+            authors_list = split_semicolon(row.get('Authors', ''))
+            fullnames_list = split_semicolon(row.get('Author full names', ''))
+        
+            # Evitar desalineación si hay longitudes distintas
+            n = min(len(authors_list), len(fullnames_list))
+        
+            for pos in range(n):
+                rows.append({
+                    'Authors': authors_list[pos],
+                    'Author full names': fullnames_list[pos],
+                    'Indexes': idx,
+                    'Positions': pos
+                })
+        
+        df_autores_sin_cod_long = pd.DataFrame(rows)
+        
+        df_autores_sin_cod = (
+            df_autores_sin_cod_long
+            .groupby(['Authors', 'Author full names'])
+            .agg(
+                Indexes=('Indexes', lambda x: '; '.join(map(str, x))),
+                Positions=('Positions', lambda x: '; '.join(map(str, x))),
+                Articles=('Indexes', 'count')
+            )
+            .reset_index()
+        )
         
         autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indexes', 'Positions', 'Articles']].copy()
         autores['Authors'] = autores['Authors'].str.strip()
