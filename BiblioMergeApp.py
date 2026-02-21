@@ -816,20 +816,23 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                         st.session_state["depuracion_mensajes"].append(("warning", "❌ Authors debugging could not be applied because the conversion table in 'Authors' is not filled in", "Authors"))
                                     else:
                                         reemplazos_authors = 0
-                                        for _, fila in df_authors_table.iterrows():
-                                            if fila["New Author"] != "0-change-0":
-                                                author = fila["Authors"]
-                                                new_author = fila["New Author"]
-                                                fila_encontrada = autores[autores["Authors"] == author]
-                                                if not fila_encontrada.empty:
-                                                    indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
-                                                    posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
-                                                    for idx, pos in zip(indices, posiciones):
-                                                        autores_actuales = df_final.at[idx, "Authors"].split(";")
-                                                        if pos < len(autores_actuales):
-                                                            autores_actuales[pos] = new_author
-                                                            df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
-                                                            reemplazos_authors += 1
+                                        # for _, fila in df_authors_table.iterrows():
+                                        #     if fila["New Author"] != "0-change-0":
+                                        #         author = fila["Authors"]
+                                        #         new_author = fila["New Author"]
+                                        #         fila_encontrada = autores[autores["Authors"] == author]
+                                        #         if not fila_encontrada.empty:
+                                        #             indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
+                                        #             posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
+                                        #             for idx, pos in zip(indices, posiciones):
+                                        #                 autores_actuales = df_final.at[idx, "Authors"].split(";")
+                                        #                 if pos < len(autores_actuales):
+                                        #                     autores_actuales[pos] = new_author
+                                        #                     df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+                                        #                     reemplazos_authors += 1
+
+                                        
+                                        
                                         st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
                                         st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
                                 except Exception as e:
