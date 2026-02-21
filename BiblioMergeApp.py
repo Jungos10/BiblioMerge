@@ -434,7 +434,7 @@ if st.session_state.get("fusion_en_proceso", False):
         #     {'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
         # ).reset_index()
 
-         def split_semicolon(s):
+        def split_semicolon(s):
             return [x.strip() for x in str(s).split(';') if x.strip()]
         
         rows = []
