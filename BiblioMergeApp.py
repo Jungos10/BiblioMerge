@@ -831,7 +831,34 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                         #                     df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
                                         #                     reemplazos_authors += 1
 
+                                        for _, fila in df_authors_table.iterrows():
+
+                                            new_author = str(fila.get("New Author", "")).strip()
+                                            if new_author == "0-change-0" or new_author == "":
+                                                continue
                                         
+                                            author = str(fila.get("Authors", "")).strip()
+                                            full = str(fila.get("Author full names", "")).strip()
+                                        
+                                            # Buscar coincidencia EXACTA por Authors + Author full names
+                                            matches = autores[
+                                                (autores["Authors"].astype(str).str.strip() == author) &
+                                                (autores["Author full names"].astype(str).str.strip() == full)
+                                            ]
+                                        
+                                            for _, match in matches.iterrows():
+                                        
+                                                indices = [int(i) for i in str(match["Indexes"]).split(';') if str(i).strip() != ""]
+                                                posiciones = [int(p) for p in str(match["Positions"]).split(';') if str(p).strip() != ""]
+                                        
+                                                for idx, pos in zip(indices, posiciones):
+                                                    autores_actuales = [a.strip() for a in str(df_final.at[idx, "Authors"]).split(";")]
+                                        
+                                                    if pos < len(autores_actuales):
+                                                        autores_actuales[pos] = new_author
+                                                        df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
+                                                        reemplazos_authors += 1
+
                                         
                                         st.session_state["depuracion_mensajes"].append(("success", "✅ Authors debugging completed", "Authors"))
                                         st.session_state["depuracion_mensajes"].append(("info", f"ℹ️ {reemplazos_authors} replacements applied in Authors", "Authors"))
