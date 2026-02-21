@@ -472,7 +472,8 @@ if st.session_state.get("fusion_en_proceso", False):
         
         autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indexes', 'Positions', 'Articles']].copy()
         autores['Authors'] = autores['Authors'].str.strip()
-        autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
+        #autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
+        autores = pd.concat([autores, df_autores_sin_cod], ignore_index=True)
         autores['New Author'] = '0-change-0'
 
         # # 🧾 Contar autores únicos en Parte 2 (después de aplicar reglas de unificación)
