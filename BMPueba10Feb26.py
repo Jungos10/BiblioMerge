@@ -460,13 +460,8 @@ if st.session_state.get("fusion_en_proceso", False):
 
         autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indexes', 'Positions', 'Articles']].copy()
         autores['Authors'] = autores['Authors'].str.strip()
-        #autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
         autores = pd.concat([autores, df_autores_sin_cod], ignore_index=True)
         autores['New Author'] = '0-change-0'
-
-        # # 🧾 Contar autores únicos en Parte 2 (después de aplicar reglas de unificación)
-        # num_autores_parte2 = autores['Authors'].nunique()
-        # st.session_state["num_autores_parte2"] = num_autores_parte2
 
     
     
@@ -804,20 +799,6 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                         st.session_state["depuracion_mensajes"].append(("warning", "❌ Authors debugging could not be applied because the conversion table in 'Authors' is not filled in", "Authors"))
                                     else:
                                         reemplazos_authors = 0
-                                        # for _, fila in df_authors_table.iterrows():
-                                        #     if fila["New Author"] != "0-change-0":
-                                        #         author = fila["Authors"]
-                                        #         new_author = fila["New Author"]
-                                        #         fila_encontrada = autores[autores["Authors"] == author]
-                                        #         if not fila_encontrada.empty:
-                                        #             indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
-                                        #             posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
-                                        #             for idx, pos in zip(indices, posiciones):
-                                        #                 autores_actuales = df_final.at[idx, "Authors"].split(";")
-                                        #                 if pos < len(autores_actuales):
-                                        #                     autores_actuales[pos] = new_author
-                                        #                     df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
-                                        #                     reemplazos_authors += 1
 
                                         for _, fila in df_authors_table.iterrows():
 
