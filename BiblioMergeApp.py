@@ -419,21 +419,6 @@ if st.session_state.get("fusion_en_proceso", False):
         df_conversion = crear_df_conversion(df_concatenated_sin_duplicados)
         df_concatenated_sin_duplicados, total_reemplazos = realizar_reemplazos(df_concatenated_sin_duplicados, df_conversion)
     
-        # df_autores_sin_cod = df_concatenated_sin_duplicados[df_concatenated_sin_duplicados['Author(s) ID'].apply(lambda x: str(x).strip()) == ''].copy()
-        # df_autores_sin_cod['Indexes'] = df_autores_sin_cod.index
-    
-        # df_autores_sin_cod = df_autores_sin_cod.assign(Authors=df_autores_sin_cod['Authors'].str.split(';'),
-        #                                                Author_full_names=df_autores_sin_cod['Author full names'].str.split(';'))
-        # df_autores_sin_cod = df_autores_sin_cod.explode(['Authors', 'Author_full_names'])
-        # df_autores_sin_cod['Authors'] = df_autores_sin_cod['Authors'].str.strip()
-        # df_autores_sin_cod['Author_full_names'] = df_autores_sin_cod['Author_full_names'].str.strip()
-        # df_autores_sin_cod['Positions'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).cumcount()
-        # df_autores_sin_cod['Articles'] = df_autores_sin_cod.groupby(['Authors', 'Author_full_names'])['Authors'].transform('count')
-    
-        # df_autores_sin_cod = df_autores_sin_cod.groupby(['Authors', 'Author_full_names']).agg(
-        #     {'Indexes': lambda x: '; '.join(map(str, x)), 'Positions': lambda x: '; '.join(map(str, x)), 'Articles': 'first'}
-        # ).reset_index()
-
         def split_semicolon(s):
             return [x.strip() for x in str(s).split(';') if x.strip()]
         
@@ -472,15 +457,10 @@ if st.session_state.get("fusion_en_proceso", False):
         
         autores = df_conversion[['Authors', 'Author full names', 'Author(s) ID', 'Indexes', 'Positions', 'Articles']].copy()
         autores['Authors'] = autores['Authors'].str.strip()
-        #autores = pd.concat([autores, df_autores_sin_cod.rename(columns={'Author_full_names': 'Author full names'})], ignore_index=True)
         autores = pd.concat([autores, df_autores_sin_cod], ignore_index=True)
         autores['New Author'] = '0-change-0'
 
-        # # 🧾 Contar autores únicos en Parte 2 (después de aplicar reglas de unificación)
-        # num_autores_parte2 = autores['Authors'].nunique()
-        # st.session_state["num_autores_parte2"] = num_autores_parte2
-
-    
+  
     
         from collections import defaultdict
     
@@ -816,20 +796,6 @@ if not st.session_state["parte4_generada"] and not st.session_state["parte4_en_p
                                         st.session_state["depuracion_mensajes"].append(("warning", "❌ Authors debugging could not be applied because the conversion table in 'Authors' is not filled in", "Authors"))
                                     else:
                                         reemplazos_authors = 0
-                                        # for _, fila in df_authors_table.iterrows():
-                                        #     if fila["New Author"] != "0-change-0":
-                                        #         author = fila["Authors"]
-                                        #         new_author = fila["New Author"]
-                                        #         fila_encontrada = autores[autores["Authors"] == author]
-                                        #         if not fila_encontrada.empty:
-                                        #             indices = [int(i) for i in fila_encontrada["Indexes"].iloc[0].split(';')]
-                                        #             posiciones = [int(p) for p in fila_encontrada["Positions"].iloc[0].split(';')]
-                                        #             for idx, pos in zip(indices, posiciones):
-                                        #                 autores_actuales = df_final.at[idx, "Authors"].split(";")
-                                        #                 if pos < len(autores_actuales):
-                                        #                     autores_actuales[pos] = new_author
-                                        #                     df_final.at[idx, "Authors"] = "; ".join(autores_actuales)
-                                        #                     reemplazos_authors += 1
 
                                         for _, fila in df_authors_table.iterrows():
 
