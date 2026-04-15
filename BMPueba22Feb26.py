@@ -270,7 +270,9 @@ if st.session_state.get("fusion_en_proceso", False):
     
         dfwos_selected['Source'] = 'WOS'
         df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
-        df_concatenated.fillna('', inplace=True)
+        # df_concatenated.fillna('', inplace=True)
+        text_cols = df_concatenated.select_dtypes(include=['object', 'string']).columns
+        df_concatenated[text_cols] = df_concatenated[text_cols].fillna('')
     
         df_concatenated['EID'] = (
             df_concatenated['EID']
