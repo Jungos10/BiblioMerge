@@ -304,8 +304,6 @@ if st.session_state.get("fusion_en_proceso", False):
         # df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(".-", ".")
         # df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(r'[.,]', '', regex=True)
 
-        import pandas as pd
-
         # EID
         if 'EID' in df_concatenated.columns:
             df_concatenated['EID'] = (
