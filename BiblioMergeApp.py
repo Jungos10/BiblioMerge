@@ -270,37 +270,42 @@ if st.session_state.get("fusion_en_proceso", False):
     
         dfwos_selected['Source'] = 'WOS'
         df_concatenated = pd.concat([dfsco, dfwos_selected], ignore_index=True)
-        df_concatenated.fillna('', inplace=True)
+        # df_concatenated.fillna('', inplace=True)
+        text_cols = df_concatenated.select_dtypes(include=['object', 'string']).columns
+        df_concatenated[text_cols] = df_concatenated[text_cols].fillna('')
+
     
-        df_concatenated['EID'] = (
-            df_concatenated['EID']
-            .astype(str)
-            .str.replace('WOS:', '2-w-')
-        )
+        # df_concatenated['EID'] = (
+        #     df_concatenated['EID']
+        #     .astype(str)
+        #     .str.replace('WOS:', '2-w-')
+        # )
     
-        # Transformar todo en minúsculas salvo excepciones
-        excepciones = ['Year', 'Cited by', 'Volume', 'Page count', 'Issue', 'Art.No.', 'Page start', 'Page end']
-        for columna in df_concatenated.columns:
-            if columna not in excepciones and df_concatenated[columna].dtype == 'object':
-                df_concatenated[columna] = df_concatenated[columna].str.lower()
+        # # Transformar todo en minúsculas salvo excepciones
+        # excepciones = ['Year', 'Cited by', 'Volume', 'Page count', 'Issue', 'Art.No.', 'Page start', 'Page end']
+        # for columna in df_concatenated.columns:
+        #     if columna not in excepciones and df_concatenated[columna].dtype == 'object':
+        #         df_concatenated[columna] = df_concatenated[columna].str.lower()
     
-        df_concatenated['References'] = df_concatenated['References'].str.replace(",,", ",")
+        # df_concatenated['References'] = df_concatenated['References'].str.replace(",,", ",")
     
-        # Reemplazos de caracteres problemáticos
-        sustituciones = {
-            "‘": "'", "’": "'", "–": "-", "“": '"', "”": '"', "ε": "e", "ℓ": "l", "γ": "y", ",,": ",",
-            "ï": "i", "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ñ": "n", "ü": "u", "š": "s",
-            "ř": "r", "ö": "o", "ņ": "n", "ç": "c", "ć": "c", "ş": "s", "ã": "a", "â": "a", "ń": "n",
-            "ż": "z", "ė": "e", "č": "c", "ß": "B", "ä": "a", "ê": "e", "ł": "t", "ı": "i", "å": "a",
-            "ą": "a", "ĭ": "i", "ø": "o", "ý": "y", "≥": ">=", "≤": "<=", "è": "e", "ǐ": "i", "—": "-",
-            "×": "x", "‐": "-"
-        }
-        for old, new in sustituciones.items():
-            df_concatenated.replace(old, new, regex=True, inplace=True)
+        # # Reemplazos de caracteres problemáticos
+        # sustituciones = {
+        #     "‘": "'", "’": "'", "–": "-", "“": '"', "”": '"', "ε": "e", "ℓ": "l", "γ": "y", ",,": ",",
+        #     "ï": "i", "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ñ": "n", "ü": "u", "š": "s",
+        #     "ř": "r", "ö": "o", "ņ": "n", "ç": "c", "ć": "c", "ş": "s", "ã": "a", "â": "a", "ń": "n",
+        #     "ż": "z", "ė": "e", "č": "c", "ß": "B", "ä": "a", "ê": "e", "ł": "t", "ı": "i", "å": "a",
+        #     "ą": "a", "ĭ": "i", "ø": "o", "ý": "y", "≥": ">=", "≤": "<=", "è": "e", "ǐ": "i", "—": "-",
+        #     "×": "x", "‐": "-"
+        # }
+        # for old, new in sustituciones.items():
+        #     df_concatenated.replace(old, new, regex=True, inplace=True)
     
-        # Limpieza adicional de 'Authors'
-        df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(".-", ".")
-        df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(r'[.,]', '', regex=True)
+        # # Limpieza adicional de 'Authors'
+        # df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(".-", ".")
+        # df_concatenated['Authors'] = df_concatenated['Authors'].str.replace(r'[.,]', '', regex=True)
+
+    
     
     
         # ----- FASE 1: Eliminación de duplicados con DOI -----
